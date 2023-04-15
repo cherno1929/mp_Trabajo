@@ -1,2 +1,2 @@
-public class Fortaleza {
+public class Fortaleza{
 }
