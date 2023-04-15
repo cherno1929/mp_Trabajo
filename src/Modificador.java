@@ -3,7 +3,7 @@ public class Modificador {
     protected String nombre;
     protected int grado_Efecto;
 
-    //Contructor
+    //Constructor
 
     public Modificador(String nombre, int grado_Efecto) {
         this.nombre = nombre;

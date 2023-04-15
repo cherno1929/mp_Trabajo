@@ -9,7 +9,7 @@ public class Demonio extends Esbirro{
 
 
 
-    //Contructor
+    //Constructor
     public Demonio(String nombre, int salud, Set<Esbirro> esbirros, List<Pacto> pacto) {
         super(nombre, salud);
         this.esbirros = esbirros;

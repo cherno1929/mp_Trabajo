@@ -4,7 +4,7 @@ public class Humano extends Esbirro{
     private Niv_Lealtad lealtad;
 
 
-    //Contructor
+    //Constructor
     public Humano(String nombre, int salud) {
         super(nombre, salud);
     }

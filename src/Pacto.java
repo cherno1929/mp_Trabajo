@@ -4,7 +4,7 @@ public class Pacto {
     private Esbirro esbirro;
     public String descripcion;
 
-    //Contructor
+    //Constructor
 
 
     public Pacto(Personaje amo, Esbirro esbirro, String descripcion) {

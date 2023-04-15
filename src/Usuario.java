@@ -9,10 +9,10 @@ public class Usuario {
     public Personaje personajeActivo;
     public AppController app;
 
-    //Metodods
+    //Metodos
 
 
-    //Cosntructor
+    //Constructor
 
     public Usuario(String nombre, String nick, String password, String num_Registro, Rol rol, Personaje personajeActivo, AppController app) {
         this.nombre = nombre;

@@ -3,7 +3,7 @@ public class Ghoul extends Esbirro{
     //Atributo
     private int niv_Dependencia;
 
-    //Contructor
+    //Constructor
     public Ghoul(String nombre, int salud) {
         super(nombre, salud);
     }

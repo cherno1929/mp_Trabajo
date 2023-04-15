@@ -4,7 +4,7 @@ public class Disciplina extends Habilidad_Especial{
     private int coste_Sangre;
     private int sangre_Robada;
 
-    //Contructores
+    //Constructores
 
     public Disciplina(String nombre, int atk, int def) {
         super(nombre, atk, def);

@@ -6,7 +6,7 @@ public class Habilidad_Especial {
     protected  int def;
 
 
-    //Contructors
+    //Constructors
 
     public Habilidad_Especial(String nombre, int atk, int def) {
         this.nombre = nombre;
