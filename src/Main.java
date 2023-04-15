@@ -7,6 +7,6 @@ public class Main {
 
         FileController controller = new FileController();
 
-        System.out.println(controller.existeUsuario(user_1));
+        controller.deleteUsuario(user_1);
     }
 }
