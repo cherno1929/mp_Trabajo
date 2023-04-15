@@ -1,3 +1,4 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -73,6 +74,20 @@ public class FileController {
         } catch (IOException ioe) {
             System.out.println("Error : " + ioe);
             throw new RuntimeException(ioe);
+        }
+    }
+
+    public void modificarUsuario(Usuario user){
+        String zonaUser = this.locationUsuario + "/" + user.getNum_Registro() + ".txt";
+        try{
+        FileWriter fil = new FileWriter(zonaUser);
+            BufferedWriter bufUser = new BufferedWriter(fil);
+            bufUser.write("");
+            bufUser.close();
+            addAllInfoUser(user,zonaUser);
+        } catch (IOException e) {
+            System.out.println("Error : "+e);
+            throw new RuntimeException(e);
         }
     }
 
