@@ -4,12 +4,11 @@ import java.util.Set;
 public class Vampiro extends Personaje{
 
     //Atributos
-    private int punt_Salud;
     private int edad;
     private List<Disciplina> disciplinas;
 
     //Metodos
-    ////Usar Disciplina
+    ////Usar_Disciplina
 
 
     //Constructor
@@ -18,16 +17,6 @@ public class Vampiro extends Personaje{
     }
 
     //Get-Set
-
-    @Override
-    public int getPunt_Salud() {
-        return punt_Salud;
-    }
-
-    @Override
-    public void setPunt_Salud(int punt_Salud) {
-        this.punt_Salud = punt_Salud;
-    }
 
     public int getEdad() {
         return edad;

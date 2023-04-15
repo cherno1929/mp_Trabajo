@@ -6,8 +6,10 @@ public class Disciplina extends Habilidad_Especial{
 
     //Constructores
 
-    public Disciplina(String nombre, int atk, int def) {
+    public Disciplina(String nombre, int atk, int def, int coste_Sangre, int sangre_Robada) {
         super(nombre, atk, def);
+        this.coste_Sangre = coste_Sangre;
+        this.sangre_Robada = sangre_Robada;
     }
 
 
