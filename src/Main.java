@@ -6,8 +6,7 @@ public class Main {
         user_1.setNombre("Usuario_0");
 
         FileController controller = new FileController();
-
         System.out.println(controller.existeUsuario(user_1));
-
+        controller.deleteUsuario(user_1);
     }
 }
