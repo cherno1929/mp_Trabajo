@@ -34,6 +34,10 @@ public class Personaje {
         this.escudo = escudo;
     }
 
+    public Personaje() {
+
+    }
+
     //Get-Set
 
     public String getNombre() {
