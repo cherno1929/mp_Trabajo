@@ -46,16 +46,16 @@ public class FileController {
         }
     }
 
-    private void addAllInfoUser(Usuario user,File ubic) {
+    private void addAllInfoUser(Usuario user,String ubic) {
         try{
             FileWriter userWriter = new FileWriter(ubic);
             userWriter.write("Nombre : " +user.getNombre());
             userWriter.write("NickName : "+user.getNick());
             userWriter.write("Password : "+user.getPassword());
-            userWriter.write("Numero de reesgitro : "+user.getNum_Registro());
+            userWriter.write("Numero de reegistro : "+user.getNum_Registro());
             userWriter.write("Rol : "+ user.getRol());
             userWriter.write("Personaje : "+user.getPersonajeActivo().getNombre());
-
+            userWriter.close();
         } catch (IOException e) {
             System.out.println("Exception :: "+e);
             throw new RuntimeException(e);
@@ -68,7 +68,7 @@ public class FileController {
             File newUser = new File(zonaUser);
             if (newUser.createNewFile()){
                 System.out.println("El usuario "+ usuario.getNombre() +" ha sido creado");
-                addAllInfoUser(usuario,newUser);
+                addAllInfoUser(usuario,zonaUser);
             }
         } catch (IOException ioe) {
             System.out.println("Error : " + ioe);
