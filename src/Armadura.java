@@ -5,7 +5,7 @@ public class Armadura extends Equipo{
     private int punt_Def;
     private Set<Modificador> mods;
 
-    //Contructor
+    //Constructor
     public Armadura(String nombre, Modificador mod) {
         super(nombre, mod);
     }

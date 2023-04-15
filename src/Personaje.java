@@ -17,7 +17,7 @@ public class Personaje {
     protected int escudo;
 
 
-    //Contructor
+    //Constructor
 
 
     public Personaje(String nombre, Set<Habilidad_Especial> habilidades, Set<Arma> armas, List<Arma> armas_Activas, Set<Armadura> armaduras, Set<Esbirro> esbirros, int oro, int punt_Salud, Set<Modificador> mods, int poder, int escudo) {
@@ -126,5 +126,25 @@ public class Personaje {
 
     public void setEscudo(int escudo) {
         this.escudo = escudo;
+    }
+
+    public int findPwr() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de ataque.
+        int aux_pwr = 0;
+        if(!this.armas_Activas.isEmpty()) {
+            for (Arma armaArck : this.armas_Activas) {
+                aux_pwr += armaArck.getPunt_Atk();
+            }
+        }
+        return (poder + aux_pwr);
+    }
+
+    public int findShd() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de defensa.
+        int aux_def = 0;
+        if (!this.esbirros.isEmpty()){
+            for(Esbirro esbHP : this.esbirros){
+                aux_def += esbHP.getSalud();
+            }
+        }
+        return (escudo + aux_def);
     }
 }
