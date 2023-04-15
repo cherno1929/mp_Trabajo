@@ -4,9 +4,6 @@ public class Don extends Habilidad_Especial{
     private int umbral;
 
     //Constructor
-    public Don(String nombre, int atk, int def) {
-        super(nombre, atk, def);
-    }
 
     public Don(String nombre, int atk, int def, int umbral) {
         super(nombre, atk, def);

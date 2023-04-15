@@ -5,19 +5,14 @@ public class Demonio extends Esbirro{
 
     //Atributos
     private Set<Esbirro> esbirros;
-    private List<Pacto> pacto;
-
+    private List<Pacto> pactos;
 
 
     //Constructor
-    public Demonio(String nombre, int salud, Set<Esbirro> esbirros, List<Pacto> pacto) {
+    public Demonio(String nombre, int salud, Set<Esbirro> esbirros, List<Pacto> pactos) {
         super(nombre, salud);
         this.esbirros = esbirros;
-        this.pacto = pacto;
-    }
-
-    public Demonio(String nombre, int salud) {
-        super(nombre, salud);
+        this.pactos = pactos;
     }
 
     //Get-Set
@@ -32,10 +27,10 @@ public class Demonio extends Esbirro{
     }
 
     public List<Pacto> getPacto() {
-        return pacto;
+        return pactos;
     }
 
-    public void setPacto(List<Pacto> pacto) {
-        this.pacto = pacto;
+    public void setPacto(List<Pacto> pactos) {
+        this.pactos = pactos;
     }
 }

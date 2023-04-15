@@ -10,7 +10,7 @@ public class Usuario {
     public AppController app;
 
     //Metodos
-
+    ////TBD...
 
     //Constructor
 
