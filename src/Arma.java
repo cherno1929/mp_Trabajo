@@ -4,18 +4,13 @@ public class Arma extends Equipo{
 
     //Atributos
     private int punt_Atk;
-    private Set<Modificador> mods;
     public int num_Manos;
 
     //Constructor
-    public Arma(String nombre, Modificador mod) {
-        super(nombre, mod);
-    }
 
-    public Arma(String nombre, Modificador mod, int punt_Atk, Set<Modificador> mods, int num_Manos) {
+    public Arma(String nombre, Set<Modificador> mod, int punt_Atk, int num_Manos) {
         super(nombre, mod);
         this.punt_Atk = punt_Atk;
-        this.mods = mods;
         this.num_Manos = num_Manos;
     }
 
@@ -27,14 +22,6 @@ public class Arma extends Equipo{
 
     public void setPunt_Atk(int punt_Atk) {
         this.punt_Atk = punt_Atk;
-    }
-
-    public Set<Modificador> getMods() {
-        return mods;
-    }
-
-    public void setMods(Set<Modificador> mods) {
-        this.mods = mods;
     }
 
     public int getNum_Manos() {

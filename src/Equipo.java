@@ -1,11 +1,13 @@
+import java.util.Set;
+
 public class Equipo {
     //Atributos
     protected String nombre;
-    protected Modificador mod;
+    protected Set<Modificador> mod;
 
     //Constructor
 
-    public Equipo(String nombre, Modificador mod) {
+    public Equipo(String nombre, Set<Modificador> mod) {
         this.nombre = nombre;
         this.mod = mod;
     }
@@ -20,11 +22,11 @@ public class Equipo {
         this.nombre = nombre;
     }
 
-    public Modificador getMod() {
+    public Set<Modificador> getMod() {
         return mod;
     }
 
-    public void setMod(Modificador mod) {
+    public void setMod(Set<Modificador> mod) {
         this.mod = mod;
     }
 }

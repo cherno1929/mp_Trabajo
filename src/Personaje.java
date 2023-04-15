@@ -128,7 +128,7 @@ public class Personaje {
         this.escudo = escudo;
     }
 
-    public int findPwr() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de ataque.
+    public int calcPwr() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de ataque.
         int aux_pwr = 0;
         if(!this.armas_Activas.isEmpty()) {
             for (Arma armaArck : this.armas_Activas) {
@@ -138,7 +138,7 @@ public class Personaje {
         return (poder + aux_pwr);
     }
 
-    public int findShd() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de defensa.
+    public int calcShd() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de defensa.
         int aux_def = 0;
         if (!this.esbirros.isEmpty()){
             for(Esbirro esbHP : this.esbirros){
@@ -146,5 +146,14 @@ public class Personaje {
             }
         }
         return (escudo + aux_def);
+    }
+
+    public int calcEsb() {
+        // TBD...
+        return 0;
+    }
+
+    public boolean hasFainted() {
+        return this.punt_Salud == 0;
     }
 }
