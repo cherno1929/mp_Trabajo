@@ -34,11 +34,6 @@ public class Personaje {
         this.escudo = escudo;
     }
 
-    public Personaje(int escudo, Set<Esbirro> esbirros) {
-        this.escudo = escudo;
-        this.esbirros = esbirros;
-    }
-
     //Get-Set
 
     public String getNombre() {

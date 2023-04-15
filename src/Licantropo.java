@@ -11,8 +11,12 @@ public class Licantropo extends Personaje{
 
 
     //Metodos
+    public void isHit(int ini_salud){
+        if (this.punt_Salud < ini_salud){
+            this.punt_Rabia++;
+        }
+    }
     ////Transformar
-
 
 
     //Constructor
