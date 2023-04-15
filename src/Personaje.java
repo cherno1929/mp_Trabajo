@@ -17,7 +17,7 @@ public class Personaje {
     protected int escudo;
 
 
-    //Contructor
+    //Constructor
 
 
     public Personaje(String nombre, Set<Habilidad_Especial> habilidades, Set<Arma> armas, List<Arma> armas_Activas, Set<Armadura> armaduras, Set<Esbirro> esbirros, int oro, int punt_Salud, Set<Modificador> mods, int poder, int escudo) {

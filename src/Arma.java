@@ -7,7 +7,7 @@ public class Arma extends Equipo{
     private Set<Modificador> mods;
     public int num_Manos;
 
-    //Contructor
+    //Constructor
     public Arma(String nombre, Modificador mod) {
         super(nombre, mod);
     }

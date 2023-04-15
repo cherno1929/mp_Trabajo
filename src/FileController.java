@@ -20,7 +20,7 @@ public class FileController {
         return fileNames.contains(nombre +".txt");
     }
 
-    //Usurio
+    //Usuario
     private Set<String> searchFiles(File file) {
         Set<String> mySearch = new HashSet<String>();
         File[] list_Files = file.listFiles();
