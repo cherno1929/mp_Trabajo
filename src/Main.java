@@ -8,6 +8,5 @@ public class Main {
         FileController controller = new FileController();
 
         System.out.println(controller.existeUsuario(user_1));
-
     }
 }

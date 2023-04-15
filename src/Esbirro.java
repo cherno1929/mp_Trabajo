@@ -4,7 +4,7 @@ public class Esbirro {
     protected String nombre;
     protected int salud;
 
-    //Constructor
+    //Contructor
 
     public Esbirro(String nombre, int salud) {
         this.nombre = nombre;
