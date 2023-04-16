@@ -50,12 +50,12 @@ public class FileController {
     private void addAllInfoUser(Usuario user,String ubic) {
         try{
             FileWriter userWriter = new FileWriter(ubic);
-            userWriter.write("Nombre : " +user.getNombre());
-            userWriter.write("NickName : "+user.getNick());
-            userWriter.write("Password : "+user.getPassword());
-            userWriter.write("Numero de reegistro : "+user.getNum_Registro());
+            userWriter.write("Nombre : " +user.getNombre() + "\n");
+            userWriter.write("NickName : "+user.getNick()+"\n");
+            userWriter.write("Password : "+user.getPassword()+"\n");
+            userWriter.write("Numero de reegistro : "+user.getNum_Registro()+"\n");
             userWriter.write("Rol : "+ user.getRol());
-            userWriter.write("Personaje : "+user.getPersonajeActivo().getNombre());
+            userWriter.write("Personaje : "+user.getPersonajeActivo().getNombre()+"\n");
             userWriter.close();
         } catch (IOException e) {
             System.out.println("Exception :: "+e);
