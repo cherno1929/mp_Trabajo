@@ -57,7 +57,7 @@ public class FileController {
             userWriter.write("Nombre : " +user.getNombre() + "\n");
             userWriter.write("NickName : "+user.getNick()+"\n");
             userWriter.write("Password : "+user.getPassword()+"\n");
-            userWriter.write("Numero de reegistro : "+user.getNum_Registro()+"\n");
+            userWriter.write("Numero de registro : "+user.getNum_Registro()+"\n");
             userWriter.write("Rol : "+ user.getRol()+"\n");
             userWriter.write("Personaje : "+user.getPersonajeActivo().getId()+"\n");
             userWriter.close();
