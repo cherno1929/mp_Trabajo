@@ -94,45 +94,114 @@ public class FileController {
         Map<String,Usuario> allUser = new HashMap<String,Usuario>();
         File locationUser = new File(this.locationUsuario);
         File[] userFiles = locationUser.listFiles();
-        for(File user : userFiles){
-            try{
-                BufferedReader userReader = new BufferedReader(new FileReader(user));
-                String line;
-                Usuario user_X = new Usuario();
-                while((line = userReader.readLine()) != null){
-                    String[] lineData = line.split(" : ");
-                    String attr = lineData[0];
-                    String attrData = lineData[1];
-                    if(attr.equals("Nombre")){
-                        user_X.setNombre(attrData);
-                    } else if (attr.equals("NickName")) {
-                        user_X.setNick(attrData);
-                    } else if (attr.equals("Password")) {
-                        user_X.setPassword(attrData);
-                    } else if (attr.equals("Numero de reegistro")) {
-                        user_X.setNum_Registro(attrData);
-                    }else if (attr.equals("Rol")){
-                        if(attrData.equals("usuario")){
-                            user_X.setRol(Rol.usuario);
-                        } else if (attrData.equals("operador")) {
-                            user_X.setRol(Rol.operador);
-                        }else {
-                            user_X.setRol(Rol.baneado);
+        if(userFiles != null){
+            for (File user : userFiles) {
+                try {
+                    BufferedReader userReader = new BufferedReader(new FileReader(user));
+                    String line;
+                    Usuario user_X = new Usuario();
+                    while ((line = userReader.readLine()) != null) {
+                        String[] lineData = line.split(" : ");
+                        String attr = lineData[0];
+                        String attrData = lineData[1];
+                        if (attr.equals("Nombre")) {
+                            user_X.setNombre(attrData);
+                        } else if (attr.equals("NickName")) {
+                            user_X.setNick(attrData);
+                        } else if (attr.equals("Password")) {
+                            user_X.setPassword(attrData);
+                        } else if (attr.equals("Numero de reegistro")) {
+                            user_X.setNum_Registro(attrData);
+                        } else if (attr.equals("Rol")) {
+                            if (attrData.equals("usuario")) {
+                                user_X.setRol(Rol.usuario);
+                            } else if (attrData.equals("operador")) {
+                                user_X.setRol(Rol.operador);
+                            } else {
+                                user_X.setRol(Rol.baneado);
+                            }
+                        } else if (attr.equals("Personaje")) {
+                            //user_X.setPersonajeActivo(this.buscarPersonaje(attrData));
                         }
-                    } else if (attr.equals("Personaje")) {
-                        //user_X.setPersonajeActivo(this.buscarPersonaje(attrData));
                     }
+                    allUser.put(user_X.getNombre() + "-" + user_X.getPassword(), user_X);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                allUser.put(user_X.getNombre()+"-"+user_X.getPassword(),user_X);
-            }catch (IOException e){
-                throw new RuntimeException(e);
             }
+        }else {
+            System.out.println("Error :: No hay usuarios");
         }
         return allUser;
     }
 
-    private Personaje buscarPersonaje(String attrData) {
+    public Personaje buscarPersonaje(String idPersonaje) {
+        if (this.existePersonaje(idPersonaje)){
+            String name_ToRead = this.localPersoanjes + "/" + idPersonaje + ".txt";
+            Personaje pers_X = new Personaje();
+            try {
+                BufferedReader file_Reader = new BufferedReader(new FileReader(name_ToRead));
+                String line;
+                while((line = file_Reader.readLine()) != null){
+                    String[] arr = line.split(" : ");
+                    String arrIndx = arr[0];
+                    String arrData = arr[1];
+                    if (arrIndx.equals("Nombre")){
+                        pers_X.setNombre(arrData);
+                    } else if (arrIndx.equals("Oro")) {
+                        pers_X.setOro(Integer.parseInt(arrData));
+                    } else if (arrIndx.equals("poder")) {
+                        pers_X.setPoder(Integer.parseInt(arrData));
+                    } else if (arrIndx.equals("Id")) {
+                        pers_X.setId(arrData);
+                    } else if (arrIndx.equals("Escudo")) {
+                        pers_X.setEscudo(0);
+                    } else if (arrIndx.equals("Salud")) {
+                        pers_X.setPunt_Salud(Integer.parseInt(arrData));
+                    } else if (arrIndx.equals("Habilidades")) {
+                        String[] nomHabilidad = arrData.split(" - ");
+                        pers_X.setHabilidades(this.buscarHabilidades(nomHabilidad));
+                    } else if (arrIndx.equals("Armas")) {
+                        String[] nomArma = arrData.split(" - ");
+                        pers_X.setArmas(this.buscarArmas(nomArma));
+                    } else if (arrIndx.equals("Armaduras")) {
+                        String[] nomArmaduras = arrData.split(" - ");
+                        pers_X.setArmaduras(this.buscarArmaduras(nomArmaduras));
+                    } else if (arrIndx.equals("Esbirros")) {
+                        String[] nomEsbirros = arrData.split(" - ");
+                        pers_X.setEsbirros(this.buscarEsbirros(nomEsbirros));
+                    }
+                }
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+            return pers_X;
+        }else {
+            return null;
+        }
+
+    }
+
+    private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
         return null;
+    }
+
+    private Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
+        return null;
+    }
+
+    private Set<Arma> buscarArmas(String[] nomArma) {
+        return null;
+    }
+
+    private Set<Habilidad_Especial> buscarHabilidades(String[] nomHabilidad) {
+        return null;
+    }
+
+    public boolean existePersonaje(String idPersonaje){
+        File toRead = new File(this.localPersoanjes);
+        Set<String> id_Personajes = searchFiles(toRead);
+        return id_Personajes.contains(id_Personajes);
     }
     //
 
