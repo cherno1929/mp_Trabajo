@@ -10101,7 +10101,7 @@
 											"top": 211,
 											"width": 191.15966796875,
 											"height": 13,
-											"text": "+mod_Deb_j1: Set<Debilidad>",
+											"text": "+mod_Deb_j1: Set<Modificador>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10119,7 +10119,7 @@
 											"top": 226,
 											"width": 191.15966796875,
 											"height": 13,
-											"text": "+mod_Deb_j2: Set<Debilidad>",
+											"text": "+mod_Deb_j2: Set<Modificador>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10137,7 +10137,7 @@
 											"top": 241,
 											"width": 191.15966796875,
 											"height": 13,
-											"text": "+mod_For_j1: Set<Fortaleza>",
+											"text": "+mod_For_j1: Set<Modificador>",
 											"horizontalAlignment": 0
 										},
 										{
@@ -10155,7 +10155,7 @@
 											"top": 256,
 											"width": 191.15966796875,
 											"height": 13,
-											"text": "+mod_For_j2: Set<Fortaleza>",
+											"text": "+mod_For_j2: Set<Modificador>",
 											"horizontalAlignment": 0
 										}
 									],
@@ -20635,7 +20635,7 @@
 								"$ref": "AAAAAAGHQuZEz7M2YjA="
 							},
 							"name": "mod_Deb_j1",
-							"type": "Set<Debilidad>"
+							"type": "Set<Modificador>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -20644,7 +20644,7 @@
 								"$ref": "AAAAAAGHQuZEz7M2YjA="
 							},
 							"name": "mod_Deb_j2",
-							"type": "Set<Debilidad>"
+							"type": "Set<Modificador>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -20653,7 +20653,7 @@
 								"$ref": "AAAAAAGHQuZEz7M2YjA="
 							},
 							"name": "mod_For_j1",
-							"type": "Set<Fortaleza>"
+							"type": "Set<Modificador>"
 						},
 						{
 							"_type": "UMLAttribute",
@@ -20662,7 +20662,7 @@
 								"$ref": "AAAAAAGHQuZEz7M2YjA="
 							},
 							"name": "mod_For_j2",
-							"type": "Set<Fortaleza>"
+							"type": "Set<Modificador>"
 						}
 					],
 					"operations": [
