@@ -113,7 +113,7 @@ public class FileController {
                             user_X.setNick(attrData);
                         } else if (attr.equals("Password")) {
                             user_X.setPassword(attrData);
-                        } else if (attr.equals("Numero de reegistro")) {
+                        } else if (attr.equals("Numero de registro")) {
                             user_X.setNum_Registro(attrData);
                         } else if (attr.equals("Rol")) {
                             if (attrData.equals("usuario")) {
