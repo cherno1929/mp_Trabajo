@@ -1,0 +1,8 @@
+Nombre : Ramiro
+Id : 1929Y
+Oro : 5000
+Raza : class Vampiro
+Arma : Mandoble
+Armaduras : 
+Esbirros : 
+Edad : 19

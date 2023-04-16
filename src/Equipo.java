@@ -12,6 +12,10 @@ public class Equipo {
         this.mod = mod;
     }
 
+    public Equipo() {
+
+    }
+
     //Get-Set
 
     public String getNombre() {

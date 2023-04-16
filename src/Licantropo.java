@@ -9,6 +9,10 @@ public class Licantropo extends Personaje{
     private int punt_Rabia;
     private List<Don> dones;
 
+    public Licantropo() {
+
+    }
+
 
     //Metodos
     public void isHit(int ini_salud){

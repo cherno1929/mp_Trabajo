@@ -14,6 +14,10 @@ public class Arma extends Equipo{
         this.num_Manos = num_Manos;
     }
 
+    public Arma() {
+        super();
+    }
+
     //Get-Set
 
     public int getPunt_Atk() {

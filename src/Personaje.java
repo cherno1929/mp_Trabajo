@@ -15,6 +15,7 @@ public class Personaje {
     protected Set<Modificador> mods;
     protected int poder;
     protected int escudo;
+    protected String id;
 
 
     //Constructor
@@ -39,6 +40,13 @@ public class Personaje {
     }
 
     //Get-Set
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;

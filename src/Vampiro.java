@@ -16,6 +16,10 @@ public class Vampiro extends Personaje{
         super(nombre, habilidades, armas, armas_Activas, armaduras, esbirros, oro, punt_Salud, mods, poder, escudo);
     }
 
+    public Vampiro() {
+
+    }
+
     //Get-Set
 
     public int getEdad() {
