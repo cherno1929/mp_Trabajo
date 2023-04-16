@@ -1,8 +1,7 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class FileController {
@@ -14,6 +13,7 @@ public class FileController {
     private String LocalAtributos = "Ficheros_app/Atributos_Personajes";
 
     //Metodos
+    ////Usuario
     public boolean existeUsuario(Usuario user){
         String nombre = user.getNum_Registro();
         File file_ToRead = new File(this.locationUsuario);
@@ -21,7 +21,6 @@ public class FileController {
         return fileNames.contains(nombre +".txt");
     }
 
-    //Usuario
     private Set<String> searchFiles(File file) {
         Set<String> mySearch = new HashSet<String>();
         File[] list_Files = file.listFiles();
@@ -54,7 +53,7 @@ public class FileController {
             userWriter.write("NickName : "+user.getNick()+"\n");
             userWriter.write("Password : "+user.getPassword()+"\n");
             userWriter.write("Numero de reegistro : "+user.getNum_Registro()+"\n");
-            userWriter.write("Rol : "+ user.getRol());
+            userWriter.write("Rol : "+ user.getRol()+"\n");
             userWriter.write("Personaje : "+user.getPersonajeActivo().getNombre()+"\n");
             userWriter.close();
         } catch (IOException e) {
@@ -90,6 +89,52 @@ public class FileController {
             throw new RuntimeException(e);
         }
     }
+
+    public Map<String,Usuario> getAllUsuarios(){
+        Map<String,Usuario> allUser = new HashMap<String,Usuario>();
+        File locationUser = new File(this.locationUsuario);
+        File[] userFiles = locationUser.listFiles();
+        for(File user : userFiles){
+            try{
+                BufferedReader userReader = new BufferedReader(new FileReader(user));
+                String line;
+                Usuario user_X = new Usuario();
+                while((line = userReader.readLine()) != null){
+                    String[] lineData = line.split(" : ");
+                    String attr = lineData[0];
+                    String attrData = lineData[1];
+                    if(attr.equals("Nombre")){
+                        user_X.setNombre(attrData);
+                    } else if (attr.equals("NickName")) {
+                        user_X.setNick(attrData);
+                    } else if (attr.equals("Password")) {
+                        user_X.setPassword(attrData);
+                    } else if (attr.equals("Numero de reegistro")) {
+                        user_X.setNum_Registro(attrData);
+                    }else if (attr.equals("Rol")){
+                        if(attrData.equals("usuario")){
+                            user_X.setRol(Rol.usuario);
+                        } else if (attrData.equals("operador")) {
+                            user_X.setRol(Rol.operador);
+                        }else {
+                            user_X.setRol(Rol.baneado);
+                        }
+                    } else if (attr.equals("Personaje")) {
+                        //user_X.setPersonajeActivo(this.buscarPersonaje(attrData));
+                    }
+                }
+                allUser.put(user_X.getNombre()+"-"+user_X.getPassword(),user_X);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return allUser;
+    }
+
+    private Personaje buscarPersonaje(String attrData) {
+        return null;
+    }
+    //
 
 
 }
