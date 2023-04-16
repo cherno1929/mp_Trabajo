@@ -11,9 +11,11 @@ public class FileController {
     private String locationEsbirros = "Ficheros_app/Esbirros";
     private String locationArmas = "Ficheros_app/Armas";
     private String locationArmaduras = "Ficheros_app/Armaduras";
-    private String locationHabilidades = "Ficheros_app/Habilidades";
     private String locationDataPersonaje = "Ficheros_app/Personajes";
     private String locationMods = "Ficheros_app/Modificadores";
+    private String localDones = "Ficheros_app/Habilidades/Don";
+    private String localDisciplinas = "Ficheros_app/Habilidades/Disciplina";
+    private String localTalentos = "Ficheros_app/Habilidades/Talento";
 
     //Metodos
     ////Usuario
@@ -227,6 +229,7 @@ public class FileController {
             try {
                 BufferedReader file_Reader = new BufferedReader(new FileReader(name_ToRead));
                 String line;
+                pers_X.setHabilidades(this.buscarHabilidades(pers_X.getClass()));
                 while((line = file_Reader.readLine()) != null){
                     String[] arr = line.split(" : ");
                     if (arr.length > 1){
@@ -313,6 +316,12 @@ public class FileController {
                     String arrData = arr[1];
                     if (arrIdx.equals("Efecto")){
                         mod.setGrado_Efecto(Integer.parseInt(arrData));
+                    } else if (arrIdx.equals("Tipo")) {
+                        if (arrData.equals("Fortaleza")){
+                            mod.setTipo_mod(Tipo_mod.Fortaleza);
+                        }else{
+                            mod.setTipo_mod(Tipo_mod.Debilidad);
+                        }
                     }
                 }
                 mods.add(mod);
@@ -321,14 +330,6 @@ public class FileController {
             }
         }
         return mods;
-    }
-
-    private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
-        return null;
-    }
-
-    private Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
-        return null;
     }
 
     private Set<Arma> buscarArmas(String[] nomArma) {
@@ -362,8 +363,145 @@ public class FileController {
         return armas;
     }
 
-    private Set<Habilidad_Especial> buscarHabilidades(String[] nomHabilidad) {
-        return null;
+    private Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
+        Set<Armadura> armaduras = new HashSet<Armadura>();
+        for (String nombArmadura : nomArmaduras){
+            Armadura armadura = new Armadura();
+            armadura.setNombre(nombArmadura);
+            String armorLocation = this.locationArmaduras + "/" + nombArmadura + ".txt";
+            try {
+                BufferedReader armorReader = new BufferedReader(new FileReader(armorLocation));
+                String line;
+                while ((line = armorReader.readLine()) != null){
+                    String[] arr = line.split(" : ");
+                    if (arr.length > 1){
+                        String arrIdx = arr[0];
+                        String arrData = arr[1];
+                        if (arrIdx.equals("Defensa")) {
+                            armadura.setPunt_Def(Integer.parseInt(arrData));
+                        }else {
+                            armadura.setMod(this.buscarMods(arrData.split(" - ")));
+                        }
+                    }
+                }
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+            armaduras.add(armadura);
+        }
+        return armaduras;
+    }
+
+    private Set<Habilidad_Especial> buscarHabilidades(Class<? extends Personaje> raza) {
+        if (raza == Vampiro.class){
+            return getDisciplinas();
+        }else if (raza == Licantropo.class){
+            return getDones();
+        }else{
+            return getTalentos();
+        }
+    }
+
+    private Set<Habilidad_Especial> getTalentos() {
+        Set<Habilidad_Especial> talentos = new HashSet<Habilidad_Especial>();
+        File location = new File(this.localTalentos);
+        File[] files = location.listFiles();
+        if (files != null){
+            for (File fil : files){
+                Talento talent = new Talento();
+                talent.setNombre(fil.getName());
+                try{
+                    BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
+                    String line;
+                    while ((line = talentoReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Ataque")){
+                                talent.setAtk(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Defensa")) {
+                                talent.setDef(Integer.parseInt(arrData));
+                            }
+                        }
+                    }
+                    talentos.add(talent);
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return talentos;
+    }
+
+    private Set<Habilidad_Especial> getDones() {
+        Set<Habilidad_Especial> dones = new HashSet<Habilidad_Especial>();
+        File location = new File(this.localDones);
+        File[] files = location.listFiles();
+        if (files != null){
+            for (File fil : files){
+                Don don = new Don();
+                don.setNombre(fil.getName());
+                try{
+                    BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
+                    String line;
+                    while ((line = talentoReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Ataque")){
+                                don.setAtk(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Defensa")) {
+                                don.setDef(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Umbral")){
+                                don.setUmbral(Integer.parseInt(arrData));
+                            }
+                        }
+                    }
+                    dones.add(don);
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return dones;
+    }
+
+    private Set<Habilidad_Especial> getDisciplinas() {
+        Set<Habilidad_Especial> disciplinas = new HashSet<Habilidad_Especial>();
+        File location = new File(this.localDisciplinas);
+        File[] files = location.listFiles();
+        if (files != null){
+            for (File fil : files){
+                Disciplina disciplina = new Disciplina();
+                disciplina.setNombre(fil.getName());
+                try{
+                    BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
+                    String line;
+                    while ((line = talentoReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Ataque")){
+                                disciplina.setAtk(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Defensa")) {
+                                disciplina.setDef(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Coste")){
+                                disciplina.setCoste_Sangre(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Sangre_Robada")) {
+                                disciplina.setSangre_Robada(Integer.parseInt(arrData));
+                            }
+                        }
+                    }
+                    disciplinas.add(disciplina);
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return disciplinas;
     }
 
     public boolean existePersonaje(String idPersonaje){
@@ -373,6 +511,8 @@ public class FileController {
         return id_Personajes.contains(buscado);
     }
 
-
+    private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
+        return null;
+    }
 
 }
