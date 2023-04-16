@@ -1,6 +1,6 @@
 public class Habilidad_Especial {
 
-    //Atributes
+    //Atributos
     protected String nombre;
     protected int atk;
     protected  int def;
