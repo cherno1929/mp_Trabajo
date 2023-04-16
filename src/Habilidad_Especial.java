@@ -3,7 +3,7 @@ public class Habilidad_Especial {
     //Atributos
     protected String nombre;
     protected int atk;
-    protected  int def;
+    protected int def;
 
 
     //Constructors
