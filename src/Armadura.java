@@ -11,6 +11,10 @@ public class Armadura extends Equipo{
         this.punt_Def = punt_Def;
     }
 
+    public Armadura() {
+
+    }
+
     //Get-Set
 
     public int getPunt_Def() {
