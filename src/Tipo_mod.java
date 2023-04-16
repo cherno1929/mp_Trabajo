@@ -1,4 +1,4 @@
-public enum tipo_mod {
+public enum Tipo_mod {
     Fortaleza,
     Debilidad
 }

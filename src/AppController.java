@@ -47,7 +47,7 @@ public class AppController {
             this.usuarioActivo.setNombre(nombre);
             this.usuarioActivo.setNick(nick);
             this.usuarioActivo.setPassword(pswd);
-            this.usuarioActivo.setNum_Registro(" "+c1+n1+n2+c2+c3);
+            this.usuarioActivo.setNum_Registro(""+c1+n1+n2+c2+c3);
             this.usuarioActivo.setRol(Rol.usuario);
             this.usuarioActivo.setPersonajeActivo(nulo);
             FileController nuevoUser = new FileController();
