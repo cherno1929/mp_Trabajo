@@ -10,6 +10,10 @@ public class Modificador {
         this.grado_Efecto = grado_Efecto;
     }
 
+    public Modificador() {
+
+    }
+
     //Get-Set
 
     public String getNombre() {

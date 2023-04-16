@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class FileController {
 
@@ -10,7 +7,13 @@ public class FileController {
     private String locationUsuario = "Ficheros_app/Usuarios";
     private String locationDesafios = "Ficheros_app/Desafios";
     private String localPersoanjes = "Ficheros_app/Personaje_Usuario";
-    private String LocalAtributos = "Ficheros_app/Atributos_Personajes";
+    private String locationAtributos = "Ficheros_app/Atributos_Personajes";
+    private String locationEsbirros = "Ficheros_app/Esbirros";
+    private String locationArmas = "Ficheros_app/Armas";
+    private String locationArmaduras = "Ficheros_app/Armaduras";
+    private String locationHabilidades = "Ficheros_app/Habilidades";
+    private String locationDataPersonaje = "Ficheros_app/Personajes";
+    private String locationMods = "Ficheros_app/Modificadores";
 
     //Metodos
     ////Usuario
@@ -54,7 +57,7 @@ public class FileController {
             userWriter.write("Password : "+user.getPassword()+"\n");
             userWriter.write("Numero de reegistro : "+user.getNum_Registro()+"\n");
             userWriter.write("Rol : "+ user.getRol()+"\n");
-            userWriter.write("Personaje : "+user.getPersonajeActivo().getNombre()+"\n");
+            userWriter.write("Personaje : "+user.getPersonajeActivo().getId()+"\n");
             userWriter.close();
         } catch (IOException e) {
             System.out.println("Exception :: "+e);
@@ -135,41 +138,127 @@ public class FileController {
         return allUser;
     }
 
-    public Personaje buscarPersonaje(String idPersonaje) {
+    //PERSONAJES
+
+    public void addPersonaje(Personaje personaj){
+        if (!existePersonaje(personaj.getId())){
+            String zonaCrear = this.localPersoanjes + "/" + personaj.getId() + ".txt";
+            try {
+                File file_ToWrite = new File(zonaCrear);
+                if(file_ToWrite.createNewFile()){
+                    this.addAllInfoPersonaje(personaj,zonaCrear);
+                    System.out.println("El personaje "+personaj.getNombre()+" ha sido creado!");
+                }
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }else{
+            System.out.println("Error : El personaje " + personaj.getId() +" ya existe");
+        }
+    }
+
+    private void addAllInfoPersonaje(Personaje personaj, String zoneToWrite) {
+        File file_ToWrite = new File(zoneToWrite);
+        try {
+            BufferedWriter file_Writer = new BufferedWriter(new FileWriter(file_ToWrite));
+            file_Writer.write("Nombre : " + personaj.getNombre()+"\n");
+            file_Writer.write("Id : "+personaj.getId()+"\n");
+            file_Writer.write("Oro : "+personaj.getOro()+"\n");
+            file_Writer.write("Raza : "+personaj.getClass()+"\n");
+            file_Writer.write("Arma : ");
+            if(personaj.getArmas() != null){
+                for (Arma weaponP : personaj.getArmas()) {
+                    file_Writer.write(weaponP.getNombre() + " - "); //Guardar el nombre del arma (es su id)
+                }
+            }
+            file_Writer.write("\n");
+            file_Writer.write("Armaduras : ");
+            if (personaj.getArmaduras() != null){
+                for (Armadura armaduraP : personaj.getArmaduras()) {
+                    file_Writer.write(armaduraP.getNombre() + " - "); //Guardar el nombre del arma (es su id)
+                }
+            }
+            file_Writer.write("\n");
+            file_Writer.write("Esbirros : ");
+            if(personaj.getEsbirros() != null){
+                for (Esbirro esbP : personaj.getEsbirros()) {
+                    file_Writer.write(esbP.getNombre() + " - "); //Guardar el nombre del arma (es su id)
+                }
+            }
+            file_Writer.write("\n");
+            if(personaj.getClass() == Vampiro.class){
+                file_Writer.write("Edad : "+((Vampiro) personaj).getEdad());
+            }else if (personaj.getClass() == Licantropo.class){
+                file_Writer.write("Altura : "+((Licantropo) personaj).getAltura());
+                file_Writer.write("Peso : "+((Licantropo) personaj).getPeso());
+            }
+            file_Writer.close();
+            //Habilidades, Salud, Poder, Mods, Habilidades vienen por defecto en los ficheros de las razas de personajes
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void modificarPersonaje(Personaje pers){
+        String location = this.localPersoanjes + "/" + pers.getId() + ".txt";
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(location));
+            writer.write("");
+            writer.close();
+            this.addAllInfoPersonaje(pers,location);
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Personaje getPersonaje(String idPersonaje) {
+        /*Anotación
+            En los ficheros del personje, no se va a guardar la información relacionada con:
+                -Habilidades
+                -Modificadores
+                -Armas
+                -Armaduras
+                -Salud
+                -Esbirros
+            Ya que esta información estará guardada en sus respectivos ficheros*/
         if (this.existePersonaje(idPersonaje)){
             String name_ToRead = this.localPersoanjes + "/" + idPersonaje + ".txt";
-            Personaje pers_X = new Personaje();
+            Personaje pers_X = getRazaPersonaje(name_ToRead);
             try {
                 BufferedReader file_Reader = new BufferedReader(new FileReader(name_ToRead));
                 String line;
                 while((line = file_Reader.readLine()) != null){
                     String[] arr = line.split(" : ");
-                    String arrIndx = arr[0];
-                    String arrData = arr[1];
-                    if (arrIndx.equals("Nombre")){
-                        pers_X.setNombre(arrData);
-                    } else if (arrIndx.equals("Oro")) {
-                        pers_X.setOro(Integer.parseInt(arrData));
-                    } else if (arrIndx.equals("poder")) {
-                        pers_X.setPoder(Integer.parseInt(arrData));
-                    } else if (arrIndx.equals("Id")) {
-                        pers_X.setId(arrData);
-                    } else if (arrIndx.equals("Escudo")) {
-                        pers_X.setEscudo(0);
-                    } else if (arrIndx.equals("Salud")) {
-                        pers_X.setPunt_Salud(Integer.parseInt(arrData));
-                    } else if (arrIndx.equals("Habilidades")) {
-                        String[] nomHabilidad = arrData.split(" - ");
-                        pers_X.setHabilidades(this.buscarHabilidades(nomHabilidad));
-                    } else if (arrIndx.equals("Armas")) {
-                        String[] nomArma = arrData.split(" - ");
-                        pers_X.setArmas(this.buscarArmas(nomArma));
-                    } else if (arrIndx.equals("Armaduras")) {
-                        String[] nomArmaduras = arrData.split(" - ");
-                        pers_X.setArmaduras(this.buscarArmaduras(nomArmaduras));
-                    } else if (arrIndx.equals("Esbirros")) {
-                        String[] nomEsbirros = arrData.split(" - ");
-                        pers_X.setEsbirros(this.buscarEsbirros(nomEsbirros));
+                    if (arr.length > 1){
+                        String arrIndx = arr[0];
+                        String arrData = arr[1];
+                        if (arrIndx.equals("Nombre")) {
+                            pers_X.setNombre(arrData);
+                        } else if (arrIndx.equals("Oro")) {
+                            pers_X.setOro(Integer.parseInt(arrData));
+                        } else if (arrIndx.equals("Id")) {
+                            pers_X.setId(arrData);
+                        } else if (arrIndx.equals("Arma")) {
+                            String[] nomArma = arrData.split(" - ");
+                            pers_X.setArmas(this.buscarArmas(nomArma));
+                        } else if (arrIndx.equals("Armaduras")) {
+                            String[] nomArmaduras = arrData.split(" - ");
+                            pers_X.setArmaduras(this.buscarArmaduras(nomArmaduras));
+                        } else if (arrIndx.equals("Esbirros")) {
+                            String[] nomEsbirros = arrData.split(" - ");
+                            pers_X.setEsbirros(this.buscarEsbirros(nomEsbirros));
+                        } else if (arrIndx.equals("Modificador")) {
+                            String[] nomMods = arrData.split(" - ");
+                            pers_X.setMods(this.buscarMods(nomMods));
+                        }
+                        else if (arrIndx.equals("Edad") & (pers_X.getClass() == Vampiro.class)){
+                            ((Vampiro) pers_X).setEdad(Integer.parseInt(arrData));
+                        }else if(arrIndx.equals("Altura") & (pers_X.getClass() == Licantropo.class)){
+                            ((Licantropo) pers_X).setAltura(Integer.parseInt(arrData));
+                        } else if (arrIndx.equals("Peso") & (pers_X.getClass() == Licantropo.class)) {
+                            ((Licantropo) pers_X).setPeso(Integer.parseInt(arrData));
+                        }
+
                     }
                 }
             }catch (IOException e){
@@ -182,6 +271,58 @@ public class FileController {
 
     }
 
+    private Personaje getRazaPersonaje(String nameToRead) {
+        String race = "";
+        Personaje pers;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(nameToRead));
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] arr = line.split(" : ");
+                if (arr[0].equals("Raza")){
+                    race = arr[1];
+                }
+            }
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+        if (race.equals("class Vampiro")){
+            pers = new Vampiro();
+        } else if (race.equals("class Licantropo")) {
+            pers = new Licantropo();
+        }else{
+            pers = new Cazador();
+        }
+        return pers;
+    }
+
+    private Set<Modificador> buscarMods(String[] nomMods) {
+        //Nombre
+        //Grado Efecto
+        Set<Modificador> mods = new HashSet<Modificador>();
+        for (String nomMod : nomMods){
+            Modificador mod = new Modificador();
+            mod.setNombre(nomMod);
+            String modLocation = this.locationMods + "/" + nomMod + ".txt";
+            try{
+                BufferedReader modRader = new BufferedReader(new FileReader(modLocation));
+                String line;
+                while ((line = modRader.readLine()) != null){
+                    String[] arr = line.split(" : ");
+                    String arrIdx = arr[0];
+                    String arrData = arr[1];
+                    if (arrIdx.equals("Efecto")){
+                        mod.setGrado_Efecto(Integer.parseInt(arrData));
+                    }
+                }
+                mods.add(mod);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return mods;
+    }
+
     private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
         return null;
     }
@@ -191,7 +332,34 @@ public class FileController {
     }
 
     private Set<Arma> buscarArmas(String[] nomArma) {
-        return null;
+        Set<Arma> armas = new HashSet<Arma>();
+        for(String nombreArma : nomArma){
+            String locArmas = this.locationArmas +"/"+ nombreArma + ".txt";
+            Arma arma = new Arma();
+            arma.setNombre(nombreArma);
+            try {
+                BufferedReader armaReader = new BufferedReader(new FileReader(locArmas));
+                String line;
+                while((line = armaReader.readLine()) != null){
+                    String[] arr = line.split(" : ");
+                    if (arr.length > 1){
+                        String arrInd = arr[0];
+                        String arrData = arr[1];
+                        if (arrInd.equals("Ataque")) {
+                            arma.setPunt_Atk(Integer.parseInt(arrData));
+                        } else if (arrInd.equals("Numero_Manos")) {
+                            arma.setNum_Manos(Integer.parseInt(arrData));
+                        } else if (arrInd.equals("Modificadores")) {
+                            arma.setMod(this.buscarMods(arrData.split(" - ")));
+                        }
+                    }
+                }
+                armas.add(arma);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+        return armas;
     }
 
     private Set<Habilidad_Especial> buscarHabilidades(String[] nomHabilidad) {
@@ -199,11 +367,12 @@ public class FileController {
     }
 
     public boolean existePersonaje(String idPersonaje){
+        String buscado = idPersonaje + ".txt";
         File toRead = new File(this.localPersoanjes);
         Set<String> id_Personajes = searchFiles(toRead);
-        return id_Personajes.contains(id_Personajes);
+        return id_Personajes.contains(buscado);
     }
-    //
+
 
 
 }
