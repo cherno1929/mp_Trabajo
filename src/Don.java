@@ -12,6 +12,10 @@ public class Don extends Habilidad_Especial{
         this.rabia_Otorgada = rabia_Otorgada;
     }
 
+    public Don() {
+
+    }
+
     //Get-Set
 
     public int getUmbral() {

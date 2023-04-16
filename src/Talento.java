@@ -4,4 +4,8 @@ public class Talento extends Habilidad_Especial{
     public Talento(String nombre, int atk, int def) {
         super(nombre, atk, def);
     }
+
+    public Talento() {
+
+    }
 }

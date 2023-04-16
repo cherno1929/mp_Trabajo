@@ -14,6 +14,10 @@ public class Habilidad_Especial {
         this.def = def;
     }
 
+    public Habilidad_Especial() {
+
+    }
+
     //Get-Set
 
 

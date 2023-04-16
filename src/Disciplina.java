@@ -12,6 +12,10 @@ public class Disciplina extends Habilidad_Especial{
         this.sangre_Robada = sangre_Robada;
     }
 
+    public Disciplina() {
+
+    }
+
 
     public int getCoste_Sangre() {
         return coste_Sangre;
