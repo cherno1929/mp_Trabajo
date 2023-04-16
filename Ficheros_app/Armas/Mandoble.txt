@@ -1,0 +1,3 @@
+Ataque : 50
+Numero_Manos : 2
+Modificadores : Sol
