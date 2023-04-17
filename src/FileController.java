@@ -160,6 +160,16 @@ public class FileController {
 
     //PERSONAJES
 
+    public void borrarPersoanje(Personaje persoanje){
+        String zone = this.localPersoanjes + "/" + persoanje.getId() + ".txt";
+            File file_ToDestroy = new File(zone);
+            if(file_ToDestroy.delete()){
+                System.out.println("El archivo fue borrado correctamente");
+            }else {
+                System.out.println("Error");
+            }
+    }
+
     public void addPersonaje(Personaje personaj){
         if (!existePersonaje(personaj.getId())){
             String zonaCrear = this.localPersoanjes + "/" + personaj.getId() + ".txt";
