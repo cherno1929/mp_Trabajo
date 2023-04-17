@@ -17,8 +17,25 @@ public class FileController {
     private String localDisciplinas = "Ficheros_app/Habilidades/Disciplina";
     private String localTalentos = "Ficheros_app/Habilidades/Talento";
     private String localPacto = "Ficheros_app/Pacto";
+    private String localRanking = "Ficheros_app/Ranking.txt";
 
     //Metodos
+
+    ////Ranking
+    public List<String> verGanadores(){
+        List<String> ganadores = new ArrayList<String>();
+        try {
+            BufferedReader readVictorias = new BufferedReader(new FileReader(this.localRanking));
+            String line;
+            while ((line = readVictorias.readLine()) != null){ //Line contiene el nombre del jugador que ganó
+                ganadores.add(line);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ganadores;
+    }
+
     ////Usuario
     public boolean existeUsuario(Usuario user){
         String nombre = user.getNum_Registro();
@@ -613,6 +630,8 @@ public class FileController {
         }
         return esb;
     }
+
+
 
 
 }
