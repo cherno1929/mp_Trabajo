@@ -409,7 +409,7 @@ public class FileController {
         if (files != null){
             for (File fil : files){
                 Talento talent = new Talento();
-                talent.setNombre(fil.getName());
+                talent.setNombre(fil.getName().substring(0,fil.getName().length()-4));
                 try{
                     BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
                     String line;
@@ -441,7 +441,7 @@ public class FileController {
         if (files != null){
             for (File fil : files){
                 Don don = new Don();
-                don.setNombre(fil.getName());
+                don.setNombre(fil.getName().substring(0,fil.getName().length()-4));
                 try{
                     BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
                     String line;
@@ -475,7 +475,7 @@ public class FileController {
         if (files != null){
             for (File fil : files){
                 Disciplina disciplina = new Disciplina();
-                disciplina.setNombre(fil.getName());
+                disciplina.setNombre(fil.getName().substring(0,fil.getName().length()-4));
                 try{
                     BufferedReader talentoReader = new BufferedReader(new FileReader(fil));
                     String line;
