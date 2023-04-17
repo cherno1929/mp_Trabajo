@@ -15,6 +15,10 @@ public class Demonio extends Esbirro{
         this.pactos = pactos;
     }
 
+    public Demonio() {
+
+    }
+
     //Get-Set
 
 

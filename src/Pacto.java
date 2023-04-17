@@ -13,6 +13,10 @@ public class Pacto {
         this.descripcion = descripcion;
     }
 
+    public Pacto() {
+
+    }
+
     //Get-Set
 
     public Personaje getAmo() {

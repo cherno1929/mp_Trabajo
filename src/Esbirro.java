@@ -11,6 +11,10 @@ public class Esbirro {
         this.salud = salud;
     }
 
+    public Esbirro() {
+
+    }
+
     //Get-Set
 
     public String getNombre() {

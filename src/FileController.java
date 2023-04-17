@@ -16,6 +16,7 @@ public class FileController {
     private String localDones = "Ficheros_app/Habilidades/Don";
     private String localDisciplinas = "Ficheros_app/Habilidades/Disciplina";
     private String localTalentos = "Ficheros_app/Habilidades/Talento";
+    private String localPacto = "Ficheros_app/Pacto";
 
     //Metodos
     ////Usuario
@@ -512,7 +513,106 @@ public class FileController {
     }
 
     private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
-        return null;
+        Set<Esbirro> esbirros = new HashSet<Esbirro>();
+        if (nomEsbirros != null){
+            for (String name : nomEsbirros){
+                String fileName = this.locationEsbirros + "/" + name + ".txt";
+                Esbirro esb = getRazaEsbirro(fileName);
+                try{
+                    BufferedReader esbirroReader = new BufferedReader(new FileReader(fileName));
+                    String line;
+                    while ((line = esbirroReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Nombre")){
+                                esb.setNombre(arrData);
+                            } else if (arrIdx.equals("Salud")) {
+                                esb.setSalud(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Dependencia") & esb.getClass() == Ghoul.class){
+                                ((Ghoul) esb).setNiv_Dependencia(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Lealtad") & esb.getClass() == Humano.class) {
+                                if (arrData.equals("Alto")){
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.alto);
+                                } else if (arrData.equals("Medio")) {
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.medio);
+                                }else {
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.bajo);
+                                }
+                            } else if (arrIdx.equals("Esbirros") & esb.getClass() == Demonio.class) {
+                                String[] nomEsbirrosDemonio = arrData.split(" - "); 
+                                ((Demonio) esb).setEsbirros(this.buscarEsbirros(nomEsbirrosDemonio));
+                            } else if (arrIdx.equals("Pacto") & esb.getClass() == Demonio.class) {
+                                ((Demonio) esb).setPacto(this.getPacto(arrData.split(" - "),esb));
+                            }
+                        }
+                    }
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+                esbirros.add(esb);
+            }
+        }
+        return esbirros;
     }
+
+    private List<Pacto> getPacto(String[] idPactos, Esbirro esbrr) {
+        List<Pacto> pactos = new ArrayList<Pacto>();
+        if (idPactos != null){
+            for (String idPacto : idPactos){
+                Pacto pact = new Pacto();
+                String location = this.localPacto + "/" + idPacto + ".txt";
+                try {
+                    BufferedReader pactoReader = new BufferedReader(new FileReader(location));
+                    String line;
+                    while ((line = pactoReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Amo")){
+                                pact.setAmo(getPersonaje(arrData)); //Sera necesario que en el fichero se guarde el id del personaje
+                            } else if (arrIdx.equals("Esbirro")) {
+                                pact.setEsbirro(esbrr);
+                            } else if (arrIdx.equals("Descripcion")) {
+                                pact.setDescripcion(arrData);
+                            }
+                        }
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                pactos.add(pact);
+            }
+        }
+        return pactos;
+    }
+
+    private Esbirro getRazaEsbirro(String fileName) {
+        String race = "";
+        Esbirro esb;
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(fileName));
+            String line;
+            while ((line = reader.readLine()) != null){
+                String[] arr = line.split(" : ");
+                if (arr[0].equals("Raza")){
+                    race = arr[1];
+                }
+            }
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+        if (race.equals("class Humano")){
+            esb = new Humano();
+        } else if (race.equals("class Ghoul")) {
+            esb = new Ghoul();
+        }else{
+            esb = new Demonio();
+        }
+        return esb;
+    }
+
 
 }

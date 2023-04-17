@@ -13,6 +13,10 @@ public class Ghoul extends Esbirro{
         this.niv_Dependencia = niv_Dependencia;
     }
 
+    public Ghoul() {
+
+    }
+
     //Get-Set
 
     public int getNiv_Dependencia() {

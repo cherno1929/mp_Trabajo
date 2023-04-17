@@ -14,6 +14,10 @@ public class Humano extends Esbirro{
         this.lealtad = lealtad;
     }
 
+    public Humano() {
+
+    }
+
     //Get_Set
 
     public Niv_Lealtad getLealtad() {
