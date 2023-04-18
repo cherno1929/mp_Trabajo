@@ -15,9 +15,6 @@ public class FileController {
     protected String localTalentos = "Ficheros_app/Habilidades/Talento";
     protected String localPacto = "Ficheros_app/Pacto";
     protected String localRanking = "Ficheros_app/Ranking.txt";
-    protected String localVampiro = "Ficheros_app/Personajes/Vampiro.txt";
-    protected String localLicantropo = "Ficheros_app/Personajes/Licantropo.txt";
-    protected String localCazador = "Ficheros_app/Personajes/Cazador.txt";
 
     //Metodos
 
@@ -317,8 +314,11 @@ public class FileController {
                         } else if (arrIndx.equals("Modificador")) {
                             String[] nomMods = arrData.split(" - ");
                             pers_X.setMods(this.buscarMods(nomMods));
-                        }
-                        else if (arrIndx.equals("Edad") & (pers_X.getClass() == Vampiro.class)){
+                        } else if (arrIndx.equals("Salud")) {
+                            pers_X.setPunt_Salud(Integer.parseInt(arrData));
+                        } else if (arrIndx.equals("Poder")) {
+                            pers_X.setPoder(Integer.parseInt(arrData));
+                        } else if (arrIndx.equals("Edad") & (pers_X.getClass() == Vampiro.class)){
                             ((Vampiro) pers_X).setEdad(Integer.parseInt(arrData));
                         }else if(arrIndx.equals("Altura") & (pers_X.getClass() == Licantropo.class)){
                             ((Licantropo) pers_X).setAltura(Integer.parseInt(arrData));
@@ -328,7 +328,6 @@ public class FileController {
 
                     }
                 }
-                this.setPersoanjeAtributos(pers_X);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
@@ -337,35 +336,6 @@ public class FileController {
             return null;
         }
 
-    }
-
-    private void setPersoanjeAtributos(Personaje persX) {
-        String location;
-        if (persX.getClass() == Vampiro.class){
-            location = this.localVampiro;
-        } else if (persX.getClass() == Licantropo.class) {
-            location = this.localLicantropo;
-        }else {
-            location = this.localCazador;
-        }
-        try {
-                BufferedReader razaTORead = new BufferedReader(new FileReader(location));
-                String line;
-                while ((line = razaTORead.readLine()) != null){
-                    String[] arr = line.split(" : ");
-                    if (arr.length > 1){
-                        String arrIdx = arr[0];
-                        String arrData = arr[1];
-                        if (arrIdx.equals("Salud")){
-                            persX.setPunt_Salud(Integer.parseInt(arrData));
-                        } else{
-                            persX.setPoder(Integer.parseInt(arrData));
-                        }
-                    }
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
     }
 
     protected Personaje getRazaPersonaje(String nameToRead) {

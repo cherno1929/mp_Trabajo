@@ -73,7 +73,10 @@ public class FileController_Operator extends FileController{
         }
     }
 
+    //ALTERAR ESBIRRO ???
 
+    public void alterarAtributosPersonaje(){
 
+    }
 
 }
