@@ -67,13 +67,13 @@ public class App_Operador {
                 System.out.println(mod.getNombre() + "\n");
             }
         }
-        if (desafio.getMod_j2() != null{
+        if (desafio.getMod_j2() != null){
             System.out.println("Modificador J2\n");
             for (Modificador mod : desafio.getMod_j2()) {
                 System.out.println(mod.getNombre() + "\n");
             }
         }
-        System.out.println("");
+        System.out.println("\n");
     }
     //Get-Set
 
