@@ -10,7 +10,7 @@ public class App_Operador {
     //Metodos
     public void Menu() {
         if (this.operador.getRol() == Rol.operador){
-            System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay " + this.lista_Desafios.size() + " desafios)\n4.");
+            System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay " + this.lista_Desafios.size() + " desafios)\n4.Volver");
             Scanner menu_opc = new Scanner(System.in);
             int opc = menu_opc.nextInt();
             switch (opc) {
@@ -30,6 +30,8 @@ public class App_Operador {
                     Menu();
                     break;
                 case 4:
+                    Menu_Principal mp = new Menu_Principal();
+                    mp.Pantalla_Inicio(Rol.operador);
                     break;
                 default:
                     Menu();
