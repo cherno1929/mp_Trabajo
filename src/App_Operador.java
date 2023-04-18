@@ -9,53 +9,95 @@ public class App_Operador {
 
     //Metodos
     public void Menu() {
-        System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay "+this.lista_Desafios.size()+" desafios)\n4.Volver\n");
-        Scanner menu_opc = new Scanner(System.in);
-        int opc = menu_opc.nextInt();
-        switch(opc){
-            case 1:
-                System.out.println("A quien desea banear?");
-                Scanner usuario = new Scanner(System.in);
-                this.herramienta_Operador.banear(String.valueOf(usuario));
-                Menu();
-                break;
-            case 2:
-                System.out.println("A quien desea desbanear?");
-                usuario = new Scanner(System.in);
-                this.herramienta_Operador.desBanear(String.valueOf(usuario));
-                Menu();
-                break;
-            case 3:
-                   if (this.lista_Desafios != null) {
+        if (this.operador.getRol() == Rol.operador){
+            System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay " + this.lista_Desafios.size() + " desafios)\n4.");
+            Scanner menu_opc = new Scanner(System.in);
+            int opc = menu_opc.nextInt();
+            switch (opc) {
+                case 1:
+                    this.MenuBaneo(this.lista_Desafios);
+                    Menu();
+                    break;
+                case 2:
+                    this.MenuDesBaneo(this.herramienta_Operador.getBaneados());
+                    break;
+                case 3:
+                    if (this.lista_Desafios != null) {
                         this.MenuLista();
-                    }else {
-                       System.out.println("No hay desafios de momento");
-                       Menu();
-                   }
-                break;
-            case 4:
-                Menu_Principal mp = new Menu_Principal();
-                mp.Pantalla_Inicio(Rol.operador);
-            default:
-                Menu();
+                    } else {
+                        System.out.println("No hay desafios de momento");
+                    }
+                    Menu();
+                    break;
+                case 4:
+                    break;
+                default:
+                    Menu();
+            }
+        }else {
+            System.out.println("Rol invalido");
         }
+    }
+
+
+
+    public void MenuDesBaneo(List<Usuario> listBaneados){
+        int opt = 1;
+        while (opt != -1){
+            if (listBaneados != null) {
+                for (Desafio desafio : lista_Desafios) {
+                    {
+                        showDesafio(desafio);
+                    }
+                }
+                System.out.println("A quien desea banear?\nDe un numero del 0 al " + listBaneados.size() + "\nPulse a -1 para Salir");
+                Scanner scanerReadln = new Scanner(System.in);
+                opt = scanerReadln.nextInt();
+                this.herramienta_Operador.desBanear(this.lista_Desafios.get(opt).getJ1());
+            } else {
+                System.out.println("No hay desafios");
+                this.Menu();
+            }
+        }
+        this.Menu();
+    }
+
+    public void MenuBaneo(List<Desafio> listaDesafios){
+        int opt = 1;
+        while (opt != 0){
+            if (listaDesafios != null) {
+                for (Desafio desafio : listaDesafios) {
+                    {
+                        showDesafio(desafio);
+                    }
+                }
+                System.out.println("A quien desea banear?\nDe un numero del 0 al " + listaDesafios.size() + "\nPulse a 0 para Salir");
+                Scanner scanerReadln = new Scanner(System.in);
+                opt = scanerReadln.nextInt();
+                this.herramienta_Operador.banear(this.lista_Desafios.get(opt).getJ1());
+            } else {
+                System.out.println("No hay desafios");
+                this.Menu();
+            }
+        }
+        this.Menu();
     }
 
     private void MenuLista(){
         for (Desafio desafio : this.lista_Desafios){
             this.showDesafio(desafio);
         }
-        System.out.println("Que desafío desea validar / modificar (hay "+ this.lista_Desafios.size()+" desafios)\n");
+        System.out.println("Que desafio desea validar / modificar (hay "+ this.lista_Desafios.size()+" desafios)\n");
         Scanner menL = new Scanner(System.in);
         int numDesafio = menL.nextInt();
-        if ((numDesafio >= 0 ) && (numDesafio < this.lista_Desafios.size())){
+        if ((numDesafio >= 0 ) & (numDesafio < this.lista_Desafios.size())){
             this.MenuDesafio(numDesafio);
         }
     }
 
     private void MenuDesafio(int numDesafio){
         this.showDesafio(this.lista_Desafios.get(numDesafio));
-        System.out.println("Que desea hacer:\n1) Validar\n2) Modificar\n");
+        System.out.println("Que desea hacer : \n1) Validar \n2) Modificar \n");
         //??????????????????????????????????????????????????????
     }
     private void showDesafio(Desafio desafio){
@@ -85,5 +127,7 @@ public class App_Operador {
     public void setOperador(Usuario operador) {
         this.operador = operador;
     }
+
+
 
 }

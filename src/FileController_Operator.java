@@ -1,29 +1,36 @@
-import javax.imageio.IIOException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SimpleTimeZone;
+import java.util.Map;
+import java.util.Set;
 
 public class FileController_Operator extends FileController{
 
-    //Atributos
+    //Atributes
     private String locationDesafios = "Ficheros_app/Desafios";
     private String locationDataPersonaje = "Ficheros_app/Personajes";
     public List<Desafio> listaDesafios = this.getDesafios();
 
-    //Metodos
+    //Metodods
     public void banear(String idUsuario){
         Usuario userToBan = this.getUsuario(idUsuario);
         userToBan.setRol(Rol.baneado);
         this.modificarUsuario(userToBan);
     }
 
+    public void banear(Usuario usuario){
+        usuario.setRol(Rol.baneado);
+        this.modificarUsuario(usuario);
+    }
+
+    public void desBanear(Usuario usuario){
+        usuario.setRol(Rol.operador);
+        this.modificarUsuario(usuario);
+    }
+
     public void desBanear(String idUsuario){
         Usuario userToDesBan = this.getUsuario(idUsuario);
-        if (userToDesBan.getClass().equals(App_Operador.class)){
-            userToDesBan.setRol(Rol.operador);
-        }
-
+        userToDesBan.setRol(Rol.operador);
         this.modificarUsuario(userToDesBan);
     }
 
@@ -74,5 +81,15 @@ public class FileController_Operator extends FileController{
         }
     }
 
+    public List<Usuario> getBaneados(){
+        Map<String, Usuario> usuarios = this.getAllUsuarios();
+        List<Usuario> baneados = new ArrayList<Usuario>();
+        for (String keyUsers : usuarios.keySet()){
+            if (usuarios.get(keyUsers).getRol() == Rol.baneado){
+                baneados.add(usuarios.get(keyUsers));
+            }
+        }
+        return baneados;
+    }
 
 }
