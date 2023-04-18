@@ -1,6 +1,6 @@
 Nombre : Younes
 NickName : Cherno
 Password : Jorge Nitales
-Numero de reegistro : y28sa
+Numero de registro : y28sa
 Rol : usuario
 Personaje : Rex

@@ -20,7 +20,7 @@ public class FileController_Operator extends FileController{
 
     public void desBanear(String idUsuario){
         Usuario userToDesBan = this.getUsuario(idUsuario);
-        if (userToDesBan.getClass() == Operador.class){
+        if (userToDesBan.getClass().equals(App_Operador.class)){
             userToDesBan.setRol(Rol.operador);
         }
         this.modificarUsuario(userToDesBan);
@@ -63,7 +63,7 @@ public class FileController_Operator extends FileController{
         return desafios;
     }
 
-    public void borrarDesafio(String idDesafio){ //El id del deafio esta pensado para ser el nombre de los dos usuarios que se esnfrentarán
+    public void borrarDesafio(String idDesafio){ //El id del desafio esta pensado para ser el nombre de los dos usuarios que se enfrentarán
         String location = this.locationDesafios + "/" + idDesafio + ".txt";
         File fileDelete = new File(location);
         if (fileDelete.delete()){

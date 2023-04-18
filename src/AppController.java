@@ -1,5 +1,3 @@
-import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
@@ -79,7 +77,15 @@ public class AppController {
             }
             else { //Si, al contrario, sí existe...
                 Usuario user_log = lista_usuarios.get(hash_login);
-                System.out.print("Bienvenido, " + user_log.nick + "...\n");
+                if (user_log.getRol().equals(Rol.baneado)) {
+                    System.out.print("Esta cuenta está vetada. Contacte con un operador si considera esta situación como errónea.\n");
+                    Menu();
+                }
+                else{
+                    System.out.print("Bienvenido, " + user_log.nick + "...\n");
+                    Menu_Principal mp = new Menu_Principal();
+                    mp.Pantalla_Inicio(user_log.getRol());
+                }
             }
         }
         else{ //En cambio, si este no es encontrado (NO recibimos datos de la lista)...
