@@ -1,8 +1,8 @@
-import javax.imageio.IIOException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SimpleTimeZone;
+import java.util.Map;
+import java.util.Set;
 
 public class FileController_Operator extends FileController{
 
@@ -81,5 +81,15 @@ public class FileController_Operator extends FileController{
         }
     }
 
+    public List<Usuario> getBaneados(){
+        Map<String, Usuario> usuarios = this.getAllUsuarios();
+        List<Usuario> baneados = new ArrayList<Usuario>();
+        for (String keyUsers : usuarios.keySet()){
+            if (usuarios.get(keyUsers).getRol() == Rol.baneado){
+                baneados.add(usuarios.get(keyUsers));
+            }
+        }
+        return baneados;
+    }
 
 }
