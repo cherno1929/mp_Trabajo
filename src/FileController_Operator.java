@@ -18,11 +18,19 @@ public class FileController_Operator extends FileController{
         this.modificarUsuario(userToBan);
     }
 
+    public void banear(Usuario usuario){
+        usuario.setRol(Rol.baneado);
+        this.modificarUsuario(usuario);
+    }
+
+    public void desBanear(Usuario usuario){
+        usuario.setRol(Rol.operador);
+        this.modificarUsuario(usuario);
+    }
+
     public void desBanear(String idUsuario){
         Usuario userToDesBan = this.getUsuario(idUsuario);
-        if (userToDesBan.getClass().equals(App_Operador.class)){
-            userToDesBan.setRol(Rol.operador);
-        }
+        userToDesBan.setRol(Rol.operador);
         this.modificarUsuario(userToDesBan);
     }
 
