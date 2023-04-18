@@ -85,11 +85,18 @@ public class App_Operador {
         for (Desafio desafio : this.lista_Desafios){
             this.showDesafio(desafio);
         }
-        System.out.println("Que desafio desea validar / modificar (hay "+ this.lista_Desafios.size()+" desafios)\n");
+        int op = 0;
+        System.out.println("Que desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
         Scanner menL = new Scanner(System.in);
-        int numDesafio = menL.nextInt();
-        if ((numDesafio >= 0 ) & (numDesafio < this.lista_Desafios.size())){
-            this.MenuDesafio(numDesafio);
+        op = menL.nextInt();
+        while (op != -1){
+            int numDesafio = menL.nextInt();
+            if ((numDesafio >= 0) & (numDesafio < this.lista_Desafios.size())) {
+                this.MenuDesafio(numDesafio);
+            }
+            System.out.println("Que desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
+            menL = new Scanner(System.in);
+            op = menL.nextInt();
         }
     }
 
