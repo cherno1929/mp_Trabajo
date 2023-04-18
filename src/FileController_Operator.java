@@ -6,12 +6,12 @@ import java.util.SimpleTimeZone;
 
 public class FileController_Operator extends FileController{
 
-    //Atributes
+    //Atributos
     private String locationDesafios = "Ficheros_app/Desafios";
     private String locationDataPersonaje = "Ficheros_app/Personajes";
     public List<Desafio> listaDesafios = this.getDesafios();
 
-    //Metodods
+    //Metodos
     public void banear(String idUsuario){
         Usuario userToBan = this.getUsuario(idUsuario);
         userToBan.setRol(Rol.baneado);
@@ -23,6 +23,7 @@ public class FileController_Operator extends FileController{
         if (userToDesBan.getClass().equals(App_Operador.class)){
             userToDesBan.setRol(Rol.operador);
         }
+
         this.modificarUsuario(userToDesBan);
     }
 

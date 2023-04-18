@@ -1,0 +1,6 @@
+Nombre : Admin
+NickName : AdminFacha
+Password : asd
+Numero de registro : null
+Rol : operador
+Personaje : null

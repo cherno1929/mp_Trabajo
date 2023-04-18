@@ -1,0 +1,6 @@
+Nombre : Pepe
+NickName : PepeKiller01
+Password : asd
+Numero de registro : o08js
+Rol : usuario
+Personaje : null

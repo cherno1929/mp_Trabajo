@@ -1,6 +1,4 @@
-import java.util.Map;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class AppController {
     //Atributos
@@ -93,6 +91,23 @@ public class AppController {
             Menu();
         }
 
+    }
+
+    // MostrarRanking (Recolectar victorias -> Ordenarlas en un hash (Mayor a menor cantidad victorias) -> Mostrar al usuario)
+    public void showRanking() {
+        FileController ranking = new FileController();
+        List<String> usuarios_ranking = ranking.verGanadores();
+        HashMap<String, Integer> mapa_ranking = new HashMap<String, Integer>();
+        for(String lectura_usuario : usuarios_ranking){
+            if (!mapa_ranking.containsKey(lectura_usuario)){
+                mapa_ranking.put(lectura_usuario, 1);
+            }
+            else{
+                mapa_ranking.put(lectura_usuario, mapa_ranking.get(lectura_usuario) + 1);
+            }
+            System.out.println(lectura_usuario + " - " + mapa_ranking.get(lectura_usuario));
+        }
+        // FALTA ORDENAR
     }
 
     //Get-Set

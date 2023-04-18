@@ -9,7 +9,7 @@ public class App_Operador {
 
     //Metodos
     public void Menu() {
-        System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay "+this.lista_Desafios.size()+" desafios)\n4.");
+        System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay "+this.lista_Desafios.size()+" desafios)\n4.Volver\n");
         Scanner menu_opc = new Scanner(System.in);
         int opc = menu_opc.nextInt();
         switch(opc){
@@ -34,7 +34,8 @@ public class App_Operador {
                    }
                 break;
             case 4:
-                System.exit(0);
+                Menu_Principal mp = new Menu_Principal();
+                mp.Pantalla_Inicio(Rol.operador);
             default:
                 Menu();
         }
@@ -44,17 +45,17 @@ public class App_Operador {
         for (Desafio desafio : this.lista_Desafios){
             this.showDesafio(desafio);
         }
-        System.out.println("Que desafio desea validar / modificar (hay "+ this.lista_Desafios.size()+" desafios)\n");
+        System.out.println("Que desafío desea validar / modificar (hay "+ this.lista_Desafios.size()+" desafios)\n");
         Scanner menL = new Scanner(System.in);
         int numDesafio = menL.nextInt();
-        if ((numDesafio >= 0 ) & (numDesafio < this.lista_Desafios.size())){
+        if ((numDesafio >= 0 ) && (numDesafio < this.lista_Desafios.size())){
             this.MenuDesafio(numDesafio);
         }
     }
 
     private void MenuDesafio(int numDesafio){
         this.showDesafio(this.lista_Desafios.get(numDesafio));
-        System.out.println("Que desea hacer : \n1) Validar \n2) Modificar \n");
+        System.out.println("Que desea hacer:\n1) Validar\n2) Modificar\n");
         //??????????????????????????????????????????????????????
     }
     private void showDesafio(Desafio desafio){
