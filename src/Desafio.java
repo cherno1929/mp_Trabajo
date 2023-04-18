@@ -6,23 +6,8 @@ public class Desafio {
     public int oro;
     public Usuario j1;
     public Usuario j2;
-    public Set<Modificador> mod_Deb_j1;
-    public Set<Modificador> mod_Deb_j2;
-    public Set<Modificador> mod_Fort_j1;
-    public Set<Modificador> mod_Fort_j2;
-
-    //Constructor
-
-
-    public Desafio(int oro, Usuario j1, Usuario j2, Set<Modificador> mod_Deb_j1, Set<Modificador> mod_Deb_j2, Set<Modificador> mod_Fort_j1, Set<Modificador> mod_Fort_j2) {
-        this.oro = oro;
-        this.j1 = j1;
-        this.j2 = j2;
-        this.mod_Deb_j1 = mod_Deb_j1;
-        this.mod_Deb_j2 = mod_Deb_j2;
-        this.mod_Fort_j1 = mod_Fort_j1;
-        this.mod_Fort_j2 = mod_Fort_j2;
-    }
+    public Set<Modificador> mod_j1;
+    public Set<Modificador> mod_j2;
 
     public Desafio() {
 
@@ -54,35 +39,19 @@ public class Desafio {
         this.j2 = j2;
     }
 
-    public Set<Modificador> getMod_Deb_j1() {
-        return mod_Deb_j1;
+    public Set<Modificador> getMod_j1() {
+        return mod_j1;
     }
 
-    public void setMod_Deb_j1(Set<Modificador> mod_Deb_j1) {
-        this.mod_Deb_j1 = mod_Deb_j1;
+    public void setMod_j1(Set<Modificador> mod_j1) {
+        this.mod_j1 = mod_j1;
     }
 
-    public Set<Modificador> getMod_Deb_j2() {
-        return mod_Deb_j2;
+    public Set<Modificador> getMod_j2() {
+        return mod_j2;
     }
 
-    public void setMod_Deb_j2(Set<Modificador> mod_Deb_j2) {
-        this.mod_Deb_j2 = mod_Deb_j2;
-    }
-
-    public Set<Modificador> getMod_Fort_j1() {
-        return mod_Fort_j1;
-    }
-
-    public void setMod_Fort_j1(Set<Modificador> mod_Fort_j1) {
-        this.mod_Fort_j1 = mod_Fort_j1;
-    }
-
-    public Set<Modificador> getMod_Fort_j2() {
-        return mod_Fort_j2;
-    }
-
-    public void setMod_Fort_j2(Set<Modificador> mod_Fort_j2) {
-        this.mod_Fort_j2 = mod_Fort_j2;
+    public void setMod_j2(Set<Modificador> mod_j2) {
+        this.mod_j2 = mod_j2;
     }
 }
