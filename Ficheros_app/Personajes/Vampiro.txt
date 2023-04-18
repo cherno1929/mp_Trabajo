@@ -1,0 +1,2 @@
+Salud : 5
+Poder : 10

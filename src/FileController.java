@@ -4,20 +4,20 @@ import java.util.*;
 public class FileController {
 
     //Atributes
-    private String locationUsuario = "Ficheros_app/Usuarios";
-    private String locationDesafios = "Ficheros_app/Desafios";
-    private String localPersoanjes = "Ficheros_app/Personaje_Usuario";
-    private String locationAtributos = "Ficheros_app/Atributos_Personajes";
-    private String locationEsbirros = "Ficheros_app/Esbirros";
-    private String locationArmas = "Ficheros_app/Armas";
-    private String locationArmaduras = "Ficheros_app/Armaduras";
-    private String locationDataPersonaje = "Ficheros_app/Personajes";
-    private String locationMods = "Ficheros_app/Modificadores";
-    private String localDones = "Ficheros_app/Habilidades/Don";
-    private String localDisciplinas = "Ficheros_app/Habilidades/Disciplina";
-    private String localTalentos = "Ficheros_app/Habilidades/Talento";
-    private String localPacto = "Ficheros_app/Pacto";
-    private String localRanking = "Ficheros_app/Ranking.txt";
+    protected String locationUsuario = "Ficheros_app/Usuarios";
+    protected String localPersoanjes = "Ficheros_app/Personaje_Usuario";
+    protected String locationEsbirros = "Ficheros_app/Esbirros";
+    protected String locationArmas = "Ficheros_app/Armas";
+    protected String locationArmaduras = "Ficheros_app/Armaduras";
+    protected String locationMods = "Ficheros_app/Modificadores";
+    protected String localDones = "Ficheros_app/Habilidades/Don";
+    protected String localDisciplinas = "Ficheros_app/Habilidades/Disciplina";
+    protected String localTalentos = "Ficheros_app/Habilidades/Talento";
+    protected String localPacto = "Ficheros_app/Pacto";
+    protected String localRanking = "Ficheros_app/Ranking.txt";
+    protected String localVampiro = "Ficheros_app/Personajes/Vampiro.txt";
+    protected String localLicantropo = "Ficheros_app/Personajes/Licantropo.txt";
+    protected String localCazador = "Ficheros_app/Personajes/Cazador.txt";
 
     //Metodos
 
@@ -44,7 +44,7 @@ public class FileController {
         return fileNames.contains(nombre +".txt");
     }
 
-    private Set<String> searchFiles(File file) {
+    protected Set<String> searchFiles(File file) {
         Set<String> mySearch = new HashSet<String>();
         File[] list_Files = file.listFiles();
         if(list_Files != null){
@@ -69,7 +69,7 @@ public class FileController {
         }
     }
 
-    private void addAllInfoUser(Usuario user,String ubic) {
+    protected void addAllInfoUser(Usuario user,String ubic) {
         try{
             FileWriter userWriter = new FileWriter(ubic);
             userWriter.write("Nombre : " +user.getNombre() + "\n");
@@ -158,6 +158,42 @@ public class FileController {
         return allUser;
     }
 
+    public Usuario getUsuario(String idUsuario){
+        Usuario userSearch = new Usuario();
+        String location = this.locationUsuario + "/" + idUsuario + ".txt";
+        try {
+            BufferedReader userReader = new BufferedReader(new FileReader(location));
+            String line;
+            while ((line = userReader.readLine()) != null) {
+                String[] lineData = line.split(" : ");
+                String attr = lineData[0];
+                String attrData = lineData[1];
+                if (attr.equals("Nombre")) {
+                    userSearch.setNombre(attrData);
+                } else if (attr.equals("NickName")) {
+                    userSearch.setNick(attrData);
+                } else if (attr.equals("Password")) {
+                    userSearch.setPassword(attrData);
+                } else if (attr.equals("Numero de registro")) {
+                    userSearch.setNum_Registro(attrData);
+                } else if (attr.equals("Rol")) {
+                    if (attrData.equals("usuario")) {
+                        userSearch.setRol(Rol.usuario);
+                    } else if (attrData.equals("operador")) {
+                        userSearch.setRol(Rol.operador);
+                    } else {
+                        userSearch.setRol(Rol.baneado);
+                    }
+                } else if (attr.equals("Personaje")) {
+                    userSearch.setPersonajeActivo(getPersonaje(attrData));
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return userSearch;
+    }
+
     //PERSONAJES
 
     public void borrarPersoanje(Personaje persoanje){
@@ -187,7 +223,7 @@ public class FileController {
         }
     }
 
-    private void addAllInfoPersonaje(Personaje personaj, String zoneToWrite) {
+    protected void addAllInfoPersonaje(Personaje personaj, String zoneToWrite) {
         File file_ToWrite = new File(zoneToWrite);
         try {
             BufferedWriter file_Writer = new BufferedWriter(new FileWriter(file_ToWrite));
@@ -292,6 +328,7 @@ public class FileController {
 
                     }
                 }
+                this.setPersoanjeAtributos(pers_X);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
@@ -302,7 +339,36 @@ public class FileController {
 
     }
 
-    private Personaje getRazaPersonaje(String nameToRead) {
+    private void setPersoanjeAtributos(Personaje persX) {
+        String location;
+        if (persX.getClass() == Vampiro.class){
+            location = this.localVampiro;
+        } else if (persX.getClass() == Licantropo.class) {
+            location = this.localLicantropo;
+        }else {
+            location = this.localCazador;
+        }
+        try {
+                BufferedReader razaTORead = new BufferedReader(new FileReader(location));
+                String line;
+                while ((line = razaTORead.readLine()) != null){
+                    String[] arr = line.split(" : ");
+                    if (arr.length > 1){
+                        String arrIdx = arr[0];
+                        String arrData = arr[1];
+                        if (arrIdx.equals("Salud")){
+                            persX.setPunt_Salud(Integer.parseInt(arrData));
+                        } else{
+                            persX.setPoder(Integer.parseInt(arrData));
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+    }
+
+    protected Personaje getRazaPersonaje(String nameToRead) {
         String race = "";
         Personaje pers;
         try {
@@ -327,7 +393,7 @@ public class FileController {
         return pers;
     }
 
-    private Set<Modificador> buscarMods(String[] nomMods) {
+    protected Set<Modificador> buscarMods(String[] nomMods) {
         //Nombre
         //Grado Efecto
         Set<Modificador> mods = new HashSet<Modificador>();
@@ -360,7 +426,7 @@ public class FileController {
         return mods;
     }
 
-    private Set<Arma> buscarArmas(String[] nomArma) {
+    protected Set<Arma> buscarArmas(String[] nomArma) {
         Set<Arma> armas = new HashSet<Arma>();
         for(String nombreArma : nomArma){
             String locArmas = this.locationArmas +"/"+ nombreArma + ".txt";
@@ -391,7 +457,7 @@ public class FileController {
         return armas;
     }
 
-    private Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
+    protected Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
         Set<Armadura> armaduras = new HashSet<Armadura>();
         for (String nombArmadura : nomArmaduras){
             Armadura armadura = new Armadura();
@@ -420,7 +486,7 @@ public class FileController {
         return armaduras;
     }
 
-    private Set<Habilidad_Especial> buscarHabilidades(Class<? extends Personaje> raza) {
+    protected Set<Habilidad_Especial> buscarHabilidades(Class<? extends Personaje> raza) {
         if (raza == Vampiro.class){
             return getDisciplinas();
         }else if (raza == Licantropo.class){
@@ -430,7 +496,7 @@ public class FileController {
         }
     }
 
-    private Set<Habilidad_Especial> getTalentos() {
+    protected Set<Habilidad_Especial> getTalentos() {
         Set<Habilidad_Especial> talentos = new HashSet<Habilidad_Especial>();
         File location = new File(this.localTalentos);
         File[] files = location.listFiles();
@@ -462,7 +528,7 @@ public class FileController {
         return talentos;
     }
 
-    private Set<Habilidad_Especial> getDones() {
+    protected Set<Habilidad_Especial> getDones() {
         Set<Habilidad_Especial> dones = new HashSet<Habilidad_Especial>();
         File location = new File(this.localDones);
         File[] files = location.listFiles();
@@ -496,7 +562,7 @@ public class FileController {
         return dones;
     }
 
-    private Set<Habilidad_Especial> getDisciplinas() {
+    protected Set<Habilidad_Especial> getDisciplinas() {
         Set<Habilidad_Especial> disciplinas = new HashSet<Habilidad_Especial>();
         File location = new File(this.localDisciplinas);
         File[] files = location.listFiles();
@@ -539,7 +605,7 @@ public class FileController {
         return id_Personajes.contains(buscado);
     }
 
-    private Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
+    protected Set<Esbirro> buscarEsbirros(String[] nomEsbirros) {
         Set<Esbirro> esbirros = new HashSet<Esbirro>();
         if (nomEsbirros != null){
             for (String name : nomEsbirros){
@@ -584,7 +650,7 @@ public class FileController {
         return esbirros;
     }
 
-    private List<Pacto> getPacto(String[] idPactos, Esbirro esbrr) {
+    protected List<Pacto> getPacto(String[] idPactos, Esbirro esbrr) {
         List<Pacto> pactos = new ArrayList<Pacto>();
         if (idPactos != null){
             for (String idPacto : idPactos){
@@ -616,7 +682,7 @@ public class FileController {
         return pactos;
     }
 
-    private Esbirro getRazaEsbirro(String fileName) {
+    protected Esbirro getRazaEsbirro(String fileName) {
         String race = "";
         Esbirro esb;
         try {
