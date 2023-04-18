@@ -26,7 +26,7 @@ public class FileController_Operator extends FileController{
         this.modificarUsuario(userToDesBan);
     }
 
-    private List<Desafio> getDesafios() {
+    public List<Desafio> getDesafios() {
         List<Desafio> desafios = new ArrayList<Desafio>();
         File fileDesafios = new File(this.locationDesafios);
         File[] files = fileDesafios.listFiles();
@@ -73,10 +73,5 @@ public class FileController_Operator extends FileController{
         }
     }
 
-    //ALTERAR ESBIRRO ???
-
-    public void alterarAtributosPersonaje(){
-
-    }
 
 }

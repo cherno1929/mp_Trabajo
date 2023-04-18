@@ -284,6 +284,8 @@ public class FileController {
                 -Salud
                 -Esbirros
             Ya que esta información estará guardada en sus respectivos ficheros*/
+        /*Anotación
+            Los operadores no tienen numero de registro*/
         if (this.existePersonaje(idPersonaje)){
             String name_ToRead = this.localPersoanjes + "/" + idPersonaje + ".txt";
             Personaje pers_X = getRazaPersonaje(name_ToRead);
@@ -335,7 +337,6 @@ public class FileController {
         }else {
             return null;
         }
-
     }
 
     protected Personaje getRazaPersonaje(String nameToRead) {

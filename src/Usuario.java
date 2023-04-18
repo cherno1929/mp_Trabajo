@@ -4,7 +4,7 @@ public class Usuario {
     protected String nombre;
     public String nick;
     protected String password;
-    protected String num_Registro;
+    private String num_Registro;
     public Rol rol;
     public Personaje personajeActivo;
     public AppController app;
