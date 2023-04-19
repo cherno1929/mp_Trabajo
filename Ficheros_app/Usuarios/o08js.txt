@@ -1,6 +1,6 @@
-Nombre : Pepe
-NickName : PepeKiller01
-Password : asd
+Nombre : gilopollas
+NickName : GeyQuienMeMate
+Password : tumami
 Numero de registro : o08js
 Rol : usuario
-Personaje : null
+Personaje : 1929Y

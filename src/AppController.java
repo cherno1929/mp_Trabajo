@@ -105,7 +105,6 @@ public class AppController {
             else{
                 mapa_ranking.put(lectura_usuario, mapa_ranking.get(lectura_usuario) + 1);
             }
-            System.out.println(lectura_usuario + " - " + mapa_ranking.get(lectura_usuario));
         }
         // FALTA ORDENAR
     }

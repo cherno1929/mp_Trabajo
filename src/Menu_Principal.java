@@ -4,9 +4,12 @@ public class Menu_Principal {
     Scanner eleccion = new Scanner(System.in);
     App_Operador Operador = new App_Operador();
     AppController ac = new AppController();
+    public Rol rolUser;
     public void Pantalla_Inicio(Rol rol){
+        this.rolUser = rol;
         System.out.print("Elige una opción:\n1.Desafíos\n2.Inventario\n3.Ranking\n4.Salir\n");
-        if (rol == Rol.operador){
+        boolean esAdmin = rol == Rol.operador;
+        if (esAdmin){
             System.out.print("5.Opciones avanzadas\n");
         }
         int choice = eleccion.nextInt();
@@ -24,15 +27,15 @@ public class Menu_Principal {
                 System.exit(1);
                 break;
             case 5:
-                if (!rol.equals(Rol.operador)) {
-                    System.out.println("Usted no tiene acceso a esa opción.");
-                    Pantalla_Inicio(rol);
+                if (!esAdmin){
+                        System.out.println("Usted no tiene acceso a esa opción.");
+                        Pantalla_Inicio(rol);
                 }
                 else{
-                    Operador.Menu();
+                    Operador.Menu(this);
                 }
             default:
-                System.out.println("Opción incorrecta. Por favor, vuelva a introducir su dato.");
+                System.out.println("Opción incorrecta. Por favor, vuelva a introducir su dato.\n");
                 Pantalla_Inicio(rol);
         }
     }

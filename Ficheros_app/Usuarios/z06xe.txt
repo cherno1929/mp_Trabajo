@@ -1,6 +1,6 @@
-Nombre : Ángel
-NickName : Yhaerim
-Password : asd
+Nombre : f_en_el_Chat
+NickName : GeyQuienMeMate
+Password : tumami
 Numero de registro : z06xe
 Rol : usuario
-Personaje : null
+Personaje : 1929Y

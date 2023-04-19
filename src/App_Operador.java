@@ -6,16 +6,17 @@ public class App_Operador {
     private Usuario operador;
     private FileController_Operator herramienta_Operador = new FileController_Operator();
     private List<Desafio> lista_Desafios = herramienta_Operador.getDesafios();
-
+    public Menu_Principal mp;
     //Metodos
-    public void Menu() {
+    public void Menu(Menu_Principal menuPrincipal) {
+        this.setMp(menuPrincipal);
         System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay " + this.lista_Desafios.size() + " desafios)\n4.Volver\n");
         Scanner menu_opc = new Scanner(System.in);
         int opc = menu_opc.nextInt();
         switch (opc) {
             case 1:
                 this.MenuBaneo(this.lista_Desafios);
-                Menu();
+                Menu(this.getMp());
                 break;
             case 2:
                 MenuDesBaneo(this.herramienta_Operador.getBaneados());
@@ -26,14 +27,13 @@ public class App_Operador {
                 } else {
                     System.out.println("No hay desafios de momento");
                 }
-                Menu();
+                Menu(this.getMp());
                 break;
             case 4:
-                Menu_Principal mp = new Menu_Principal();
-                mp.Pantalla_Inicio(Rol.operador);
+                this.mp.Pantalla_Inicio(this.mp.rolUser);
                 break;
             default:
-                Menu();
+                Menu(this.getMp());
         }
     }
 
@@ -66,7 +66,7 @@ public class App_Operador {
         if (listBaneados.size() == 0){
             System.out.println("No quedan baneados");
         }
-        Menu();
+        Menu(this.getMp());
     }
 
     public void showUsuario(Usuario user){
@@ -101,10 +101,10 @@ public class App_Operador {
                 }
             } else {
                 System.out.println("No hay desafios");
-                this.Menu();
+                this.Menu(this.getMp());
             }
         }
-        this.Menu();
+        this.Menu(this.getMp());
     }
 
     private void MenuLista(){
@@ -162,6 +162,11 @@ public class App_Operador {
         this.operador = operador;
     }
 
+    public Menu_Principal getMp() {
+        return mp;
+    }
 
-
+    public void setMp(Menu_Principal mp) {
+        this.mp = mp;
+    }
 }
