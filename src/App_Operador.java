@@ -84,12 +84,15 @@ public class App_Operador {
         int opt = 1;
         while (opt != 0){
             if (listaDesafios != null) {
+                int i = 0;
                 for (Desafio desafio : listaDesafios) {
                     {
+                        System.out.println("\nDESAFIO - "+ i);
                         showDesafio(desafio);
+                        i++;
                     }
                 }
-                System.out.println("A quien desea banear?\nDe un numero del 0 al " + (listaDesafios.size() - 1) + "\nPulse a 0 para Salir");
+                System.out.println("\nA quien desea banear?\nDe un numero del 0 al " + (listaDesafios.size() - 1) + "\nPulse a -1 para Salir");
                 Scanner scanerReadln = new Scanner(System.in);
                 opt = scanerReadln.nextInt();
                 Desafio user = this.lista_Desafios.get(opt);
@@ -109,7 +112,7 @@ public class App_Operador {
             this.showDesafio(desafio);
         }
         int op = 0;
-        System.out.println("Que desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
+        System.out.println("\nQue desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
         Scanner menL = new Scanner(System.in);
         op = menL.nextInt();
         while (op != -1){
@@ -125,30 +128,29 @@ public class App_Operador {
 
     private void MenuDesafio(int numDesafio){
         this.showDesafio(this.lista_Desafios.get(numDesafio));
-        System.out.println("Que desea hacer : \n1) Validar (1) \n2) Modificar (2)\n3) Salir (0)");
+        System.out.println("\nQue desea hacer : \n1) Validar (1) \n2) Modificar (2)\n3) Salir (0)");
         Scanner optionSelected = new Scanner(System.in);
         int opt = optionSelected.nextInt();
         if (opt < 3  && opt >= 0){
-
         }
     }
+
     private void showDesafio(Desafio desafio){
-        System.out.println("Jugador 1 :: "+desafio.getJ1().getNum_Registro());
+        System.out.println("\nJugador 1 :: "+desafio.getJ1().getNum_Registro());
         System.out.println("Jugador 2 :: "+desafio.getJ2().getNum_Registro());
         System.out.println("Oro apostado :: "+desafio.getOro());
-        System.out.println("Modificador J1\n");
+        System.out.println("\nModificador J1");
         if (desafio.getMod_j1() != null){
             for (Modificador mod : desafio.getMod_j1()) {
-                System.out.println(mod.getNombre() + "\n");
+                System.out.println(mod.getNombre());
             }
         }
         if (desafio.getMod_j2() != null){
-            System.out.println("Modificador J2\n");
+            System.out.println("\nModificador J2");
             for (Modificador mod : desafio.getMod_j2()) {
-                System.out.println(mod.getNombre() + "\n");
+                System.out.println(mod.getNombre());
             }
         }
-        System.out.println("\n");
     }
     //Get-Set
 
