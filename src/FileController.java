@@ -141,7 +141,7 @@ public class FileController {
                                 user_X.setRol(Rol.baneado);
                             }
                         } else if (attr.equals("Personaje")) {
-                            //user_X.setPersonajeActivo(this.buscarPersonaje(attrData));
+                            user_X.setPersonajeActivo(this.getPersonaje(attrData));
                         }
                     }
                     allUser.put(user_X.getNombre() + "-" + user_X.getPassword(), user_X);
@@ -155,7 +155,7 @@ public class FileController {
         return allUser;
     }
 
-    public Usuario getUsuario(String idUsuario){
+    public Usuario getUsuario(String idUsuario){ // Y si el usuario no tiene personaje aun?
         Usuario userSearch = new Usuario();
         String location = this.locationUsuario + "/" + idUsuario + ".txt";
         try {
@@ -163,26 +163,28 @@ public class FileController {
             String line;
             while ((line = userReader.readLine()) != null) {
                 String[] lineData = line.split(" : ");
-                String attr = lineData[0];
-                String attrData = lineData[1];
-                if (attr.equals("Nombre")) {
-                    userSearch.setNombre(attrData);
-                } else if (attr.equals("NickName")) {
-                    userSearch.setNick(attrData);
-                } else if (attr.equals("Password")) {
-                    userSearch.setPassword(attrData);
-                } else if (attr.equals("Numero de registro")) {
-                    userSearch.setNum_Registro(attrData);
-                } else if (attr.equals("Rol")) {
-                    if (attrData.equals("usuario")) {
-                        userSearch.setRol(Rol.usuario);
-                    } else if (attrData.equals("operador")) {
-                        userSearch.setRol(Rol.operador);
-                    } else {
-                        userSearch.setRol(Rol.baneado);
+                if (lineData.length > 1){
+                    String attr = lineData[0];
+                    String attrData = lineData[1];
+                    if (attr.equals("Nombre")) {
+                        userSearch.setNombre(attrData);
+                    } else if (attr.equals("NickName")) {
+                        userSearch.setNick(attrData);
+                    } else if (attr.equals("Password")) {
+                        userSearch.setPassword(attrData);
+                    } else if (attr.equals("Numero de registro")) {
+                        userSearch.setNum_Registro(attrData);
+                    } else if (attr.equals("Rol")) {
+                        if (attrData.equals("usuario")) {
+                            userSearch.setRol(Rol.usuario);
+                        } else if (attrData.equals("operador")) {
+                            userSearch.setRol(Rol.operador);
+                        } else {
+                            userSearch.setRol(Rol.baneado);
+                        }
+                    } else if (attr.equals("Personaje")) {
+                        userSearch.setPersonajeActivo(getPersonaje(attrData));
                     }
-                } else if (attr.equals("Personaje")) {
-                    userSearch.setPersonajeActivo(getPersonaje(attrData));
                 }
             }
         } catch (IOException e) {

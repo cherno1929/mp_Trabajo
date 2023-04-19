@@ -24,13 +24,18 @@ public class FileController_Operator extends FileController{
     }
 
     public void desBanear(Usuario usuario){
-        usuario.setRol(Rol.operador);
+        usuario.setRol(Rol.usuario);
+        this.modificarUsuario(usuario);
+    }
+
+    public void desBanear(Usuario usuario, Rol nuevoRol) {
+        usuario.setRol(nuevoRol);
         this.modificarUsuario(usuario);
     }
 
     public void desBanear(String idUsuario){
         Usuario userToDesBan = this.getUsuario(idUsuario);
-        userToDesBan.setRol(Rol.operador);
+        userToDesBan.setRol(Rol.usuario);
         this.modificarUsuario(userToDesBan);
     }
 
@@ -91,5 +96,6 @@ public class FileController_Operator extends FileController{
         }
         return baneados;
     }
+
 
 }
