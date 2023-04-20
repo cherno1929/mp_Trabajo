@@ -680,4 +680,13 @@ public class FileController {
         return esb;
     }
 
+    protected List<Personaje> getAllPersonaje() {
+        List<Personaje> persoanjes = new ArrayList<Personaje>();
+        File[] filesPersoanje = new File(this.localPersoanjes).listFiles();
+        for (File fil : filesPersoanje) {
+            String nameFil = fil.getName();
+            persoanjes.add(this.getPersonaje(nameFil));
+        }
+        return persoanjes;
+    }
 }

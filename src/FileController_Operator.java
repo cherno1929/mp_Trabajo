@@ -12,6 +12,12 @@ public class FileController_Operator extends FileController{
     public List<Desafio> listaDesafios = this.getDesafios();
 
     //Metodods
+    public void editarPersonajes(){
+
+    }
+
+
+
     public void banear(String idUsuario){
         Usuario userToBan = this.getUsuario(idUsuario);
         userToBan.setRol(Rol.baneado);
