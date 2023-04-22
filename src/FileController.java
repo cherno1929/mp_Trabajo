@@ -370,30 +370,32 @@ public class FileController {
         //Nombre
         //Grado Efecto
         Set<Modificador> mods = new HashSet<Modificador>();
-        for (String nomMod : nomMods){
-            Modificador mod = new Modificador();
-            mod.setNombre(nomMod);
-            String modLocation = this.locationMods + "/" + nomMod + ".txt";
-            try{
-                BufferedReader modRader = new BufferedReader(new FileReader(modLocation));
-                String line;
-                while ((line = modRader.readLine()) != null){
-                    String[] arr = line.split(" : ");
-                    String arrIdx = arr[0];
-                    String arrData = arr[1];
-                    if (arrIdx.equals("Efecto")){
-                        mod.setGrado_Efecto(Integer.parseInt(arrData));
-                    } else if (arrIdx.equals("Tipo")) {
-                        if (arrData.equals("Fortaleza")){
-                            mod.setTipo_mod(Tipo_mod.Fortaleza);
-                        }else{
-                            mod.setTipo_mod(Tipo_mod.Debilidad);
+        if (nomMods != null){
+            for (String nomMod : nomMods) {
+                Modificador mod = new Modificador();
+                mod.setNombre(nomMod);
+                String modLocation = this.locationMods + "/" + nomMod + ".txt";
+                try {
+                    BufferedReader modRader = new BufferedReader(new FileReader(modLocation));
+                    String line;
+                    while ((line = modRader.readLine()) != null) {
+                        String[] arr = line.split(" : ");
+                        String arrIdx = arr[0];
+                        String arrData = arr[1];
+                        if (arrIdx.equals("Efecto")) {
+                            mod.setGrado_Efecto(Integer.parseInt(arrData));
+                        } else if (arrIdx.equals("Tipo")) {
+                            if (arrData.equals("Fortaleza")) {
+                                mod.setTipo_mod(Tipo_mod.Fortaleza);
+                            } else {
+                                mod.setTipo_mod(Tipo_mod.Debilidad);
+                            }
                         }
                     }
+                    mods.add(mod);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                mods.add(mod);
-            }catch (IOException e){
-                throw new RuntimeException(e);
             }
         }
         return mods;
@@ -401,30 +403,32 @@ public class FileController {
 
     protected Set<Arma> buscarArmas(String[] nomArma) {
         Set<Arma> armas = new HashSet<Arma>();
-        for(String nombreArma : nomArma){
-            String locArmas = this.locationArmas +"/"+ nombreArma + ".txt";
-            Arma arma = new Arma();
-            arma.setNombre(nombreArma);
-            try {
-                BufferedReader armaReader = new BufferedReader(new FileReader(locArmas));
-                String line;
-                while((line = armaReader.readLine()) != null){
-                    String[] arr = line.split(" : ");
-                    if (arr.length > 1){
-                        String arrInd = arr[0];
-                        String arrData = arr[1];
-                        if (arrInd.equals("Ataque")) {
-                            arma.setPunt_Atk(Integer.parseInt(arrData));
-                        } else if (arrInd.equals("Numero_Manos")) {
-                            arma.setNum_Manos(Integer.parseInt(arrData));
-                        } else if (arrInd.equals("Modificadores")) {
-                            arma.setMod(this.buscarMods(arrData.split(" - ")));
+        if (nomArma != null){
+            for (String nombreArma : nomArma) {
+                String locArmas = this.locationArmas + "/" + nombreArma + ".txt";
+                Arma arma = new Arma();
+                arma.setNombre(nombreArma);
+                try {
+                    BufferedReader armaReader = new BufferedReader(new FileReader(locArmas));
+                    String line;
+                    while ((line = armaReader.readLine()) != null) {
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1) {
+                            String arrInd = arr[0];
+                            String arrData = arr[1];
+                            if (arrInd.equals("Ataque")) {
+                                arma.setPunt_Atk(Integer.parseInt(arrData));
+                            } else if (arrInd.equals("Numero_Manos")) {
+                                arma.setNum_Manos(Integer.parseInt(arrData));
+                            } else if (arrInd.equals("Modificadores")) {
+                                arma.setMod(this.buscarMods(arrData.split(" - ")));
+                            }
                         }
                     }
+                    armas.add(arma);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-                armas.add(arma);
-            }catch (IOException e){
-                throw new RuntimeException(e);
             }
         }
         return armas;
@@ -432,29 +436,31 @@ public class FileController {
 
     protected Set<Armadura> buscarArmaduras(String[] nomArmaduras) {
         Set<Armadura> armaduras = new HashSet<Armadura>();
-        for (String nombArmadura : nomArmaduras){
-            Armadura armadura = new Armadura();
-            armadura.setNombre(nombArmadura);
-            String armorLocation = this.locationArmaduras + "/" + nombArmadura + ".txt";
-            try {
-                BufferedReader armorReader = new BufferedReader(new FileReader(armorLocation));
-                String line;
-                while ((line = armorReader.readLine()) != null){
-                    String[] arr = line.split(" : ");
-                    if (arr.length > 1){
-                        String arrIdx = arr[0];
-                        String arrData = arr[1];
-                        if (arrIdx.equals("Defensa")) {
-                            armadura.setPunt_Def(Integer.parseInt(arrData));
-                        }else {
-                            armadura.setMod(this.buscarMods(arrData.split(" - ")));
+        if (nomArmaduras != null){
+            for (String nombArmadura : nomArmaduras) {
+                Armadura armadura = new Armadura();
+                armadura.setNombre(nombArmadura);
+                String armorLocation = this.locationArmaduras + "/" + nombArmadura + ".txt";
+                try {
+                    BufferedReader armorReader = new BufferedReader(new FileReader(armorLocation));
+                    String line;
+                    while ((line = armorReader.readLine()) != null) {
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1) {
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Defensa")) {
+                                armadura.setPunt_Def(Integer.parseInt(arrData));
+                            } else {
+                                armadura.setMod(this.buscarMods(arrData.split(" - ")));
+                            }
                         }
                     }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-            }catch (IOException e){
-                throw new RuntimeException(e);
+                armaduras.add(armadura);
             }
-            armaduras.add(armadura);
         }
         return armaduras;
     }
