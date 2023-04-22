@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 
 public class App_Inventario {
@@ -107,12 +108,35 @@ public class App_Inventario {
             opMod = this.reader.nextInt();
             if (opMod == 1) {
                 eleminarModificador(modJ1);
+            } else if (opMod == 2) {
+                añadirModificador(modJ1);
             }
         }
         if (modJ1.size() == 0){
             System.out.println("No hay modificadores");
         }
         return modJ1;
+    }
+
+    private void añadirModificador(Set<Modificador> modJ1) {
+        FileController modReader = new FileController();
+        List<Modificador> allMods = modReader.getMods();
+        System.out.println("Elige el mod que quieras añadir");
+        int i = 0;
+        for (Modificador mod : allMods){
+            System.out.println("Nº " + i);
+            showModificador(mod);
+            i++;
+        }
+
+        int op = 1;
+        while (op != 0) {
+            System.out.println("\nElige un modificador para añadirlo");
+            op = reader.nextInt();
+            if (op < allMods.size() && op >= 0){
+                modJ1.add(allMods.get(op));
+            }
+        }
     }
 
     private void eleminarModificador(Set<Modificador> modJ1) {
