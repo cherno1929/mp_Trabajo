@@ -16,8 +16,6 @@ public class FileController_Operator extends FileController{
 
     }
 
-
-
     public void banear(String idUsuario){
         Usuario userToBan = this.getUsuario(idUsuario);
         userToBan.setRol(Rol.baneado);
@@ -70,16 +68,55 @@ public class FileController_Operator extends FileController{
                                 desaf.setMod_j1(buscarMods(arrData.split(" - ")));
                             } else if (arrIdx.equals("Mod_J2")) {
                                 desaf.setMod_j2(buscarMods(arrData.split(" - ")));
-                                }
+                            } else if (arrIdx.equals("Validado")) {
+                                desaf.setValidado(Boolean.parseBoolean(arrData));
+                            }
                         }
                     }
-                    desafios.add(desaf);
+                    if (desaf.getValidado() == false){
+                        desafios.add(desaf);
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         }
         return desafios;
+    }
+
+    public void modificarDesafio(String nomFile, Desafio desafio){
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(nomFile));
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        writeDesafio(nomFile,desafio);
+    }
+
+    private String nameModsDesafio(Set<Modificador> mods){
+        String names = "";
+        for (Modificador mod : mods){
+                names += (mod.getNombre() + " - ");
+            }
+        return names;
+    }
+
+
+    private void writeDesafio(String nomFile, Desafio desafio) {
+        try {
+            BufferedWriter fileWriter = new BufferedWriter(new FileWriter(nomFile));
+            fileWriter.write("J1 : "+desafio.getJ1().getNum_Registro());
+            fileWriter.write("\nJ2 : "+desafio.getJ2().getNum_Registro());
+            fileWriter.write("\nOro : "+desafio.getOro());
+            fileWriter.write("\nMod_J1 : " + this.nameModsDesafio(desafio.mod_j1));
+            fileWriter.write("\nMod_J2 : " + this.nameModsDesafio(desafio.mod_j2));
+            fileWriter.write("\nValidado : " + desafio.getValidado());
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void borrarDesafio(String idDesafio){ //El id del desafio esta pensado para ser el nombre de los dos usuarios que se enfrentarán
@@ -104,4 +141,8 @@ public class FileController_Operator extends FileController{
     }
 
 
+    public void validarDesafio(Desafio desafio) {
+        desafio.setValidado(true);
+        this.modificarDesafio(this.locationDesafios +"/"+ desafio.getJ1().getNum_Registro() + "-" + desafio.getJ2().getNum_Registro() + ".txt",desafio);
+    }
 }

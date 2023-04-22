@@ -108,21 +108,17 @@ public class App_Operador {
     }
 
     private void MenuLista(){
-        for (Desafio desafio : this.lista_Desafios){
-            this.showDesafio(desafio);
-        }
         int op = 0;
-        System.out.println("\nQue desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
-        Scanner menL = new Scanner(System.in);
-        op = menL.nextInt();
-        while (op != -1){
-            int numDesafio = menL.nextInt();
-            if ((numDesafio >= 0) & (numDesafio < this.lista_Desafios.size())) {
-                this.MenuDesafio(numDesafio);
+        Scanner scanOp = new Scanner(System.in);
+        while (op != -1) {
+            for (Desafio desafio : this.lista_Desafios){
+                this.showDesafio(desafio);
             }
-            System.out.println("Que desafio desea validar / modificar (hay " + this.lista_Desafios.size() + " desafios)\n Salir (-1)");
-            menL = new Scanner(System.in);
-            op = menL.nextInt();
+            System.out.println("Elege un desafío, digite un número del 0 al " + (this.lista_Desafios.size()-1)+"\nDigite -1 para salir");
+            op = scanOp.nextInt();
+            if (op >= 0 && op < this.lista_Desafios.size()){
+                this.MenuDesafio(op);
+            }
         }
     }
 
@@ -132,6 +128,10 @@ public class App_Operador {
         Scanner optionSelected = new Scanner(System.in);
         int opt = optionSelected.nextInt();
         if (opt < 3  && opt >= 0){
+            if (opt == 1) { // Validar
+                this.herramienta_Operador.validarDesafio(this.lista_Desafios.get(numDesafio));
+                this.lista_Desafios = this.herramienta_Operador.getDesafios();
+            }
         }
     }
 

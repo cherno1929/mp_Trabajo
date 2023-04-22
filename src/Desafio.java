@@ -8,6 +8,7 @@ public class Desafio {
     public Usuario j2;
     public Set<Modificador> mod_j1;
     public Set<Modificador> mod_j2;
+    public boolean validado;
 
     public Desafio() {
 
@@ -53,5 +54,13 @@ public class Desafio {
 
     public void setMod_j2(Set<Modificador> mod_j2) {
         this.mod_j2 = mod_j2;
+    }
+
+    public boolean getValidado() {
+        return validado;
+    }
+
+    public void setValidado(boolean validado) {
+        this.validado = validado;
     }
 }
