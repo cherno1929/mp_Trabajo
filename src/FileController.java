@@ -105,7 +105,6 @@ public class FileController {
             bufUser.close();
             addAllInfoUser(user,zonaUser);
         } catch (IOException e) {
-            System.out.println("Error : "+e);
             throw new RuntimeException(e);
         }
     }
@@ -694,5 +693,44 @@ public class FileController {
             persoanjes.add(this.getPersonaje(nameFil));
         }
         return persoanjes;
+    }
+
+    public List<Modificador> getMods() {
+        List<Modificador> mods = new ArrayList<Modificador>();
+        File allModFiles = new File(this.locationMods);
+        File[] arrFile = allModFiles.listFiles();
+
+        String[] nameFiles;
+        if (arrFile != null) {
+            for (File fil : arrFile) {
+                mods.add(getMod(fil));
+            }
+        }
+        return mods;
+    }
+
+    private Modificador getMod(File fil) {
+        Modificador mod = new Modificador();
+        try {
+            BufferedReader modReader = new BufferedReader(new FileReader(fil));
+            String line;
+            while ((line = modReader.readLine()) != null) {
+                String[] arr = line.split(" : ");
+                String arrIdx = arr[0];
+                String arrData = arr[1];
+                if (arrIdx.equals("Efecto")) {
+                    mod.setGrado_Efecto(Integer.parseInt(arrData));
+                } else if (arrIdx.equals("Tipo")) {
+                    if (arrData.equals("Fortaleza")) {
+                        mod.setTipo_mod(Tipo_mod.Fortaleza);
+                    } else {
+                        mod.setTipo_mod(Tipo_mod.Debilidad);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return mod;
     }
 }
