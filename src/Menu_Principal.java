@@ -7,7 +7,7 @@ public class Menu_Principal {
     public Rol rolUser;
     public void Pantalla_Inicio(Rol rol){
         this.rolUser = rol;
-        System.out.print("Elige una opción:\n1.Desafíos\n2.Inventario\n3.Ranking\n4.Salir\n");
+        System.out.print("Elige una opción:\n1.Desafíar\n2.Inventario\n3.Ranking\n4.Salir\n");
         boolean esAdmin = rol == Rol.operador;
         if (esAdmin){
             System.out.print("5.Opciones avanzadas\n");
