@@ -1,0 +1,4 @@
+Ataque : 3
+Defensa : 0
+Coste : 0
+Sangre_Robada : 2
