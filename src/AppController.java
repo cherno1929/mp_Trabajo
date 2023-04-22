@@ -3,10 +3,12 @@ import java.util.*;
 public class AppController {
     //Atributos
     public Usuario usuarioActivo = new Usuario();
+    public Usuario user_log = new Usuario();
     public boolean bloqueado;
     Scanner menu_opc = new Scanner(System.in);
+    FileController fc = new FileController();
 
-    //Metodos
+    /*Metodos*/
 
     // MostrarMenu
     public void Menu() {
@@ -68,13 +70,13 @@ public class AppController {
         String hash_login = name_login + "-" + pswd_login; //Creación de clave para acceder al usuario
         FileController aux_file = new FileController();
         Map<String,Usuario> lista_usuarios = aux_file.getAllUsuarios(); //Guardamos datos de todos los usuarios en una lista
-        if (!(lista_usuarios.get(hash_login) == null)) { //Si a la hora de recolectar el usuario de la lista, nos devuelven datos (Existe)...
+        user_log = lista_usuarios.get(hash_login);
+        if (!(user_log == null)) { //Si a la hora de recolectar el usuario de la lista, nos devuelven datos (Existe)...
             if (!aux_file.existeUsuario(lista_usuarios.get(hash_login))) { //Si nuestra clave NO coincide con uno de los usuarios en la lista...
                 System.out.print("Nombre o contraseña incorrectos, vuelva a intentarlo.\n");
                 Menu(); //...De vuelta al menu.
             }
             else { //Si, al contrario, sí existe...
-                Usuario user_log = lista_usuarios.get(hash_login);
                 if (user_log.getRol().equals(Rol.baneado)) {
                     System.out.print("Esta cuenta está vetada. Contacte con un operador si considera esta situación como errónea.\n");
                     Menu();
@@ -82,7 +84,8 @@ public class AppController {
                 else{
                     System.out.print("Bienvenido, " + user_log.nick + "...\n");
                     Menu_Principal mp = new Menu_Principal();
-                    mp.Pantalla_Inicio(user_log.getRol());
+                    usuarioActivo = user_log;
+                    mp.Pantalla_Inicio(user_log);
                 }
             }
         }
@@ -90,7 +93,6 @@ public class AppController {
             System.out.print("Nombre o contraseña incorrectos, vuelva a intentarlo.\n");
             Menu();
         }
-
     }
 
     // MostrarRanking (Recolectar victorias -> Ordenarlas en un hash (Mayor a menor cantidad victorias) -> Mostrar al usuario 10 primeros)
@@ -125,6 +127,54 @@ public class AppController {
         for (String nombreordenado : sortedMap.keySet()){
             System.out.println(nombreordenado + " - " + sortedMap.get(nombreordenado));
         } // Mostramos los 10 primeros (sortedMap)
+    }
+
+    /* CrearPersonaje (Otorgar campos para rellenar al usuario, generar numeros y letras aleatorios formato XXXXX,
+       crear archivo de personaje y agregar personaje a clase usuario por ID) */
+    public void CreateCharacter(){
+        System.out.print("Introduce el nombre de tu personaje:\n");
+        String nombre_pj = menu_opc.next();
+        System.out.print("Introduce la raza de tu personaje (Vampiro, Licantropo, Cazador):\n");
+        String raza = menu_opc.next();
+        switch(raza){
+            case "Vampiro":
+                System.out.print("Introduce la edad de tu vampiro en años (Mín 1, máx 5000):\n");
+                int edad = menu_opc.nextInt();
+                if (edad < 1) {
+                    edad = 1;
+                } else if (edad > 5000) {
+                    edad = 5000;
+                }
+                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), null, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), fc.buscarEsbirros(new String[]{""}),500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
+                pjvamp.setEdad(edad);
+                // SETID NO CREADO
+                pjvamp.setId("XDDDD");
+                fc.addPersonaje(pjvamp);
+                user_log.setPersonajeActivo(pjvamp);
+                fc.modificarUsuario(user_log);
+                break;
+            case "Licantropo":
+                System.out.print("Introduce el peso de tu licántropo en kg (Mín 80, máx 400):\n");
+                int peso = menu_opc.nextInt();
+                if (peso < 80) {
+                    peso = 80;
+                } else if (peso > 400) {
+                    peso = 400;
+                }
+                System.out.print("Introduce la altura de tu licántropo en centímetros (Mín 150, máx 200):\n");
+                int altura = menu_opc.nextInt();
+                if (altura < 80) {
+                    altura = 80;
+                } else if (altura > 400) {
+                    altura = 400;
+                }
+                break;
+            case "Cazador":
+                break;
+            default:
+                System.out.print("Esa raza no existe. Por favor, introduzca la raza de nuevo:");
+        }
+
     }
 
     //Get-Set

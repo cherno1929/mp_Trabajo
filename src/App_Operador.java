@@ -32,7 +32,7 @@ public class App_Operador {
                 Menu(this.getMp());
                 break;
             case 4:
-                this.mp.Pantalla_Inicio(this.mp.rolUser);
+                this.mp.Pantalla_Inicio(this.operador);
                 break;
             default:
                 Menu(this.getMp());

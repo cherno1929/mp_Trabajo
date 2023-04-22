@@ -1,0 +1,8 @@
+Nombre : Pepe
+Id : XDDDD
+Oro : 500
+Raza : class Vampiro
+Arma : Mandoble - 
+Armaduras : Armadura_de_cuero - 
+Esbirros : null - 
+Edad : 2500
