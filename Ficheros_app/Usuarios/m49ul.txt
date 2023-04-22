@@ -1,0 +1,6 @@
+Nombre : test
+NickName : test
+Password : test
+Numero de registro : m49ul
+Rol : usuario
+Personaje : null

@@ -93,11 +93,11 @@ public class AppController {
 
     }
 
-    // MostrarRanking (Recolectar victorias -> Ordenarlas en un hash (Mayor a menor cantidad victorias) -> Mostrar al usuario)
+    // MostrarRanking (Recolectar victorias -> Ordenarlas en un hash (Mayor a menor cantidad victorias) -> Mostrar al usuario 10 primeros)
     public void showRanking() {
-        FileController ranking = new FileController();
-        List<String> usuarios_ranking = ranking.verGanadores();
-        HashMap<String, Integer> mapa_ranking = new HashMap<String, Integer>();
+        FileController ranking = new FileController(); // Para observar el archivo de ranking
+        List<String> usuarios_ranking = ranking.verGanadores(); // Vemos la lista de victorias
+        HashMap<String, Integer> mapa_ranking = new HashMap<>();
         for(String lectura_usuario : usuarios_ranking){
             if (!mapa_ranking.containsKey(lectura_usuario)){
                 mapa_ranking.put(lectura_usuario, 1);
@@ -105,8 +105,26 @@ public class AppController {
             else{
                 mapa_ranking.put(lectura_usuario, mapa_ranking.get(lectura_usuario) + 1);
             }
-        }
-        // FALTA ORDENAR
+        } // Metemos cada valor en un hashmap, si se repite solamente suma 1 a su valor
+        // ORDENAR
+        LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>(); //Mapa que guarda 10 primeros
+        ArrayList<Integer> list = new ArrayList<>(); // Lista de valores para ordenar del map original
+        for (Map.Entry<String, Integer> entry : mapa_ranking.entrySet()) {
+            list.add(entry.getValue());
+        } //Insertar valores en lista
+        Collections.sort(list); // Ordenar lista (Menor a mayor)
+        int i = (list.size() - 1); // Ultimo elemento de lista
+        while(i > (list.size() - 11)) {
+            for (Map.Entry<String, Integer> entry : mapa_ranking.entrySet()) { //Buscamos por el hashmap
+                if (entry.getValue().equals(list.get(i))) {
+                    sortedMap.put(entry.getKey(), list.get(i));
+                    i--; // Y nos movemos por la lista para buscar el siguiente valor
+                } // Lo metemos al nuevo mapa, el que guarda los 10 primeros
+            } // Si nos coincide algo en el hashmap con el valor que recogemos de la lista
+        } // Hasta que hayamos bajado 10 valores desde el ultimo elemento de lista
+        for (String nombreordenado : sortedMap.keySet()){
+            System.out.println(nombreordenado + " - " + sortedMap.get(nombreordenado));
+        } // Mostramos los 10 primeros (sortedMap)
     }
 
     //Get-Set
