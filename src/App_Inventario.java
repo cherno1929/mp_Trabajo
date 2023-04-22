@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class App_Inventario {
     //Atributos
@@ -8,6 +6,7 @@ public class App_Inventario {
     private List<Armadura> inventarioArmadura;
     private  Personaje PersJug;
     private  Personaje inventarioMods;
+    private Scanner reader = new Scanner(System.in);
 
     //Metodos
 
@@ -18,6 +17,10 @@ public class App_Inventario {
         this.inventarioArmadura = inventarioArmadura;
         PersJug = persJug;
         this.inventarioMods = inventarioMods;
+    }
+
+    public App_Inventario() {
+
     }
 
     public void showInventario(){
@@ -95,7 +98,64 @@ public class App_Inventario {
         }
     }
 
+    //Metodos
+    public Set<Modificador> modificarMods(Set<Modificador> modJ1) {
+        int opMod = 0;
+        while (opMod != 3 && modJ1.size() > 0){
+            System.out.println("1. Eliminar Modificador\n2. Añadir Modifacador\n3. Salir\n(Hay "+modJ1.size()+" modificadores)\n");
+            this.mostrarModicadores(modJ1);
+            opMod = this.reader.nextInt();
+            if (opMod == 1) {
+                eleminarModificador(modJ1);
+            }
+        }
+        if (modJ1.size() == 0){
+            System.out.println("No hay modificadores");
+        }
+        return modJ1;
+    }
 
+    private void eleminarModificador(Set<Modificador> modJ1) {
+        int op = 0;
+        List<Modificador> modsList = new ArrayList<Modificador>(modJ1);
+        while (op != -1 && modJ1.size() > 0){
+            System.out.println(modsList);
+            if (modsList.size() == 1){
+                System.out.println("Elija un modificador (0)  \n-1. Salir");
+            }else {
+                System.out.println("Elija un modificador, del 0 al " + (modJ1.size()-1) + "\n-1. Salir\n");
+            }
+            mostrarModicadores(modsList);
+            op = reader.nextInt();
+            if (op != -1 && op >= 0 && op < modJ1.size()) {
+                modJ1.remove(modsList.get(op));
+            }
+        }
+    }
+
+    private void mostrarModicadores(Set<Modificador> modJ1) {
+        int i = 0;
+        for (Modificador mod : modJ1){
+            System.out.println("Nº "+i);
+            this.showModificador(mod);
+            i++;
+        }
+    }
+
+    private void mostrarModicadores(List<Modificador> modJ1) {
+        int i = 0;
+        for (Modificador mod : modJ1){
+            System.out.println("Nº "+i);
+            this.showModificador(mod);
+            i++;
+        }
+    }
+
+    private void showModificador(Modificador mod) {
+        System.out.println("Nombre : " + mod.getNombre());
+        System.out.println("Grado de efecto : " + mod.getGrado_Efecto());
+        System.out.println("Tipo de modificador : " + mod.getTipo_mod()+"\n");
+    }
 
     //Get-Set
 
@@ -130,4 +190,6 @@ public class App_Inventario {
     public void setInventarioMods(Personaje inventarioMods) {
         this.inventarioMods = inventarioMods;
     }
+
+
 }

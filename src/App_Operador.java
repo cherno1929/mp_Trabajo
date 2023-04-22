@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 public class App_Operador {
     //Atributos
@@ -7,6 +8,7 @@ public class App_Operador {
     private FileController_Operator herramienta_Operador = new FileController_Operator();
     private List<Desafio> lista_Desafios = herramienta_Operador.getDesafios();
     public Menu_Principal mp;
+    public App_Inventario modificadorGeneral = new App_Inventario();
     //Metodos
     public void Menu(Menu_Principal menuPrincipal) {
         this.setMp(menuPrincipal);
@@ -124,15 +126,50 @@ public class App_Operador {
 
     private void MenuDesafio(int numDesafio){
         this.showDesafio(this.lista_Desafios.get(numDesafio));
-        System.out.println("\nQue desea hacer : \n1) Validar (1) \n2) Modificar (2)\n3) Salir (0)");
+        System.out.println("\nQue desea hacer : \n1. Validar \n2. Modificar \n3. Salir ");
         Scanner optionSelected = new Scanner(System.in);
         int opt = optionSelected.nextInt();
         if (opt < 3  && opt >= 0){
             if (opt == 1) { // Validar
                 this.herramienta_Operador.validarDesafio(this.lista_Desafios.get(numDesafio));
                 this.lista_Desafios = this.herramienta_Operador.getDesafios();
+            } else if (opt == 2) { // Modificar
+                this.MenuModificardesafio(this.lista_Desafios.get(numDesafio));
             }
         }
+    }
+
+    private void MenuModificardesafio(Desafio desafio) {
+        int op = 0;
+        Scanner scanOP = new Scanner(System.in);
+        while (op != 4){
+            this.showDesafio(desafio);
+            System.out.println("Que desea modificar :: \n1. Cambiar Oro \n2. Cambiar Modificadores \n3. Alterar Personaje\n4. Salir");
+            op = scanOP.nextInt();
+            if (op == 1) {
+                System.out.println("Digitre la cantidad de oro");
+                int newOro = scanOP.nextInt();
+                desafio.setOro(newOro);
+                this.herramienta_Operador.modificarDesafio(this.herramienta_Operador.locationDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt",desafio);
+            } else if (op == 2) {
+                int opMod = 0;
+                while (opMod != 3){
+                    System.out.println("Que grupo de modificadores desea alterar\n3. Salir");
+                    opMod = scanOP.nextInt();
+                    if (opMod == 1) {
+                        desafio.setMod_j1(this.MenuMod(desafio.getMod_j1()));
+                    } else if (opMod == 2) {
+                        desafio.setMod_j2(this.MenuMod(desafio.getMod_j2()));
+                    }
+                }
+            }
+        }
+        this.lista_Desafios = this.herramienta_Operador.getDesafios();
+    }
+
+    private Set<Modificador> MenuMod(Set<Modificador> mods) {
+        Set<Modificador> newMosd = this.modificadorGeneral.modificarMods(mods);
+        return newMosd;
     }
 
     private void showDesafio(Desafio desafio){

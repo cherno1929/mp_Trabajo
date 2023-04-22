@@ -7,7 +7,7 @@ import java.util.Set;
 public class FileController_Operator extends FileController{
 
     //Atributes
-    private String locationDesafios = "Ficheros_app/Desafios";
+    public String locationDesafios = "Ficheros_app/Desafios";
     private String locationDataPersonaje = "Ficheros_app/Personajes";
     public List<Desafio> listaDesafios = this.getDesafios();
 
