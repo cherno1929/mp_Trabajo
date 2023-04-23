@@ -5,10 +5,10 @@ public class Menu_Principal {
     App_Operador Operador = new App_Operador();
     AppController ac = new AppController();
     public Rol rolUser;
-    public void Pantalla_Inicio(Rol rol){
-        this.rolUser = rol;
+    public void Pantalla_Inicio(Usuario user){
+        this.rolUser = user.getRol();
+        boolean esAdmin = user.getRol() == Rol.operador;
         System.out.print("Elige una opción:\n1.Desafiar\n2.Inventario\n3.Ranking\n4.Salir\n");
-        boolean esAdmin = rol == Rol.operador;
         if (esAdmin){
             System.out.print("5.Opciones avanzadas\n");
         }
@@ -21,7 +21,7 @@ public class Menu_Principal {
                 // Inventario()
                 break;
             case 3:
-                ac.showRanking();
+                this.ac.showRanking();
                 break;
             case 4:
                 System.exit(1);
@@ -29,14 +29,16 @@ public class Menu_Principal {
             case 5:
                 if (!esAdmin){
                         System.out.println("Usted no tiene acceso a esa opción.");
-                        Pantalla_Inicio(rol);
+                        this.Pantalla_Inicio(user);
                 }
                 else{
-                    Operador.Menu(this);
+                    this.Operador.Menu(this);
                 }
+            case 6:
+                ac.CreateCharacter();
             default:
                 System.out.println("Opción incorrecta. Por favor, vuelva a introducir su dato.\n");
-                Pantalla_Inicio(rol);
+                this.Pantalla_Inicio(user);
         }
     }
 }
