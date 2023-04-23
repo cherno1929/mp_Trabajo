@@ -1,4 +1,3 @@
-import java.io.File;
 import java.util.*;
 
 public class App_Inventario {
@@ -180,7 +179,7 @@ public class App_Inventario {
     private void mostrarModicadores(List<Modificador> modJ1) {
         int i = 0;
         for (Modificador mod : modJ1){
-            System.out.println("Nº "+i);
+            System.out.println("Nº Mod "+i);
             this.showModificador(mod);
             i++;
         }
@@ -190,6 +189,101 @@ public class App_Inventario {
         System.out.println("Nombre : " + mod.getNombre());
         System.out.println("Grado de efecto : " + mod.getGrado_Efecto());
         System.out.println("Tipo de modificador : " + mod.getTipo_mod()+"\n");
+    }
+
+    public void modificarPers(Usuario j1) {
+        mostrarPersonaje(j1);
+    }
+
+    private void mostrarPersonaje(Usuario j1) {
+        if (j1 != null || j1.getPersonajeActivo() != null){
+            int opt = 0;
+            while (opt != 4){
+                System.out.println("\nDueño : " + j1.getNombre());
+                j1.getPersonajeActivo().mostrarPersonaje();
+                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Salir");
+                opt = this.reader.nextInt();
+                if (opt == 1){
+                    this.modificarArmas(j1.getPersonajeActivo());
+                } else if (opt == 2) {
+                    this.modificarArmadura(j1.getPersonajeActivo());
+                } else if (opt == 3) {
+                    this.verOro(j1.getPersonajeActivo());
+                } 
+            }
+        }else {
+            System.out.println("Error al encontrar al personaje");
+        }
+    }
+
+    private void modificarArmadura(Personaje pers) {
+    }
+
+    private void modificarArmas(Personaje pers) {
+        if (pers.getArmas() != null && pers.getArmas().size() > 0) {
+            int opt = 0;
+            List<Arma> equipo = new ArrayList<Arma>(pers.getArmas());
+            while (opt != 3) {
+                System.out.println("Que desea hacer?\n1. Equipar Arma\n2. Desequipar Arma\n3. Salir");
+                opt = reader.nextInt();
+                if (opt == 1) {
+                    equiparArma(pers,equipo);
+                } else if (opt == 2){
+                    desEquiparArma(pers);
+                }
+            }
+        } else {
+            System.out.println("No hay armas");
+        }
+    }
+
+    private void desEquiparArma(Personaje pers) {
+        int opt = 0;
+        while (opt != -1){
+            System.out.println("Armas equipadas :: ");
+            mostrarArmas(pers.getArmas_Activas());
+            System.out.println("Elija un arma (0 - " + (pers.getArmas_Activas().size() - 1) + ")\n-1. Salir");
+            opt = reader.nextInt();
+            if (opt >= 0 && opt < pers.getArmas_Activas().size()){
+                pers.quitarArmaActiva(opt);
+            } else {
+                System.out.println("Valor fuera de rango");
+            }
+        }
+    }
+
+    private void equiparArma(Personaje pers, List<Arma> equipo) {
+        int opt = 0;
+        while (opt != -1){
+            mostrarArmas(equipo);
+            mostrarArmas(pers.getArmas_Activas());
+            System.out.println("Elija un arma (0 - " + (equipo.size() - 1) + ")\n-1. Salir");
+            opt = reader.nextInt();
+            if (opt >= 0 && opt < equipo.size()){
+                pers.añadirArmaActiva(equipo.get(opt));
+            } else {
+                System.out.println("Valor fuera de rango");
+            }
+        }
+    }
+
+    private void mostrarArmas(List<Arma> armas) {
+        System.out.println("\nEstas armas son las que posee el personaje\n");
+        if (armas != null){
+            for (Arma arm : armas) {
+                mostrarAtma(arm);
+            }
+        }
+    }
+
+    private void mostrarAtma(Arma arm) {
+        System.out.println("Nombre : "+arm.getNombre());
+        System.out.println("Ataque : "+arm.getPunt_Atk());
+        mostrarModicadores(arm.getMod());
+    }
+
+    private void verOro(Personaje personajeActivo) {
+        System.out.println("\nEl personaje "+personajeActivo.getNombre()+ " tiene "+personajeActivo.getOro()+" de oro");
     }
 
     //Get-Set
@@ -225,6 +319,7 @@ public class App_Inventario {
     public void setInventarioMods(Personaje inventarioMods) {
         this.inventarioMods = inventarioMods;
     }
+
 
 
 }

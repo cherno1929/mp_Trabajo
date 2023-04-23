@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -6,7 +7,7 @@ public class Personaje {
     //Atributos
     protected String nombre;
     protected Set<Habilidad_Especial> habilidades;
-    protected  Set<Arma> armas;
+    protected Set<Arma> armas;
     protected List<Arma> armas_Activas;
     protected Set<Armadura> armaduras;
     protected Set<Esbirro> esbirros;
@@ -135,6 +136,16 @@ public class Personaje {
     public void setEscudo(int escudo) {
         this.escudo = escudo;
     }
+    public void añadirArmaActiva(Arma arm){
+            if (this.armas_Activas == null){
+                this.armas_Activas = new ArrayList<Arma>();
+            }
+            if (getArmas_Activas().size() < 2) {
+                this.armas_Activas.add(arm);
+            } else {
+                System.out.println("NO HAY ESPACIO DISPONIBLE");
+            }
+    }
 
     public int calcPwr() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de ataque.
         int aux_pwr = 0;
@@ -163,5 +174,59 @@ public class Personaje {
 
     public boolean hasFainted() {
         return this.punt_Salud == 0;
+    }
+
+    public void mostrarPersonaje() {
+        System.out.println("\nNombre_P : "+this.getNombre());
+        System.out.println("Raza : " + this.getClass());
+        System.out.println("ID : "+this.getId());
+        System.out.println("Oro : "+this.getOro());
+        this.mostrarEsbirros();
+        this.mostrarArmas();
+        this.mostrarArmaduras();
+        System.out.println();
+    }
+
+    private void mostrarArmaduras() {
+        if (this.armaduras == null || this.armaduras.size() == 0) {
+            System.out.println("Armaduras : No hay");
+        } else {
+            System.out.print("Armaduras : ");
+            for (Armadura arma : this.armaduras) {
+                System.out.print(arma.getNombre()+" - ");
+            }
+        }
+        System.out.println();
+    }
+
+    private void mostrarArmas() {
+        if (this.armas == null || this.armas.size() == 0) {
+            System.out.println("Armas : No hay");
+        } else {
+            System.out.print("Armas : ");
+            for (Arma arma : this.armas) {
+                System.out.print(arma.getNombre()+" - ");
+            }
+        }
+        System.out.println();
+    }
+
+    private void mostrarEsbirros() {
+        if (this.esbirros == null || this.esbirros.size() == 0) {
+            System.out.println("Esbirros : No hay");
+        } else {
+            System.out.print("Esbirros : ");
+            for (Esbirro esb : this.esbirros) {
+                System.out.print(esb.getNombre()+" - ");
+            }
+        }
+    }
+
+    public void quitarArmaActiva(int opt) {
+        if (this.armas_Activas != null && opt >= 0 && opt < (this.armas_Activas.size()-1)){
+            this.armas_Activas.remove(opt);
+        } else {
+            System.out.println("No se encuentra el arma");
+        }
     }
 }

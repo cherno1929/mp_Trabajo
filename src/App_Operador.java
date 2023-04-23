@@ -116,7 +116,7 @@ public class App_Operador {
             for (Desafio desafio : this.lista_Desafios){
                 this.showDesafio(desafio);
             }
-            System.out.println("Elege un desafío, digite un número del 0 al " + (this.lista_Desafios.size()-1)+"\nDigite -1 para salir");
+            System.out.println("\nElege un desafío, digite un número del 0 al " + (this.lista_Desafios.size()-1)+"\nDigite -1 para salir");
             op = scanOp.nextInt();
             if (op >= 0 && op < this.lista_Desafios.size()){
                 this.MenuDesafio(op);
@@ -161,10 +161,28 @@ public class App_Operador {
                         desafio.setMod_j2(this.MenuMod(desafio.getMod_j2()));
                     }
                 }
+            } else if (op == 3) {
+                int opMod = 0;
+                while (opMod != 3){
+                    desafio.getJ1().getPersonajeActivo().mostrarPersonaje();
+                    desafio.getJ2().getPersonajeActivo().mostrarPersonaje();
+                    System.out.println("\nQue personaje desea modificar (1 ó 2)\n3. Salir");
+                    opMod = scanOP.nextInt();
+                    if (opMod == 1) {
+                        desafio.setJ1(this.MenuJug(desafio.getJ1()));
+                    } else if (opMod == 2) {
+                        desafio.setJ2(this.MenuJug(desafio.getJ2()));
+                    }
+                }
             }
             this.herramienta_Operador.modificarDesafio(this.herramienta_Operador.locationDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt",desafio);
         }
         this.lista_Desafios = this.herramienta_Operador.getDesafios();
+    }
+
+    private Usuario MenuJug(Usuario j1) {
+        this.modificadorGeneral.modificarPers(j1);
+        return j1;
     }
 
     private Set<Modificador> MenuMod(Set<Modificador> mods) {
