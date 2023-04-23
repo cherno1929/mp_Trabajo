@@ -14,6 +14,7 @@ public class Personaje {
     protected int oro;
     protected int punt_Salud;
     protected Set<Modificador> mods;
+    protected Armadura armadura_Activa;
     protected int poder;
     protected int escudo;
     protected String id;
@@ -136,6 +137,15 @@ public class Personaje {
     public void setEscudo(int escudo) {
         this.escudo = escudo;
     }
+
+    public Armadura getArmadura_Activa() {
+        return armadura_Activa;
+    }
+
+    public void setArmadura_Activa(Armadura armadura_Activa) {
+        this.armadura_Activa = armadura_Activa;
+    }
+
     public void añadirArmaActiva(Arma arm){
             if (this.armas_Activas == null){
                 this.armas_Activas = new ArrayList<Arma>();
@@ -187,7 +197,8 @@ public class Personaje {
         System.out.println();
     }
 
-    private void mostrarArmaduras() {
+    public void mostrarArmaduras() {
+        System.out.println("Armaduras Disponibles :: \n");
         if (this.armaduras == null || this.armaduras.size() == 0) {
             System.out.println("Armaduras : No hay");
         } else {

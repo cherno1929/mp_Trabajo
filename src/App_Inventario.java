@@ -198,25 +198,88 @@ public class App_Inventario {
     private void mostrarPersonaje(Usuario j1) {
         if (j1 != null || j1.getPersonajeActivo() != null){
             int opt = 0;
-            while (opt != 4){
+            while (opt != 10){
                 System.out.println("\nDueño : " + j1.getNombre());
                 j1.getPersonajeActivo().mostrarPersonaje();
-                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Salir");
+                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n9. Cambiar Escudo\n10. Salir");
                 opt = this.reader.nextInt();
                 if (opt == 1){
                     this.modificarArmas(j1.getPersonajeActivo());
                 } else if (opt == 2) {
-                    this.modificarArmadura(j1.getPersonajeActivo());
+                    this.modificarArmadura(j1.getPersonajeActivo()); // El personaje solo puede equiparse una armadura
                 } else if (opt == 3) {
                     this.verOro(j1.getPersonajeActivo());
-                } 
+                } else if (opt == 4) {
+                    this.cambiarNombrePers(j1.getPersonajeActivo());
+                }
             }
         }else {
             System.out.println("Error al encontrar al personaje");
         }
     }
 
+    private void cambiarNombrePers(Personaje personajeActivo) {
+        System.out.println("Que nombre desea poner ?\n1. Salir");
+
+    }
+
     private void modificarArmadura(Personaje pers) {
+        int opt = 0;
+        while (opt != 3) {
+            pers.mostrarArmaduras();
+            if (pers.getArmadura_Activa() != null){
+                mostrarArmadura(pers.armadura_Activa);
+                System.out.println("\nQue desea hacer?\n1. Poner armadura\n2. Quitar armadura");
+                opt = reader.nextInt();
+                if (opt == 1) {
+                    añadirArmadura(pers);
+                }
+                if (opt == 2) {
+                    pers.setArmadura_Activa(null);
+                }
+            } else {
+                System.out.println("\nDesea cambiar la armadura?\n1. Si\n2. No");
+                opt = reader.nextInt();
+                if (opt == 1) {
+                    añadirArmadura(pers);
+                } else if (opt == 2) {
+                    break;
+                }
+            }
+        }
+    }
+
+    private void añadirArmadura(Personaje pers) {
+        List<Armadura> armaduras = new ArrayList<Armadura>(pers.getArmaduras());
+        mostrarArmaduras(armaduras);
+        System.out.println("Elija una armadura (0-" +(pers.getArmaduras().size()-1)+")");
+        int opt = reader.nextInt();
+        {
+            if (opt >= 0 && opt < pers.getArmaduras().size()) {
+                if (pers.armadura_Activa == null){
+                    pers.setArmadura_Activa(armaduras.get(opt));
+                }else if (pers.armadura_Activa.equals(armaduras.get(opt))) {
+                    System.out.println("Esta armadura ya existe");
+                }
+            }
+        }
+    }
+
+    private void mostrarArmaduras(List<Armadura> armaduras) {
+        if (armaduras != null) {
+            for (Armadura arm : armaduras) {
+                mostrarArmadura(arm);
+            }
+        }
+    }
+
+
+    private void mostrarArmadura(Armadura armaduraActiva) {
+        if (armaduraActiva != null) {
+            System.out.println("\nNombre : " + armaduraActiva.getNombre());
+            System.out.println("Defensa : " + armaduraActiva.getPunt_Def());
+            mostrarModicadores(armaduraActiva.getMod());
+        }
     }
 
     private void modificarArmas(Personaje pers) {
@@ -224,7 +287,7 @@ public class App_Inventario {
             int opt = 0;
             List<Arma> equipo = new ArrayList<Arma>(pers.getArmas());
             while (opt != 3) {
-                System.out.println("Que desea hacer?\n1. Equipar Arma\n2. Desequipar Arma\n3. Salir");
+                System.out.println("\nQue desea hacer?\n1. Equipar Arma\n2. Desequipar Arma\n3. Salir");
                 opt = reader.nextInt();
                 if (opt == 1) {
                     equiparArma(pers,equipo);
@@ -238,17 +301,28 @@ public class App_Inventario {
     }
 
     private void desEquiparArma(Personaje pers) {
-        int opt = 0;
-        while (opt != -1){
-            System.out.println("Armas equipadas :: ");
-            mostrarArmas(pers.getArmas_Activas());
-            System.out.println("Elija un arma (0 - " + (pers.getArmas_Activas().size() - 1) + ")\n-1. Salir");
-            opt = reader.nextInt();
-            if (opt >= 0 && opt < pers.getArmas_Activas().size()){
-                pers.quitarArmaActiva(opt);
-            } else {
-                System.out.println("Valor fuera de rango");
+        if (pers.armas_Activas != null){
+            int opt = 0;
+            while (opt != -1) {
+                mostrarArmas(pers.getArmas_Activas());
+                if (pers.armas_Activas.size() > 1){
+                    System.out.println("Elija un arma (1 - 2)\n-1. Salir");
+                    opt = reader.nextInt();
+                    if (opt == 1 || opt == 2) {
+                        pers.quitarArmaActiva(opt-1);
+                    }
+                }else if (pers.armas_Activas.size() == 1){
+                    System.out.println("Solo hay esa arma\n1. Eliminar\n-1.Salir");
+                    opt = reader.nextInt();
+                    if (opt == 1){
+                        pers.armas_Activas.remove(0);
+                    }
+                }else {
+                    System.out.println("No hay armas");
+                }
             }
+        }else {
+            System.out.println("No hay Armas equipadas");
         }
     }
 
@@ -256,6 +330,7 @@ public class App_Inventario {
         int opt = 0;
         while (opt != -1){
             mostrarArmas(equipo);
+            System.out.println("Armas equipadas");
             mostrarArmas(pers.getArmas_Activas());
             System.out.println("Elija un arma (0 - " + (equipo.size() - 1) + ")\n-1. Salir");
             opt = reader.nextInt();
@@ -268,11 +343,11 @@ public class App_Inventario {
     }
 
     private void mostrarArmas(List<Arma> armas) {
-        System.out.println("\nEstas armas son las que posee el personaje\n");
         if (armas != null){
             for (Arma arm : armas) {
                 mostrarAtma(arm);
             }
+        }else {
         }
     }
 

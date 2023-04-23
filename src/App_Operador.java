@@ -170,8 +170,10 @@ public class App_Operador {
                     opMod = scanOP.nextInt();
                     if (opMod == 1) {
                         desafio.setJ1(this.MenuJug(desafio.getJ1()));
+                        this.herramienta_Operador.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
                     } else if (opMod == 2) {
                         desafio.setJ2(this.MenuJug(desafio.getJ2()));
+                        this.herramienta_Operador.modificarPersonaje(desafio.getJ2().getPersonajeActivo());
                     }
                 }
             }
