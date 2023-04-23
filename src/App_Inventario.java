@@ -198,10 +198,10 @@ public class App_Inventario {
     private void mostrarPersonaje(Usuario j1) {
         if (j1 != null || j1.getPersonajeActivo() != null){
             int opt = 0;
-            while (opt != 10){
+            while (opt != 11){
                 System.out.println("\nDueño : " + j1.getNombre());
                 j1.getPersonajeActivo().mostrarPersonaje();
-                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n9. Cambiar Escudo\n10. Salir");
+                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n10. Cambiar Escudo\n11. Salir");
                 opt = this.reader.nextInt();
                 if (opt == 1){
                     this.modificarArmas(j1.getPersonajeActivo());
@@ -211,6 +211,18 @@ public class App_Inventario {
                     this.verOro(j1.getPersonajeActivo());
                 } else if (opt == 4) {
                     this.cambiarNombrePers(j1.getPersonajeActivo());
+                } else if (opt == 5) {
+                    this.modificarMods(j1.getPersonajeActivo().getMods());
+                } else if (opt == 6) {
+
+                } else if (opt == 7) {
+                    this.cambiarSaludPers(j1.getPersonajeActivo());
+                } else if (opt == 8) {
+
+                } else if (opt == 9) {
+                    this.cambiarPoder(j1.getPersonajeActivo());
+                }else if (opt == 10) {
+                    this.cambiarEscudo(j1.getPersonajeActivo());
                 }
             }
         }else {
@@ -218,9 +230,28 @@ public class App_Inventario {
         }
     }
 
-    private void cambiarNombrePers(Personaje personajeActivo) {
-        System.out.println("Que nombre desea poner ?\n1. Salir");
+    private void cambiarEscudo(Personaje personajeActivo) {
+        System.out.println("Cuanto escudo desea?");
+        int newInt = reader.nextInt();
+        personajeActivo.setEscudo(newInt);
+    }
 
+    private void cambiarPoder(Personaje personajeActivo) {
+        System.out.println("Cuanto poder desea?");
+        int newInt = reader.nextInt();
+        personajeActivo.setPoder(newInt);
+    }
+
+    private void cambiarSaludPers(Personaje personajeActivo) {
+        System.out.println("Cuanta salud desea?");
+        int newInt = reader.nextInt();
+        personajeActivo.setPunt_Salud(newInt);
+    }
+
+    private void cambiarNombrePers(Personaje personajeActivo) {
+        System.out.println("Que nombre desea poner?");
+        String newName = reader.nextLine();
+        personajeActivo.setNombre(newName);
     }
 
     private void modificarArmadura(Personaje pers) {
