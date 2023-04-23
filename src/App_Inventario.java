@@ -8,6 +8,7 @@ public class App_Inventario {
     private  Personaje PersJug;
     private  Personaje inventarioMods;
     private Scanner reader = new Scanner(System.in);
+    private FileController fileContrl= new FileController();
 
     //Metodos
 
@@ -102,14 +103,25 @@ public class App_Inventario {
     //Metodos
     public Set<Modificador> modificarMods(Set<Modificador> modJ1) {
         int opMod = 0;
-        while (opMod != 3 && modJ1.size() > 0){
-            System.out.println("1. Eliminar Modificador\n2. Añadir Modifacador\n3. Salir\n(Hay "+modJ1.size()+" modificadores)\n");
-            this.mostrarModicadores(modJ1);
-            opMod = this.reader.nextInt();
-            if (opMod == 1) {
-                eleminarModificador(modJ1);
-            } else if (opMod == 2) {
-                añadirModificador(modJ1);
+        if (modJ1 == null){
+            modJ1 = new HashSet<Modificador>();
+        }
+        while (opMod != 3){
+            if (modJ1.size() > 0){
+                this.mostrarModicadores(modJ1);
+                System.out.println("1. Eliminar Modificador\n2. Añadir Modifacador\n3. Salir\n(Hay " + modJ1.size() + " modificadores)\n");
+                opMod = this.reader.nextInt();
+                if (opMod == 1) {
+                    eleminarModificador(modJ1);
+                } else if (opMod == 2) {
+                    añadirModificador(modJ1);
+                }
+            } else {
+                System.out.println("No hay Modificadores...\nDesea añadir alguno?\n1. Añadir\n3. Salir");
+                opMod = this.reader.nextInt();
+                if (opMod == 1) {
+                    añadirModificador(modJ1);
+                }
             }
         }
         if (modJ1.size() == 0){
@@ -120,8 +132,7 @@ public class App_Inventario {
 
     private void añadirModificador(Set<Modificador> modJ1) {
         FileController modReader = new FileController();
-        List<Modificador> allMods = modReader.getMods();
-        System.out.println("Elige el mod que quieras añadir");
+        List<Modificador> allMods = this.fileContrl.getMods();
         int i = 0;
         for (Modificador mod : allMods){
             System.out.println("Nº " + i);
@@ -129,27 +140,25 @@ public class App_Inventario {
             i++;
         }
 
-        int op = 1;
-        while (op != 0) {
+
             System.out.println("\nElige un modificador para añadirlo");
-            op = reader.nextInt();
+            int op = reader.nextInt();
             if (op < allMods.size() && op >= 0){
-                modJ1.add(allMods.get(op));
+
+        modJ1.add(allMods.get(op));
             }
-        }
     }
 
     private void eleminarModificador(Set<Modificador> modJ1) {
         int op = 0;
         List<Modificador> modsList = new ArrayList<Modificador>(modJ1);
         while (op != -1 && modJ1.size() > 0){
-            System.out.println(modsList);
+            mostrarModicadores(modsList);
             if (modsList.size() == 1){
                 System.out.println("Elija un modificador (0)  \n-1. Salir");
             }else {
                 System.out.println("Elija un modificador, del 0 al " + (modJ1.size()-1) + "\n-1. Salir\n");
             }
-            mostrarModicadores(modsList);
             op = reader.nextInt();
             if (op != -1 && op >= 0 && op < modJ1.size()) {
                 modJ1.remove(modsList.get(op));
@@ -159,10 +168,12 @@ public class App_Inventario {
 
     private void mostrarModicadores(Set<Modificador> modJ1) {
         int i = 0;
-        for (Modificador mod : modJ1){
-            System.out.println("Nº "+i);
-            this.showModificador(mod);
-            i++;
+        if (modJ1 != null){
+            for (Modificador mod : modJ1) {
+                System.out.println("Nº " + i);
+                this.showModificador(mod);
+                i++;
+            }
         }
     }
 

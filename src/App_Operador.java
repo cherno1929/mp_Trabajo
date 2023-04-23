@@ -150,11 +150,10 @@ public class App_Operador {
                 System.out.println("Digitre la cantidad de oro");
                 int newOro = scanOP.nextInt();
                 desafio.setOro(newOro);
-                this.herramienta_Operador.modificarDesafio(this.herramienta_Operador.locationDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt",desafio);
             } else if (op == 2) {
                 int opMod = 0;
                 while (opMod != 3){
-                    System.out.println("Que grupo de modificadores desea alterar\n3. Salir");
+                    System.out.println("Que grupo de modificadores desea alterar (1 ó 2)\n3. Salir");
                     opMod = scanOP.nextInt();
                     if (opMod == 1) {
                         desafio.setMod_j1(this.MenuMod(desafio.getMod_j1()));
@@ -163,6 +162,7 @@ public class App_Operador {
                     }
                 }
             }
+            this.herramienta_Operador.modificarDesafio(this.herramienta_Operador.locationDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt",desafio);
         }
         this.lista_Desafios = this.herramienta_Operador.getDesafios();
     }

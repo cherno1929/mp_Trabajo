@@ -1,1 +1,3 @@
+Nombre : Sol
 Efecto : 10
+Tipo : Fortaleza

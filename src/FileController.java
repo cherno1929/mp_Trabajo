@@ -374,6 +374,7 @@ public class FileController {
                 Modificador mod = new Modificador();
                 mod.setNombre(nomMod);
                 String modLocation = this.locationMods + "/" + nomMod + ".txt";
+                mod.setNombre(nomMod);
                 try {
                     BufferedReader modRader = new BufferedReader(new FileReader(modLocation));
                     String line;
@@ -712,6 +713,7 @@ public class FileController {
     private Modificador getMod(File fil) {
         Modificador mod = new Modificador();
         try {
+            mod.setNombre(fil.getName().substring(0,fil.getName().length()-4));
             BufferedReader modReader = new BufferedReader(new FileReader(fil));
             String line;
             while ((line = modReader.readLine()) != null) {
