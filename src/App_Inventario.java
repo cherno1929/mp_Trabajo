@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 public class App_Inventario {
@@ -201,7 +204,7 @@ public class App_Inventario {
             while (opt != 11){
                 System.out.println("\nDueño : " + j1.getNombre());
                 j1.getPersonajeActivo().mostrarPersonaje();
-                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3.Ver oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n10. Cambiar Escudo\n11. Salir");
+                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3. Ver Oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n10. Cambiar Escudo\n11. Salir");
                 opt = this.reader.nextInt();
                 if (opt == 1){
                     this.modificarArmas(j1.getPersonajeActivo());
@@ -214,7 +217,7 @@ public class App_Inventario {
                 } else if (opt == 5) {
                     this.modificarMods(j1.getPersonajeActivo().getMods());
                 } else if (opt == 6) {
-
+                    this.modificarHabilidades(j1.getPersonajeActivo());
                 } else if (opt == 7) {
                     this.cambiarSaludPers(j1.getPersonajeActivo());
                 } else if (opt == 8) {
@@ -227,6 +230,95 @@ public class App_Inventario {
             }
         }else {
             System.out.println("Error al encontrar al personaje");
+        }
+    }
+
+    private void modificarHabilidades(Personaje pers) {
+        List<Habilidad_Especial> specSkill = new ArrayList<Habilidad_Especial>(this.fileContrl.buscarHabilidades(pers.getClass()));
+        List<Habilidad_Especial> persSkill = new ArrayList<Habilidad_Especial>(pers.getHabilidades());
+        int optAQ = 0;
+        while (optAQ != 3 && persSkill != null && persSkill.size() > 0){
+            System.out.println("Habilidades de tu personaje ::");
+            mostrarHabilidades(persSkill);
+            System.out.println("Habilidades Disponibles");
+            mostrarHabilidades(specSkill);
+            if (persSkill != null && persSkill.size() > 0){
+                System.out.println("\nQue deseas hacer?\n1. Añadir\n2. Quitar\n3. Salir");
+                optAQ = reader.nextInt();
+                if (optAQ == 1) {
+                    this.añadirHabilidad(persSkill,specSkill);
+                }else if (optAQ == 2){
+                    this.quitarHabilidad(pers.getHabilidades(),persSkill);
+                }
+            } else{
+                System.out.println("El personaje no tiene habilidades\n1. Añadir\n3. Salir");
+                if (optAQ == 1) {
+
+                }
+            }
+        }
+        pers.setHabilidades(new HashSet<Habilidad_Especial>(persSkill));
+    }
+
+    private void quitarHabilidad(Set<Habilidad_Especial> habPers, List<Habilidad_Especial> persSkill) {
+        int opt = 0;
+        if (habPers != null) {
+            {
+                while (opt != -1 && persSkill.size() > 0 && persSkill != null){
+                    int i = 0;
+                    for (Habilidad_Especial hab : persSkill) {
+                        System.out.println("\nNº Hab " + i);
+                        mostrarHabilidad(hab);
+                        i++;
+                    }
+                    System.out.println("Elija una habilidad (0-" + (persSkill.size() - 1) + ")\n-1.Salir");
+                    opt = reader.nextInt();
+                    if (opt >= 0 && opt < persSkill.size()) {
+                        habPers.remove(persSkill.get(opt));
+                        persSkill.remove(opt);
+                    }
+                }
+            }
+        }else {
+            System.out.println("No hay hablilidades especiales");
+        }
+    }
+
+    private void añadirHabilidad(List<Habilidad_Especial> persSkill, List<Habilidad_Especial> specSkill) {
+        int opt = 0;
+        while (opt != -1){
+            System.out.println("Estas son las habilidades de tu persoje");
+            mostrarHabilidades(persSkill);
+            System.out.println("Estas son las habilidades disponbibles");
+            mostrarHabilidades(specSkill);
+            System.out.println("Selecciona una habilidad porfavor (0-"+(specSkill.size()-1)+")\n-1. Salir");
+            opt = reader.nextInt();
+            if (specSkill != null && opt >= 0 && opt < specSkill.size()) {
+                if (!persSkill.contains(specSkill.get(opt))){
+                    persSkill.add(specSkill.get(opt));
+                }else {
+                    System.out.println("Ya tienes esta habilidad");
+                }
+            }
+        }
+    }
+
+    private void mostrarHabilidades(List<Habilidad_Especial> persSkill) {
+        if (persSkill != null) {
+            for (Habilidad_Especial hab : persSkill) {
+                mostrarHabilidad(hab);
+            }
+        }
+    }
+
+    private void mostrarHabilidad(Habilidad_Especial hab) {
+        if (hab != null) {
+            System.out.println("\nNombre : "+hab.getNombre());
+            System.out.println("Ataque : "+hab.getAtk());
+            System.out.println("Defensa : "+hab.getDef());
+            String tipo = "Tipo : "+hab.getClass();
+            System.out.println(tipo.substring(6,tipo.length()-1));
+            System.out.println();
         }
     }
 
@@ -250,8 +342,13 @@ public class App_Inventario {
 
     private void cambiarNombrePers(Personaje personajeActivo) {
         System.out.println("Que nombre desea poner?");
-        String newName = reader.nextLine();
-        personajeActivo.setNombre(newName);
+        BufferedReader readLn = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            String newName = readLn.readLine();
+            personajeActivo.setNombre(newName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void modificarArmadura(Personaje pers) {

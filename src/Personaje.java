@@ -188,9 +188,12 @@ public class Personaje {
 
     public void mostrarPersonaje() {
         System.out.println("\nNombre_P : "+this.getNombre());
-        System.out.println("Raza : " + this.getClass());
+        String raza = String.valueOf(this.getClass());
+        System.out.println("Raza : " + raza);
         System.out.println("ID : "+this.getId());
         System.out.println("Oro : "+this.getOro());
+        System.out.println("Salud : "+this.getPunt_Salud());
+        System.out.println("Poder : "+this.getPoder());
         this.mostrarEsbirros();
         this.mostrarArmas();
         this.mostrarArmaduras();

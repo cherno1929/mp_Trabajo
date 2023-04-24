@@ -1,8 +1,10 @@
-Nombre : Ramiro
+Nombre : Gordo
 Id : 1929Y
 Oro : 5000
 Raza : class Vampiro
-Arma : Mandoble
-Armaduras : Armadura_de_cuero
+Poder : 0
+Salud : 0
+Arma : Mandoble - Cimitarra - Lanza - 
+Armaduras : Armadura_de_cuero - 
 Esbirros : 
 Edad : 19
