@@ -201,36 +201,52 @@ public class App_Inventario {
     private void mostrarPersonaje(Usuario j1) {
         if (j1 != null || j1.getPersonajeActivo() != null){
             int opt = 0;
-            while (opt != 11){
+            while (opt != 10){
                 System.out.println("\nDueño : " + j1.getNombre());
                 j1.getPersonajeActivo().mostrarPersonaje();
-                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3. Ver Oro\n4. Cambiar Nombre\n5. Cambiar Modificadores\n6. Cambiar Habilidades\n7. Cambiar Salud\n8. Cambiar Esbirros\n9. Cambiar Poder\n10. Cambiar Escudo\n11. Salir");
+                System.out.println("\nQue desea hacer?\n1. Armas\n2. Armaduras\n3. Ver Oro\n4. Cambiar Nombre\n5. Cambiar Habilidades\n6. Cambiar Salud\n7. Cambiar Esbirros\n8. Cambiar Poder\n9. Cambiar Escudo\n10. Salir\n11. Modificadores");
                 opt = this.reader.nextInt();
-                if (opt == 1){
+                switch (opt){
+                case 1 :
                     this.modificarArmas(j1.getPersonajeActivo());
-                } else if (opt == 2) {
+                    break;
+                case 2 :
                     this.modificarArmadura(j1.getPersonajeActivo()); // El personaje solo puede equiparse una armadura
-                } else if (opt == 3) {
+                    break;
+                case 3 :
                     this.verOro(j1.getPersonajeActivo());
-                } else if (opt == 4) {
+                    break;
+                case 4 :
                     this.cambiarNombrePers(j1.getPersonajeActivo());
-                } else if (opt == 5) {
-                    this.modificarMods(j1.getPersonajeActivo().getMods());
-                } else if (opt == 6) {
+                    break;
+                case 5:
                     this.modificarHabilidades(j1.getPersonajeActivo());
-                } else if (opt == 7) {
+                    break;
+                case 6:
                     this.cambiarSaludPers(j1.getPersonajeActivo());
-                } else if (opt == 8) {
+                    break;
+                case 7:
                     this.modificarEsbirros(j1.getPersonajeActivo());
-                } else if (opt == 9) {
+                    break;
+                case 8:
                     this.cambiarPoder(j1.getPersonajeActivo());
-                }else if (opt == 10) {
+                    break;
+                case 9:
                     this.cambiarEscudo(j1.getPersonajeActivo());
+                    break;
+                case 11:
+                    if (j1.getRol() == Rol.operador){
+                        j1.personajeActivo.setMods(modificarMods(j1.getPersonajeActivo().getMods()));
+                    }
+
+                default:
+                    System.out.println("Opcion no valida");
+
                 }
+
+                }
+
             }
-        }else {
-            System.out.println("Error al encontrar al personaje");
-        }
     }
 
     private void modificarEsbirros(Personaje pers) {
