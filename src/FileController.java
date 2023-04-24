@@ -711,6 +711,50 @@ public class FileController {
         return esbirros;
     }
 
+    protected Set<Esbirro> buscarEsbirros(File[] nomEsbirros) {
+        Set<Esbirro> esbirros = new HashSet<Esbirro>();
+        if (nomEsbirros != null){
+            for (File fileName : nomEsbirros){
+                Esbirro esb = getRazaEsbirro(fileName.getPath());
+                try{
+                    BufferedReader esbirroReader = new BufferedReader(new FileReader(fileName));
+                    String line;
+                    while ((line = esbirroReader.readLine()) != null){
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Nombre")){
+                                esb.setNombre(arrData);
+                            } else if (arrIdx.equals("Salud")) {
+                                esb.setSalud(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Dependencia") & esb.getClass() == Ghoul.class){
+                                ((Ghoul) esb).setNiv_Dependencia(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("Lealtad") & esb.getClass() == Humano.class) {
+                                if (arrData.equals("Alto")){
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.alto);
+                                } else if (arrData.equals("Medio")) {
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.medio);
+                                }else {
+                                    ((Humano) esb).setLealtad(Niv_Lealtad.bajo);
+                                }
+                            } else if (arrIdx.equals("Esbirros") & esb.getClass() == Demonio.class) {
+                                String[] nomEsbirrosDemonio = arrData.split(" - ");
+                                ((Demonio) esb).setEsbirros(this.buscarEsbirros(nomEsbirrosDemonio));
+                            } else if (arrIdx.equals("Pacto") & esb.getClass() == Demonio.class) {
+                                ((Demonio) esb).setPacto(this.getPacto(arrData.split(" - "),esb));
+                            }
+                        }
+                    }
+                }catch (IOException e){
+                    throw new RuntimeException(e);
+                }
+                esbirros.add(esb);
+            }
+        }
+        return esbirros;
+    }
+
     protected List<Pacto> getPacto(String[] idPactos, Esbirro esbrr) {
         List<Pacto> pactos = new ArrayList<Pacto>();
         if (idPactos != null){
@@ -816,5 +860,10 @@ public class FileController {
             throw new RuntimeException(e);
         }
         return mod;
+    }
+
+    public Set<Esbirro> getAllEsbirro() {
+        File[] filesEsbirros =  new File(locationEsbirros).listFiles();
+        return buscarEsbirros(filesEsbirros);
     }
 }

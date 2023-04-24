@@ -221,7 +221,7 @@ public class App_Inventario {
                 } else if (opt == 7) {
                     this.cambiarSaludPers(j1.getPersonajeActivo());
                 } else if (opt == 8) {
-
+                    this.modificarEsbirros(j1.getPersonajeActivo());
                 } else if (opt == 9) {
                     this.cambiarPoder(j1.getPersonajeActivo());
                 }else if (opt == 10) {
@@ -231,6 +231,75 @@ public class App_Inventario {
         }else {
             System.out.println("Error al encontrar al personaje");
         }
+    }
+
+    private void modificarEsbirros(Personaje pers) {
+        List<Esbirro> esbirrosDisponibles = new ArrayList<Esbirro>(this.fileContrl.getAllEsbirro());
+        List<Esbirro> esbirrosPers = new ArrayList<Esbirro>(pers.getEsbirros());
+        int op = 0;
+        while (op != 3){
+            System.out.println("Tus esbirros :: ");
+            mostrarEsbirros(esbirrosDisponibles);
+            System.out.println("Tus Esbirros\n1. Añadir\n2. Quitar\n3. Salir");
+            op = reader.nextInt();
+            if (op == 1) {
+                añadirEsbirro(pers.getEsbirros(),esbirrosDisponibles);
+            } else if (op == 2) {
+                eliminarEsbirro(esbirrosPers);
+            }
+        }
+    }
+
+    private void añadirEsbirro(Set<Esbirro> esbirrosPers, List<Esbirro> esbirrosDisponibles) {
+        if (esbirrosDisponibles != null) {
+            int opt = 0;
+            while (opt != -1) {
+                System.out.println("Esbirros dism¡pinibles");
+                mostrarEsbirros(esbirrosDisponibles);
+                System.out.println("Elija un esbirro (0-" + (esbirrosDisponibles.size()-1) + ")\n-1. Salir");
+                opt = reader.nextInt();
+                if (opt >= 0 && opt < esbirrosDisponibles.size()) {
+                    esbirrosPers.add(esbirrosDisponibles.get(opt));
+                }else {
+                    System.out.println("Valor fuera de rango");
+                }
+            }
+        } else {
+            System.out.println("No hay esbirros \n._.");
+        }
+    }
+
+    private void eliminarEsbirro(List<Esbirro> esbirrosPers) {
+        if (esbirrosPers == null || esbirrosPers.size() == 0) {
+            System.out.println("\nNo hay esbirros");
+        }else {
+            int opt = 0;
+            while (opt != 3 && esbirrosPers.size() > 0 && esbirrosPers != null) {
+                mostrarEsbirros(esbirrosPers);
+                System.out.println("Elije us esbirro (0-" + (esbirrosPers.size()-1) + ")");
+                opt = reader.nextInt();
+                if (opt >= 0 && opt < esbirrosPers.size() ) {
+                    esbirrosPers.remove(opt);
+                }
+            }
+        }
+    }
+
+    private void mostrarEsbirros(List<Esbirro> esbirros) {
+        if (esbirros != null) {
+            for (Esbirro esb : esbirros) {
+                mostrarEsbirro(esb);
+            }
+        }else {
+            System.out.println("\nNo tienes esbirros");
+        }
+        System.out.println();
+    }
+
+    private void mostrarEsbirro(Esbirro esb) {
+        System.out.println("\nNombre : " + esb.getNombre());
+        System.out.println("Salud : " + esb.getSalud());
+        System.out.println("Raza : " + String.valueOf(esb.getClass()));
     }
 
     private void modificarHabilidades(Personaje pers) {
