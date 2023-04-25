@@ -10,10 +10,18 @@ public class Persistencia {
     public List<Esbirro> esbirros_Vivos;
     public int OroGanado;
 
-
+    //Metodos
+    public String getStringEsbirros_Vivos() {
+        String dataLine = "";
+        if (this.esbirros_Vivos != null) {
+            for (Esbirro esb : this.esbirros_Vivos) {
+                dataLine += esb.getNombre();
+            }
+        }
+        return dataLine;
+    }
 
     //Getter-Setter
-
     public Usuario getJ1() {
         return j1;
     }
@@ -69,4 +77,6 @@ public class Persistencia {
     public void setOroGanado(int oroGanado) {
         OroGanado = oroGanado;
     }
+
+
 }

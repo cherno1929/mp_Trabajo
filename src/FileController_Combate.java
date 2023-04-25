@@ -29,7 +29,29 @@ public class FileController_Combate extends FileController_Operator{
         return persistencias;
     }
 
-
+    public void addPersistencia(Persistencia perst) {
+        if (perst != null) {
+            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-"+perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
+            try {
+                if (pestFileLoacation.createNewFile()) {
+                    BufferedWriter fileWritter = new BufferedWriter(new FileWriter(pestFileLoacation));
+                    fileWritter.write("J1 : "+perst.getJ1().getNum_Registro()+"\n");
+                    fileWritter.write("J2 : "+perst.getJ2().getNum_Registro()+"\n");
+                    fileWritter.write("Turnos : "+perst.getN_Turnos()+"\n");
+                    fileWritter.write("Ganador : "+perst.getGanador().getNum_Registro()+"\n");
+                    fileWritter.write("Oro : "+perst.getOroGanado()+"\n");
+                    fileWritter.write("Fecha : "+perst.getFecha_Combate()+"\n");
+                    fileWritter.write("Esbirros"+perst.getStringEsbirros_Vivos()+"\n");
+                }else {
+                    System.out.println("Oups, algo fue mal");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else {
+            System.out.println("Ha habido algun problema con la persistencia");
+        }
+    }
 
     private Persistencia getPersistencia(File fil) {
         Persistencia pers = new Persistencia();
