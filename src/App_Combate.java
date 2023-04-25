@@ -153,8 +153,10 @@ public class App_Combate {
         boolean j1_loser = user == J1;
         if (j1_loser) {
             setGanador(J2);
+            setPerdedor(J1);
         } else {
             setGanador(J1);
+            setPerdedor(J2);
         }
     }
 
