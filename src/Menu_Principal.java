@@ -20,7 +20,7 @@ public class Menu_Principal {
             choice = eleccion.nextInt();
             switch (choice) {
                 case 1:
-                    this.comb.menuCombatePrinicipal(null,user);
+                    this.comb.menuCombatePrincipal(null,user);
                     break;
                 case 2:
                     this.invt.modificarPers(user, Rol.usuario);

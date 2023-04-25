@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.*;
 
 public class App_Combate {
@@ -9,16 +10,11 @@ public class App_Combate {
     private Usuario ganador;
     private Scanner reader = new Scanner(System.in);
     private App_Inventario inventario = new App_Inventario();
-    private FileController_Operator fileContr;
+    private FileController_Combate fileContr = new FileController_Combate();
 
 
     //Metodos
-    public void menuCombatePrinicipal(FileController_Operator fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
-        if (fil != null){
-            this.setFileContr(fil);
-        }else {
-            this.setFileContr(new FileController_Operator());
-        }
+    public void menuCombatePrincipal(FileController_Operator fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
         if (user != null) {
             this.setJ1(user);
         }
@@ -66,50 +62,17 @@ public class App_Combate {
             if(opt == 1){
                 this.inventario.modificarPers(this.J1,this.J1.getRol());
             } else if (opt == 2) {
-                Combate();
+                combate();
             }
         }
+
     }
 
-    private void Combate() {
-        setTurno(1);
-        Personaje p1 = J1.getPersonajeActivo();
-        Personaje p2 = J2.getPersonajeActivo();
-        while (!CombateFinalizado(p1, p2)) {
-            if (!(turno % 2 == 0)) { // Turno impar
-                MostrarMenuTurno(J1);
-            } else {
-                MostrarMenuTurno(J2);
-            }
-            setTurno(turno++);
-        }
-    }
-
-    private boolean CombateFinalizado(Personaje p1, Personaje p2){
-        return (p1.hasFainted()) || (p2.hasFainted()) || (ganador != null);
-    } // Comprobacion combate terminado
-
-    private void MostrarMenuTurno(Usuario user){
-        System.out.println("Turno de " + user.getNombre() + "!");
-        System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
-        Scanner chc_combate = new Scanner(System.in);
-        int opcion = chc_combate.nextInt();
-        if (opcion == 1) {
-            //Atacar()
-        } else if (opcion == 2){
-            Rendirse(user);
-        } else {
-            MostrarMenuTurno(user);
-        }
-    } // Mostrar pestaña de accion para x usuario
-
-    private void Rendirse(Usuario user){
-        boolean j1_loser = user == J1;
-        if (j1_loser) {
-            setGanador(J2);
-        } else {
-            setGanador(J1);
-        }
+    private void combate() {
+        /*Anotaciones
+         * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
+         *   para hacer el combate*/
+        //Tambien hará todo lo relacionado con la presistencia
     }
 
     private void mostrarDesafios(List<Desafio> desafios) {
@@ -125,10 +88,10 @@ public class App_Combate {
                 }
             }
             if (i == 0) {
-                System.out.println("\nNo tienes solicitudes de desafio, vuelve más tarde\n");
+                System.out.println("\nNo tienes solicitudes de desafio, vulve más tarde\n");
             }
         } else {
-            System.out.println("No hay desafíos");
+            System.out.println("No hay desafios");
         }
     }
 
@@ -175,9 +138,17 @@ public class App_Combate {
             System.out.println("\nSelecciona los modificadores de tu rival\n");
             desafio.setMod_j2(inventario.modificarMods(new HashSet<Modificador>()));
 
-            this.fileContr.addDesafio(desafio);
+            Date nowDate = new Date(System.currentTimeMillis());
 
-            System.out.println("Tu desafio ha sido mandado");
+            if (!this.fileContr.es_Baneable(nowDate,desafio.getJ2())){
+                this.fileContr.addDesafio(desafio);
+
+                System.out.println("Tu desafio ha sido mandado");
+            }else {
+                this.fileContr.banear(this.J1);
+                System.out.println("Tu cuenta ha sido baneada");
+                System.exit(1);
+            }
         }else {
             System.out.println("Algo fue mal con tu usuario...");
         }
@@ -297,11 +268,11 @@ public class App_Combate {
         this.inventario = inventario;
     }
 
-    public FileController_Operator getFileContr() {
+    public FileController_Combate getFileContr() {
         return fileContr;
     }
 
-    public void setFileContr(FileController_Operator fileContr) {
+    public void setFileContr(FileController_Combate fileContr) {
         this.fileContr = fileContr;
     }
 }
