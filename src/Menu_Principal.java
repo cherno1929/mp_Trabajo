@@ -40,7 +40,7 @@ public class Menu_Principal {
                         this.Operador.Menu(this);
                     }
                 case 6:
-                    ac.CreateCharacter();
+                    ac.CreateCharacter(user);
                 default:
                     System.out.println("Opción incorrecta. Por favor, vuelva a introducir su dato.\n");
                     this.Pantalla_Inicio(user);
