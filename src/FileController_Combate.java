@@ -29,6 +29,8 @@ public class FileController_Combate extends FileController_Operator{
         return persistencias;
     }
 
+
+
     private Persistencia getPersistencia(File fil) {
         Persistencia pers = new Persistencia();
         if (fil != null) {

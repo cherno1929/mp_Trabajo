@@ -73,8 +73,6 @@ public class App_Combate {
         * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
         *   para hacer el combate*/
         //Tambien hará todo lo relacionado con la presistencia
-
-        
     }
 
     private void mostrarDesafios(List<Desafio> desafios) {
