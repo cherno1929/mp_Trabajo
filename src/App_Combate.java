@@ -9,15 +9,15 @@ public class App_Combate {
     private Usuario ganador;
     private Scanner reader = new Scanner(System.in);
     private App_Inventario inventario = new App_Inventario();
-    private FileController fileContr;
+    private FileController_Operator fileContr;
 
 
     //Metodos
-    public void menuCombatePrinicipal(FileController fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
+    public void menuCombatePrinicipal(FileController_Operator fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
         if (fil != null){
             this.setFileContr(fil);
         }else {
-            this.setFileContr(new FileController());
+            this.setFileContr(new FileController_Operator());
         }
         if (user != null) {
             this.setJ1(user);
@@ -36,7 +36,70 @@ public class App_Combate {
     }
 
     private void verDesafios() {
+        int opt = -2;
+        List<Desafio> desafios = this.fileContr.getSolicitudesDesafio();
+        if (desafios != null){
+            while (opt!=-1) {
+                System.out.println("\nSolicitudes de desafio\n");
+                mostrarDesafios(desafios);
+                System.out.println("\nElige una solicitud (0-" + (desafios.size() - 1) + ")\n-1.Salir");
+                opt = reader.nextInt();
+                if (opt >= 0 && opt < desafios.size()) {
+                    this.setJ2(desafios.get(opt).getJ1());
+                    this.setDesafioCombate(desafios.get(opt));
+                    empezarCombate();
+                    break;
+                }else {
+                    System.out.println("\nOpcion no valida\n");
+                }
+            }
+        } else {
+            System.out.println("No hay desafios actualmente");
+        }
+    }
 
+    private void empezarCombate() {
+
+    }
+
+    private void mostrarDesafios(List<Desafio> desafios) {
+        if (desafios != null) {
+            int i = 0;
+            for (Desafio desaf : desafios) {
+                if (desaf.getJ2().getNum_Registro().equals(this.J1.getNum_Registro())  && desaf.getValidado()){
+                    System.out.println("Desaafio Nº " + i);
+                    mostrarDesafio(desaf);
+                    i++;
+                }else {
+                    desafios.remove(desaf);
+                }
+            }
+            if (i == 0) {
+                System.out.println("\nNo tienes solicitudes de desafio, vulve más tarde\n");
+            }
+        } else {
+            System.out.println("No hay desafios");
+        }
+    }
+
+    private void mostrarDesafio(Desafio desaf) {
+        if (desaf != null) {
+            System.out.println("J1 : "+desaf.getJ1().getNum_Registro());
+            System.out.println("J2 : "+desaf.getJ2().getNum_Registro());
+            System.out.println("Oro apostado : " + desaf.getOro());
+            System.out.println("ModJ1 : "+mostrarModificador(desaf.getMod_j1()));
+            System.out.println("ModJ2 : "+mostrarModificador(desaf.getMod_j2()));
+        }
+    }
+
+    private String mostrarModificador(Set<Modificador> mods) {
+        String dataLine = "";
+        if (mods != null) {
+            for (Modificador mod : mods) {
+                dataLine += mod.getNombre();
+            }
+        }
+        return dataLine;
     }
 
     private void desafiar() {
@@ -184,11 +247,11 @@ public class App_Combate {
         this.inventario = inventario;
     }
 
-    public FileController getFileContr() {
+    public FileController_Operator getFileContr() {
         return fileContr;
     }
 
-    public void setFileContr(FileController fileContr) {
+    public void setFileContr(FileController_Operator fileContr) {
         this.fileContr = fileContr;
     }
 }

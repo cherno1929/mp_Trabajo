@@ -84,6 +84,47 @@ public class FileController_Operator extends FileController{
         return desafios;
     }
 
+    public List<Desafio> getSolicitudesDesafio() {
+        List<Desafio> desafios = new ArrayList<Desafio>();
+        File fileDesafios = new File(this.locationDesafios);
+        File[] files = fileDesafios.listFiles();
+        if (files != null) {
+            for (File fil : files){
+                try {
+                    Desafio desaf = new Desafio();
+                    BufferedReader desafioReader = new BufferedReader(new FileReader(fil));
+                    String line;
+                    while ((line = desafioReader.readLine()) != null) {
+                        String[] arr = line.split(" : ");
+                        if (arr.length > 1){
+                            String arrIdx = arr[0];
+                            String arrData = arr[1];
+                            if (arrIdx.equals("Oro")){
+                                desaf.setOro(Integer.parseInt(arrData));
+                            } else if (arrIdx.equals("J1")) {
+                                desaf.setJ1(getUsuario(arrData));
+                            } else if (arrIdx.equals("J2")) {
+                                desaf.setJ2(getUsuario(arrData));
+                            } else if (arrIdx.equals("Mod_J1")) {
+                                desaf.setMod_j1(buscarMods(arrData.split(" - ")));
+                            } else if (arrIdx.equals("Mod_J2")) {
+                                desaf.setMod_j2(buscarMods(arrData.split(" - ")));
+                            } else if (arrIdx.equals("Validado")) {
+                                desaf.setValidado(Boolean.parseBoolean(arrData));
+                            }
+                        }
+                    }
+                    if (desaf.getValidado() == true){
+                        desafios.add(desaf);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return desafios;
+    }
+
     public void modificarDesafio(String nomFile, Desafio desafio){
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(nomFile));
