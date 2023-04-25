@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.*;
 
 public class AppController {
@@ -131,7 +132,7 @@ public class AppController {
 
     /* CrearPersonaje (Otorgar campos para rellenar al usuario, generar numeros y letras aleatorios formato XXXXX,
        crear archivo de personaje y agregar personaje a clase usuario por ID) */
-    public void CreateCharacter(){
+    public void CreateCharacter(Usuario user){
         System.out.print("Introduce el nombre de tu personaje:\n");
         String nombre_pj = menu_opc.next();
         System.out.print("Introduce la raza de tu personaje (Vampiro, Licantropo, Cazador):\n");
@@ -145,13 +146,12 @@ public class AppController {
                 } else if (edad > 5000) {
                     edad = 5000;
                 }
-                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), null, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), fc.buscarEsbirros(new String[]{""}),500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
+                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), null, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null,500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
                 pjvamp.setEdad(edad);
-                // SETID NO CREADO
-                pjvamp.setId("XDDDD");
+                pjvamp.setId(getRandomId());
+                user.setPersonajeActivo(pjvamp);
                 fc.addPersonaje(pjvamp);
-                user_log.setPersonajeActivo(pjvamp);
-                fc.modificarUsuario(user_log);
+                fc.modificarUsuario(user);
                 break;
             case "Licantropo":
                 System.out.print("Introduce el peso de tu licántropo en kg (Mín 80, máx 400):\n");
@@ -175,6 +175,20 @@ public class AppController {
                 System.out.print("Esa raza no existe. Por favor, introduzca la raza de nuevo:");
         }
 
+    }
+
+    private String getRandomId() {
+        boolean valid = false;
+        String randomId = "";
+        Random randChar = new Random();
+        Set<String> filesPersonajes = this.fc.searchFiles(new File(this.fc.localPersoanjes));
+        while (!valid) {
+            for (int i = 0; i < 5; i++) {
+                randomId += (char) randChar.nextInt();
+            }
+            valid = !filesPersonajes.contains(randomId);
+        }
+        return randomId;
     }
 
     //Get-Set

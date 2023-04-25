@@ -47,7 +47,7 @@ public class App_Combate {
                 if (opt >= 0 && opt < desafios.size()) {
                     this.setJ2(desafios.get(opt).getJ1());
                     this.setDesafioCombate(desafios.get(opt));
-                    empezarCombate();
+                    preCombate();
                     break;
                 }else {
                     System.out.println("\nOpcion no valida\n");
@@ -58,8 +58,25 @@ public class App_Combate {
         }
     }
 
-    private void empezarCombate() {
+    private void preCombate() {
+        int opt = 0;
+        while (opt != 3){
+            System.out.println("Desea hacer modificar su invetrario?\n1. Si\n2. No, Empezar combate\n3. Salir");
+            opt = this.reader.nextInt();
+            if(opt == 1){
+                this.inventario.modificarPers(this.J1,this.J1.getRol());
+            } else if (opt == 2) {
+                combate();
+            }
+        }
 
+    }
+
+    private void combate() {
+        /*Anotaciones
+        * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
+        *   para hacer el combate*/
+        
     }
 
     private void mostrarDesafios(List<Desafio> desafios) {
