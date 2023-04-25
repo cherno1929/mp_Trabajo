@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.*;
 
 public class App_Combate {
@@ -9,16 +10,11 @@ public class App_Combate {
     private Usuario ganador;
     private Scanner reader = new Scanner(System.in);
     private App_Inventario inventario = new App_Inventario();
-    private FileController_Operator fileContr;
+    private FileController_Combate fileContr = new FileController_Combate();
 
 
     //Metodos
     public void menuCombatePrinicipal(FileController_Operator fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
-        if (fil != null){
-            this.setFileContr(fil);
-        }else {
-            this.setFileContr(new FileController_Operator());
-        }
         if (user != null) {
             this.setJ1(user);
         }
@@ -76,6 +72,8 @@ public class App_Combate {
         /*Anotaciones
         * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
         *   para hacer el combate*/
+        //Tambien hará todo lo relacionado con la presistencia
+
         
     }
 
@@ -142,9 +140,17 @@ public class App_Combate {
             System.out.println("\nSelecciona los modificadores de tu rival\n");
             desafio.setMod_j2(inventario.modificarMods(new HashSet<Modificador>()));
 
-            this.fileContr.addDesafio(desafio);
+            Date nowDate = new Date(System.currentTimeMillis());
 
-            System.out.println("Tu desafio ha sido mandado");
+            if (!this.fileContr.es_Baneable(nowDate,desafio.getJ2())){
+                this.fileContr.addDesafio(desafio);
+
+                System.out.println("Tu desafio ha sido mandado");
+            }else {
+                this.fileContr.banear(this.J1);
+                System.out.println("Tu cuenta ha sido baneada");
+                System.exit(1);
+            }
         }else {
             System.out.println("Algo fue mal con tu usuario...");
         }
@@ -264,11 +270,11 @@ public class App_Combate {
         this.inventario = inventario;
     }
 
-    public FileController_Operator getFileContr() {
+    public FileController_Combate getFileContr() {
         return fileContr;
     }
 
-    public void setFileContr(FileController_Operator fileContr) {
+    public void setFileContr(FileController_Combate fileContr) {
         this.fileContr = fileContr;
     }
 }
