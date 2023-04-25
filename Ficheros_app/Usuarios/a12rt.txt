@@ -3,4 +3,4 @@ NickName : GeyQuienMeMate
 Password : tumami
 Numero de registro : a12rt
 Rol : usuario
-Personaje : 1929Y
+Personaje : PAXSL

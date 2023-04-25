@@ -98,13 +98,15 @@ public class App_Combate {
 
     private void Combate() {
         setTurno(1);
-        Personaje p1 = J1.getPersonajeActivo();
-        Personaje p2 = J2.getPersonajeActivo();
+        Personaje p1 = new Personaje();
+        p1 = J1.getPersonajeActivo();
+        Personaje p2 = new Personaje();
+        p2 = J2.getPersonajeActivo();
         while (!CombateFinalizado(this.J1, this.J2)) {
             if (!(turno % 2 == 0)) { // Turno impar
-                MostrarMenuTurno(J1);
+                MostrarMenuTurno(J1, p1, p2);
             } else {
-                MostrarMenuTurno(J2);
+                MostrarMenuTurno(J2, p1, p2);
             }
             setTurno(turno++);
         }
@@ -135,17 +137,24 @@ public class App_Combate {
         return (p1.getPersonajeActivo().hasFainted()) || (p2.getPersonajeActivo().hasFainted()) || (ganador != null);
     } // Comprobacion combate terminado
 
-    private void MostrarMenuTurno(Usuario user){
+    private void MostrarMenuTurno(Usuario user, Personaje p1, Personaje p2){
         System.out.println("Turno de " + user.getNombre() + "!");
         System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
         Scanner chc_combate = new Scanner(System.in);
+        Habilidad_Especial h;
         int opcion = chc_combate.nextInt();
         if (opcion == 1) {
-            //Atacar()
+            if (user == J1) {
+                h = ElegirHabilidad(p1);
+                Atacar(p1, p2, h);
+            } else {
+                h = ElegirHabilidad(p2);
+                Atacar(p2, p1, h);
+            }
         } else if (opcion == 2){
             Rendirse(user);
         } else {
-            MostrarMenuTurno(user);
+            MostrarMenuTurno(user, p1, p2);
         }
     } // Mostrar pestaña de accion para x usuario
 
@@ -160,6 +169,75 @@ public class App_Combate {
         }
     }
 
+    private Habilidad_Especial ElegirHabilidad(Personaje p){
+        List<Habilidad_Especial> habilidades_disponibles = new ArrayList<Habilidad_Especial>(p.getHabilidades());
+        showHE(habilidades_disponibles);
+        System.out.println("Elija su habilidad:");
+        Scanner elegir_habilidad = new Scanner(System.in);
+        int eh = -1;
+        while ((eh < 0) || (eh>=habilidades_disponibles.size())){
+            eh = elegir_habilidad.nextInt();
+        }
+        return habilidades_disponibles.get(eh);
+    }
+
+    private void showHE(List<Habilidad_Especial> he){
+        int i = 1;
+        System.out.println("Habilidades disponibles:\n");
+        for (Habilidad_Especial h : he){
+            System.out.println(i + ": " + h.getNombre());
+            i++;
+        }
+    }
+
+    private void Atacar(Personaje patk, Personaje prec, Habilidad_Especial h){
+        int d_extra = 0;
+        Random valor_dado = new Random();
+        int vd = 0;
+        int ataque_final = 0;
+        if (patk.getMods() != null) {
+            for (Modificador mod : patk.getMods()) {
+                if (mod.tipo_mod == Tipo_mod.Fortaleza) {
+                    d_extra += mod.grado_Efecto;
+                }
+            }
+        }
+        int dados = patk.calcPwr() + h.atk + d_extra;
+        for (int i = 0; i < dados; i++){
+            vd = valor_dado.nextInt(6) + 1;
+            if (vd >= 5){
+                ataque_final++;
+            }
+        }
+        recibirDamage(prec, ataque_final);
+        System.out.println("El ataque ha hecho " + ataque_final + " de daño!");
+    }
+
+    private void recibirDamage(Personaje atacado ,int atk) {
+        List<Esbirro> esbirros = new ArrayList<Esbirro>(atacado.getEsbirros());
+        if (esbirros != null || !esbirros.isEmpty()){
+            int i = 0;
+            Esbirro esb = esbirros.get(i);
+            while (i < esbirros.size() && !atacado.hasFainted() && atk > 0) {
+                if (esb.getSalud() > 0) {
+                    if (atk <= esb.getSalud()) {
+                        esb.setSalud(esb.getSalud() - atk);
+                        break;
+                    } else {
+                        atk -= esb.getSalud();
+                        esb.setSalud(0);
+                    }
+                }
+                i++;
+                esb = esbirros.get(i);
+            }
+            if (atk > 0) {
+                atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
+            }
+        }else {
+            atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
+        }
+    }
     private void mostrarDesafios(List<Desafio> desafios) {
         if (desafios != null) {
             int i = 0;

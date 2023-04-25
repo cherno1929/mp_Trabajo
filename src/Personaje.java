@@ -177,9 +177,14 @@ public class Personaje {
         return (escudo + aux_def);
     }
 
-    public int calcEsb() {
-        // TBD...
-        return 0;
+    public List<Esbirro> calcEsb() {
+        List<Esbirro> esbirros_vivos = new ArrayList<Esbirro>();
+        for (Esbirro esb : this.esbirros) {
+            if (esb.getSalud() > 0) {
+                esbirros_vivos.add(esb);
+            }
+        }
+        return esbirros_vivos;
     }
 
     public boolean hasFainted() {
