@@ -4,5 +4,5 @@ Oro : 500
 Raza : class Vampiro
 Arma : Mandoble - 
 Armaduras : Armadura_de_cuero - 
-Esbirros : null - 
+Esbirros :
 Edad : 2500

@@ -172,12 +172,14 @@ public class AppController {
                 Licantropo pjlic = new Licantropo(nombre_pj, fc.getDones(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
                 pjlic.setAltura(altura);
                 pjlic.setPeso(peso);
+                pjlic.setId(getRandomId());
                 user.setPersonajeActivo(pjlic);
                 fc.addPersonaje(pjlic);
                 fc.modificarUsuario(user);
                 break;
             case "Cazador":
                 Cazador pjcaz = new Cazador(nombre_pj, fc.getTalentos(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
+                pjcaz.setId(getRandomId());
                 user.setPersonajeActivo(pjcaz);
                 fc.addPersonaje(pjcaz);
                 fc.modificarUsuario(user);
@@ -195,7 +197,7 @@ public class AppController {
         while (!valid) {
             randomId = "";
             for (int i = 0; i < 5; i++) {
-                randomId += randChar.nextInt(26) + 'A';
+                randomId += (char) (randChar.nextInt(26) + 'A');
             }
             valid = !filesPersonajes.contains(randomId);
         }

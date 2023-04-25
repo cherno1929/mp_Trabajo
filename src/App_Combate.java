@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class App_Combate {
-    private Usuario J1; //En un principo, este eres tú
+    private Usuario J1; //En un principio, este eres tú
     private Usuario J2;
     private int turno;
     private int oroApostado;
@@ -61,22 +61,55 @@ public class App_Combate {
     private void preCombate() {
         int opt = 0;
         while (opt != 3){
-            System.out.println("Desea hacer modificar su invetrario?\n1. Si\n2. No, Empezar combate\n3. Salir");
+            System.out.println("Desea modificar su inventario?\n1. Si\n2. No, empezar combate\n3. Salir");
             opt = this.reader.nextInt();
             if(opt == 1){
                 this.inventario.modificarPers(this.J1,this.J1.getRol());
             } else if (opt == 2) {
-                combate();
+                Combate();
             }
         }
-
     }
 
-    private void combate() {
-        /*Anotaciones
-        * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
-        *   para hacer el combate*/
-        
+    private void Combate() {
+        setTurno(1);
+        Personaje p1 = J1.getPersonajeActivo();
+        Personaje p2 = J2.getPersonajeActivo();
+        while (!CombateFinalizado(p1, p2)) {
+            if (!(turno % 2 == 0)) { // Turno impar
+                MostrarMenuTurno(J1);
+            } else {
+                MostrarMenuTurno(J2);
+            }
+            setTurno(turno++);
+        }
+    }
+
+    private boolean CombateFinalizado(Personaje p1, Personaje p2){
+        return (p1.hasFainted()) || (p2.hasFainted()) || (ganador != null);
+    } // Comprobacion combate terminado
+
+    private void MostrarMenuTurno(Usuario user){
+        System.out.println("Turno de " + user.getNombre() + "!");
+        System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
+        Scanner chc_combate = new Scanner(System.in);
+        int opcion = chc_combate.nextInt();
+        if (opcion == 1) {
+            //Atacar()
+        } else if (opcion == 2){
+            Rendirse(user);
+        } else {
+            MostrarMenuTurno(user);
+        }
+    } // Mostrar pestaña de accion para x usuario
+
+    private void Rendirse(Usuario user){
+        boolean j1_loser = user == J1;
+        if (j1_loser) {
+            setGanador(J2);
+        } else {
+            setGanador(J1);
+        }
     }
 
     private void mostrarDesafios(List<Desafio> desafios) {
@@ -84,7 +117,7 @@ public class App_Combate {
             int i = 0;
             for (Desafio desaf : desafios) {
                 if (desaf.getJ2().getNum_Registro().equals(this.J1.getNum_Registro())  && desaf.getValidado()){
-                    System.out.println("Desaafio Nº " + i);
+                    System.out.println("Desafio Nº " + i);
                     mostrarDesafio(desaf);
                     i++;
                 }else {
@@ -92,10 +125,10 @@ public class App_Combate {
                 }
             }
             if (i == 0) {
-                System.out.println("\nNo tienes solicitudes de desafio, vulve más tarde\n");
+                System.out.println("\nNo tienes solicitudes de desafio, vuelve más tarde\n");
             }
         } else {
-            System.out.println("No hay desafios");
+            System.out.println("No hay desafíos");
         }
     }
 
