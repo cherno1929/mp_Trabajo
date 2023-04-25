@@ -194,11 +194,11 @@ public class App_Inventario {
         System.out.println("Tipo de modificador : " + mod.getTipo_mod()+"\n");
     }
 
-    public void modificarPers(Usuario j1) {
-        mostrarPersonaje(j1);
+    public void modificarPers(Usuario j1, Rol operador) {
+        mostrarPersonaje(j1,operador);
     }
 
-    private void mostrarPersonaje(Usuario j1) {
+    private void mostrarPersonaje(Usuario j1, Rol operador) {
         if (j1 != null || j1.getPersonajeActivo() != null){
             int opt = 0;
             while (opt != 10){
@@ -235,7 +235,7 @@ public class App_Inventario {
                     this.cambiarEscudo(j1.getPersonajeActivo());
                     break;
                 case 11:
-                    if (j1.getRol() == Rol.operador){
+                    if (operador == Rol.operador){
                         j1.personajeActivo.setMods(modificarMods(j1.getPersonajeActivo().getMods()));
                     }
 

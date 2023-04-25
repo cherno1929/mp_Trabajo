@@ -97,14 +97,16 @@ public class FileController_Operator extends FileController{
 
     private String nameModsDesafio(Set<Modificador> mods){
         String names = "";
-        for (Modificador mod : mods){
+        if (mods != null){
+            for (Modificador mod : mods) {
                 names += (mod.getNombre() + " - ");
             }
+        }
         return names;
     }
 
 
-    private void writeDesafio(String nomFile, Desafio desafio) {
+    public void writeDesafio(String nomFile, Desafio desafio) {
         try {
             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(nomFile));
             fileWriter.write("J1 : "+desafio.getJ1().getNum_Registro());

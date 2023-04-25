@@ -12,6 +12,7 @@ public class App_Operador {
     //Metodos
     public void Menu(Menu_Principal menuPrincipal) {
         this.setMp(menuPrincipal);
+        this.operador = menuPrincipal.getUser();
         System.out.print("Bienvenido, escoge una opción:\n1.Banear Usuario\n2.Desbanear Usuario\n3.Ver Lista de desafios (hay " + this.lista_Desafios.size() + " desafios)\n4.Volver\n");
         Scanner menu_opc = new Scanner(System.in);
         int opc = menu_opc.nextInt();
@@ -169,10 +170,10 @@ public class App_Operador {
                     System.out.println("\nQue personaje desea modificar (1 ó 2)\n3. Salir");
                     opMod = scanOP.nextInt();
                     if (opMod == 1) {
-                        desafio.setJ1(this.MenuJug(desafio.getJ1()));
+                        desafio.setJ1(this.MenuJug(desafio.getJ1(),Rol.operador));
                         this.herramienta_Operador.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
                     } else if (opMod == 2) {
-                        desafio.setJ2(this.MenuJug(desafio.getJ2()));
+                        desafio.setJ2(this.MenuJug(desafio.getJ2(),Rol.operador));
                         this.herramienta_Operador.modificarPersonaje(desafio.getJ2().getPersonajeActivo());
                     }
                 }
@@ -182,8 +183,8 @@ public class App_Operador {
         this.lista_Desafios = this.herramienta_Operador.getDesafios();
     }
 
-    private Usuario MenuJug(Usuario j1) {
-        this.modificadorGeneral.modificarPers(j1);
+    private Usuario MenuJug(Usuario j1, Rol operador) {
+        this.modificadorGeneral.modificarPers(j1,operador);
         return j1;
     }
 

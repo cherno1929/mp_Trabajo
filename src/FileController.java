@@ -15,6 +15,7 @@ public class FileController {
     protected String localTalentos = "Ficheros_app/Habilidades/Talento";
     protected String localPacto = "Ficheros_app/Pacto";
     protected String localRanking = "Ficheros_app/Ranking.txt";
+    protected String locatinDesafios = "Ficheros_app/Desafios";
 
     //Metodos
 
@@ -239,7 +240,7 @@ public class FileController {
                         file_Writer.write(weaponP.getNombre() + " - ");
                         i++;
                     } else {
-                        file_Writer.write(weaponP.getNombre());//Guardar el nombre del arma (es su id)
+                        file_Writer.write(weaponP.getNombre());
                     }
                 }
             }
@@ -274,11 +275,15 @@ public class FileController {
             if(personaj.getHabilidades() != null){
                 for (Habilidad_Especial esbP : personaj.getHabilidades()) {
                     int i = 1;
-                    if (i < personaj.getHabilidades().size()){
-                        file_Writer.write(esbP.getNombre()+ " - ");
-                        i++;
+                    if (!esbP.getNombre().endsWith(".txt")){
+                        if (i < personaj.getHabilidades().size()) {
+                            file_Writer.write(esbP.getNombre() + " - ");
+                            i++;
+                        } else {
+                            file_Writer.write(esbP.getNombre());
+                        }
                     }else {
-                        file_Writer.write(esbP.getNombre());
+                        file_Writer.write(esbP.getNombre().substring(0,esbP.getNombre().length()-4));
                     }
                 }
             }
@@ -392,7 +397,7 @@ public class FileController {
         } else {
             hab = new Talento();
         }
-        hab.setNombre(fileHab.getName());
+        hab.setNombre(fileHab.getName().substring(0,fileHab.getName().length()-4));
         try {
             BufferedReader readerF = new BufferedReader(new FileReader(fileHab));
             String line;
@@ -865,5 +870,49 @@ public class FileController {
     public Set<Esbirro> getAllEsbirro() {
         File[] filesEsbirros =  new File(locationEsbirros).listFiles();
         return buscarEsbirros(filesEsbirros);
+    }
+
+
+    public void addDesafio(Desafio desafio){
+        if (desafio != null) {
+            File fileDesafio = new File(this.locatinDesafios + "/" + desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt");
+            try{
+                if (fileDesafio.createNewFile()) {
+                    addAlInfoDesafio(fileDesafio,desafio);
+                }else {
+                    BufferedWriter fileWriter = new BufferedWriter(new FileWriter(fileDesafio));
+                    fileWriter.write("");
+                    fileWriter.close();
+                    addAlInfoDesafio(fileDesafio,desafio);
+                }
+            } catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void addAlInfoDesafio(File fileDesafio, Desafio desafio) {
+        try {
+            BufferedWriter writeFile = new BufferedWriter(new FileWriter(fileDesafio));
+            writeFile.write("J1 : "+desafio.getJ1().getNum_Registro()+"\n");
+            writeFile.write("J2 : "+desafio.getJ2().getNum_Registro()+"\n");
+            writeFile.write("Oro : "+desafio.getOro()+"\n");
+            writeFile.write("Mod_J1 : "+getModsName(desafio.getMod_j1())+"\n");
+            writeFile.write("Mod_J2 : "+getModsName(desafio.getMod_j2())+"\n");
+            writeFile.write("Validado : "+desafio.getValidado()+"\n");
+            writeFile.close();
+        }catch (IOException e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String getModsName(Set<Modificador> mods) {
+        String data = "";
+        if (mods != null) {
+            for (Modificador mod : mods) {
+                data += mod.getNombre() + " - ";
+            }
+        }
+        return data;
     }
 }
