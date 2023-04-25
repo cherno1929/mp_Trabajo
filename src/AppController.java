@@ -133,6 +133,7 @@ public class AppController {
     /* CrearPersonaje (Otorgar campos para rellenar al usuario, generar numeros y letras aleatorios formato XXXXX,
        crear archivo de personaje y agregar personaje a clase usuario por ID) */
     public void CreateCharacter(Usuario user){
+        List<Arma> mand = new ArrayList<>(fc.buscarArmas(new String[]{"Mandoble"}));
         System.out.print("Introduce el nombre de tu personaje:\n");
         String nombre_pj = menu_opc.next();
         System.out.print("Introduce la raza de tu personaje (Vampiro, Licantropo, Cazador):\n");
@@ -146,7 +147,7 @@ public class AppController {
                 } else if (edad > 5000) {
                     edad = 5000;
                 }
-                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), null, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null,500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
+                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null,500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
                 pjvamp.setEdad(edad);
                 pjvamp.setId(getRandomId());
                 user.setPersonajeActivo(pjvamp);
@@ -163,28 +164,38 @@ public class AppController {
                 }
                 System.out.print("Introduce la altura de tu licántropo en centímetros (Mín 150, máx 200):\n");
                 int altura = menu_opc.nextInt();
-                if (altura < 80) {
-                    altura = 80;
-                } else if (altura > 400) {
-                    altura = 400;
+                if (altura < 150) {
+                    altura = 150;
+                } else if (altura > 200) {
+                    altura = 200;
                 }
+                Licantropo pjlic = new Licantropo(nombre_pj, fc.getDones(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
+                pjlic.setAltura(altura);
+                pjlic.setPeso(peso);
+                user.setPersonajeActivo(pjlic);
+                fc.addPersonaje(pjlic);
+                fc.modificarUsuario(user);
                 break;
             case "Cazador":
+                Cazador pjcaz = new Cazador(nombre_pj, fc.getTalentos(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
+                user.setPersonajeActivo(pjcaz);
+                fc.addPersonaje(pjcaz);
+                fc.modificarUsuario(user);
                 break;
             default:
                 System.out.print("Esa raza no existe. Por favor, introduzca la raza de nuevo:");
         }
-
     }
 
     private String getRandomId() {
         boolean valid = false;
-        String randomId = "";
+        String randomId = null;
         Random randChar = new Random();
         Set<String> filesPersonajes = this.fc.searchFiles(new File(this.fc.localPersoanjes));
         while (!valid) {
+            randomId = "";
             for (int i = 0; i < 5; i++) {
-                randomId += (char) randChar.nextInt();
+                randomId += randChar.nextInt(26) + 'A';
             }
             valid = !filesPersonajes.contains(randomId);
         }
