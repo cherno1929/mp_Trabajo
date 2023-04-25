@@ -62,17 +62,51 @@ public class App_Combate {
             if(opt == 1){
                 this.inventario.modificarPers(this.J1,this.J1.getRol());
             } else if (opt == 2) {
-                combate();
+                Combate();
             }
         }
 
     }
 
-    private void combate() {
-        /*Anotaciones
-         * -Ahora mismo, no se dispone de servidores, por lo tanto se ussará el esta misma cuenta, la del desafiado
-         *   para hacer el combate*/
-        //Tambien hará todo lo relacionado con la presistencia
+    private void Combate() {
+        setTurno(1);
+        Personaje p1 = J1.getPersonajeActivo();
+        Personaje p2 = J2.getPersonajeActivo();
+        while (!CombateFinalizado(p1, p2)) {
+            if (!(turno % 2 == 0)) { // Turno impar
+                MostrarMenuTurno(J1);
+            } else {
+                MostrarMenuTurno(J2);
+            }
+            setTurno(turno++);
+        }
+    }
+
+    private boolean CombateFinalizado(Personaje p1, Personaje p2){
+        return (p1.hasFainted()) || (p2.hasFainted()) || (ganador != null);
+    } // Comprobacion combate terminado
+
+    private void MostrarMenuTurno(Usuario user){
+        System.out.println("Turno de " + user.getNombre() + "!");
+        System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
+        Scanner chc_combate = new Scanner(System.in);
+        int opcion = chc_combate.nextInt();
+        if (opcion == 1) {
+            //Atacar()
+        } else if (opcion == 2){
+            Rendirse(user);
+        } else {
+            MostrarMenuTurno(user);
+        }
+    } // Mostrar pestaña de accion para x usuario
+
+    private void Rendirse(Usuario user){
+        boolean j1_loser = user == J1;
+        if (j1_loser) {
+            setGanador(J2);
+        } else {
+            setGanador(J1);
+        }
     }
 
     private void mostrarDesafios(List<Desafio> desafios) {
