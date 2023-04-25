@@ -1,4 +1,3 @@
-import java.time.LocalDate;
 import java.util.*;
 
 public class App_Combate {
@@ -8,6 +7,7 @@ public class App_Combate {
     private int oroApostado;
     private Desafio desafioCombate;
     private Usuario ganador;
+    private Usuario perdedor;
     private Scanner reader = new Scanner(System.in);
     private App_Inventario inventario = new App_Inventario();
     private FileController_Combate fileContr = new FileController_Combate();
@@ -28,7 +28,6 @@ public class App_Combate {
                 verDesafios();
             }
         }
-
     }
 
     private void verDesafios() {
@@ -41,10 +40,7 @@ public class App_Combate {
                 System.out.println("\nElige una solicitud (0-" + (desafios.size() - 1) + ")\n-1.Salir");
                 opt = reader.nextInt();
                 if (opt >= 0 && opt < desafios.size()) {
-                    this.setJ2(desafios.get(opt).getJ1());
-                    this.setDesafioCombate(desafios.get(opt));
-                    preCombate();
-                    break;
+                    acepatar_rechazar(desafios.get(opt));
                 }else {
                     System.out.println("\nOpcion no valida\n");
                 }
@@ -52,6 +48,38 @@ public class App_Combate {
         } else {
             System.out.println("No hay desafios actualmente");
         }
+    }
+
+    private void acepatar_rechazar(Desafio desafio) {
+        if (desafio != null) {
+            int opt = 0;
+            System.out.println("\n1. Aceptar\n2. Rechazar\n3. Salir");
+            while (opt != 3) {
+                opt = reader.nextInt();
+                if (opt == 1) {
+                    this.setJ2(desafio.getJ1());
+                    this.setDesafioCombate(desafio);
+                    preCombate();
+                    break;
+                } else if (opt == 2) {
+                    enviarOro(desafio, (int) (desafio.getOro() * 0.1));
+                }
+            }
+        }
+    }
+
+    private void enviarOro(Desafio desafio, int cantOro) {
+        if (desafio.getJ2().getPersonajeActivo().getOro() == 0){
+
+        } else if (desafio.getJ2().getPersonajeActivo().getOro() < 0) {
+            desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + desafio.getJ2().getPersonajeActivo().getOro());
+            desafio.getJ2().getPersonajeActivo().setOro(0);
+        }else {
+            desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + cantOro);
+            desafio.getJ2().getPersonajeActivo().setOro(desafio.getJ2().getPersonajeActivo().getOro() - cantOro);
+        }
+        this.fileContr.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
+        this.fileContr.modificarPersonaje(desafio.getJ2().getPersonajeActivo());
     }
 
     private void preCombate() {
@@ -65,14 +93,14 @@ public class App_Combate {
                 Combate();
             }
         }
-
     }
+
 
     private void Combate() {
         setTurno(1);
         Personaje p1 = J1.getPersonajeActivo();
         Personaje p2 = J2.getPersonajeActivo();
-        while (!CombateFinalizado(p1, p2)) {
+        while (!CombateFinalizado(this.J1, this.J2)) {
             if (!(turno % 2 == 0)) { // Turno impar
                 MostrarMenuTurno(J1);
             } else {
@@ -80,10 +108,31 @@ public class App_Combate {
             }
             setTurno(turno++);
         }
+        Date nowDate = new Date(System.currentTimeMillis());
+        Persistencia pers = new Persistencia();
+        pers.setJ1(this.J2);
+        pers.setJ2(this.J1);
+        pers.setN_Turnos(this.turno);
+        pers.setFecha_Combate(nowDate);
+        pers.setGanador(this.getGanador());
+        // pers.setEsbirros_Vivos(); --> Los esbirros
+        this.fileContr.addPersistencia(pers);
+        repartirOro();
     }
 
-    private boolean CombateFinalizado(Personaje p1, Personaje p2){
-        return (p1.hasFainted()) || (p2.hasFainted()) || (ganador != null);
+    private void repartirOro() {
+        this.enviarOro(this.desafioCombate,this.desafioCombate.getOro());
+    }
+
+    private boolean CombateFinalizado(Usuario p1, Usuario p2){
+        if (p1.getPersonajeActivo().hasFainted()){
+            this.setGanador(p2);
+            this.setPerdedor(p1);
+        } else if (p2.getPersonajeActivo().hasFainted()) {
+            this.setGanador(p1);
+            this.setPerdedor(p2);
+        }
+        return (p1.getPersonajeActivo().hasFainted()) || (p2.getPersonajeActivo().hasFainted()) || (ganador != null);
     } // Comprobacion combate terminado
 
     private void MostrarMenuTurno(Usuario user){
@@ -308,5 +357,13 @@ public class App_Combate {
 
     public void setFileContr(FileController_Combate fileContr) {
         this.fileContr = fileContr;
+    }
+
+    public Usuario getPerdedor() {
+        return perdedor;
+    }
+
+    public void setPerdedor(Usuario perdedor) {
+        this.perdedor = perdedor;
     }
 }
