@@ -1,3 +1,6 @@
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -16,6 +19,9 @@ public class App_Combate {
     private App_Inventario inventario = new App_Inventario();
     private FileController_Combate fileContr = new FileController_Combate();
 
+    private String zonaRegistry = new String();
+
+    private StringBuilder reg = new StringBuilder();
 
     //Metodos
     public void menuCombatePrincipal(FileController_Operator fil,Usuario user /*Si queremos usar un file controller ya existente*/ /*Recuerda antes asignar un usuario J1*/) {
@@ -109,11 +115,14 @@ public class App_Combate {
 
 
     private void Combate() {
+        setZonaRegistry("Ficheros_App/Registros_Combate/" + getJ1().getNum_Registro() + "-" + getJ2().getNum_Registro() + ".txt");
         setTurno(1);
         Personaje p1 = new Personaje();
         p1 = J1.getPersonajeActivo();
         Personaje p2 = new Personaje();
         p2 = J2.getPersonajeActivo();
+        p1.setPunt_Salud(5);
+        p2.setPunt_Salud(5);
         while (!CombateFinalizado(this.J1, this.J2)) {
             if (!(turno % 2 == 0)) { // Turno impar
                 MostrarMenuTurno(J1, p1, p2);
@@ -122,6 +131,9 @@ public class App_Combate {
             }
             setTurno(this.getTurno()+1);
         }
+        p1.setPunt_Salud(5);
+        p2.setPunt_Salud(5);
+        this.createRegistry();
         Date nowDate = new Date();
         Persistencia pers = new Persistencia();
         pers.setN_Turnos(this.turno);
@@ -144,15 +156,19 @@ public class App_Combate {
         if (p1.getPersonajeActivo().hasFainted()){
             this.setGanador(p2);
             this.setPerdedor(p1);
+            System.out.println("El ganador es " + ganador.getNombre() + "!\n\n");
         } else if (p2.getPersonajeActivo().hasFainted()) {
             this.setGanador(p1);
             this.setPerdedor(p2);
+            System.out.println("El ganador es " + ganador.getNombre() + "!\n\n");
         }
         return (p1.getPersonajeActivo().hasFainted()) || (p2.getPersonajeActivo().hasFainted()) || (ganador != null);
     } // Comprobacion combate terminado
 
     private void MostrarMenuTurno(Usuario user, Personaje p1, Personaje p2){
         System.out.println("Turno de " + user.getNombre() + "!");
+        System.out.println("Vida de " + p1.getNombre() + ": " + p1.getPunt_Salud());
+        System.out.println("Vida de " + p2.getNombre() + ": " + p2.getPunt_Salud());
         System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
         Habilidad_Especial h;
         int opcion = reader.nextInt();
@@ -189,7 +205,7 @@ public class App_Combate {
         System.out.println("Elija su habilidad:");
         int eh = reader.nextInt();
         while (!(eh >= 0 && eh < habilidades_disponibles.size())){
-                eh = reader.nextInt();
+                eh = reader.nextInt() - 1;
         }
         return habilidades_disponibles.get(eh);
     }
@@ -215,7 +231,7 @@ public class App_Combate {
                 }
             }
         }
-        int dados = patk.calcPwr() + h.getAtk() + d_extra; // en esta linea hay problemas
+        int dados = patk.calcPwr() + h.getAtk() + d_extra;
         for (int i = 0; i < dados; i++){
             vd = valor_dado.nextInt(6) + 1;
             if (vd >= 5){
@@ -224,6 +240,7 @@ public class App_Combate {
         }
         recibirDamage(prec, ataque_final);
         System.out.println("El ataque ha hecho " + ataque_final + " de daño!");
+        reg.append("Turno " + getTurno() + ": Personaje " + patk.getNombre() + " ataca con " + h.getNombre() + ". " + ataque_final + " dmg\n");
     }
 
     private void recibirDamage(Personaje atacado ,int atk) {
@@ -379,6 +396,18 @@ public class App_Combate {
         }
     }
 
+    public void createRegistry(){
+        try {
+            File newRegistry = new File(zonaRegistry);
+            FileWriter fw = new FileWriter(zonaRegistry);
+            fw.write("" + reg);
+            fw.write("ganador - " + getGanador().getNombre() + "(numreg - " + getGanador().getNum_Registro() + ")");
+            fw.close();
+        } catch (IOException ioe) {
+            System.out.println("Error : " + ioe);
+            throw new RuntimeException(ioe);
+        }
+    }
 
     //Get-Set
     public Usuario getJ1() {
@@ -459,5 +488,13 @@ public class App_Combate {
 
     public void setPerdedor(Usuario perdedor) {
         this.perdedor = perdedor;
+    }
+
+    public String getZonaRegistry() {
+        return zonaRegistry;
+    }
+
+    public void setZonaRegistry(String zonaRegistry) {
+        this.zonaRegistry = zonaRegistry;
     }
 }

@@ -1,0 +1,11 @@
+Nombre : Pepardo
+Id : GQCMZ
+Oro : 515
+Raza : class Vampiro
+Poder : 20
+Salud : 5
+Arma : Mandoble
+Armaduras : Armadura_de_cuero
+Esbirros : 
+Habilidad : Chupar_Sangre - Garra Sangri - 
+Edad : 3

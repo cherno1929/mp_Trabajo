@@ -192,7 +192,7 @@ public class Personaje {
     }
 
     public boolean hasFainted() {
-        return this.punt_Salud == 0;
+        return this.punt_Salud <= 0;
     }
 
     public void mostrarPersonaje() {
