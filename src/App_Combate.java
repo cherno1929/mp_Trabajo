@@ -1,10 +1,6 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class App_Combate {
@@ -51,7 +47,7 @@ public class App_Combate {
                     System.out.println("\nElige una solicitud (0-" + (desafios.size() - 1) + ")\n-1.Salir");
                     opt = reader.nextInt();
                     if (opt >= 0 && opt < desafios.size()) {
-                        acepatar_rechazar(desafios.get(opt));
+                        acepatar_rechazar(desafios.get(opt),desafios);
                     } else {
                         System.out.println("\nOpcion no valida\n");
                     }
@@ -65,7 +61,7 @@ public class App_Combate {
         }
     }
 
-    private void acepatar_rechazar(Desafio desafio) {
+    private void acepatar_rechazar(Desafio desafio, List<Desafio> desafios) {
         if (desafio != null) {
             int opt = 0;
             System.out.println("\n1. Aceptar\n2. Rechazar\n3. Salir");
@@ -78,6 +74,7 @@ public class App_Combate {
                     break;
                 } else if (opt == 2) {
                     enviarOro(desafio, (int) (desafio.getOro() * 0.1));
+                    desafios.remove(desafio);
                 }
             }
             if (opt != 3) {

@@ -117,6 +117,7 @@ public class FileController_Operator extends FileController{
                     if (desaf.getValidado() == true && user.getNum_Registro().equals(desaf.getJ2().getNum_Registro())){
                         desafios.add(desaf);
                     }
+                    desafioReader.close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

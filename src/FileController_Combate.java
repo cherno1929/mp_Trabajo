@@ -13,7 +13,7 @@ public class FileController_Combate extends FileController_Operator{
         if (obliterado != null && obliterado.size() > 0){
             for (Persistencia pers : obliterado) {
                 float dateDifference = Math.abs(actualDate.getTime() - pers.fecha_Combate.getTime());
-                baneable = (dateDifference <= 1440) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
+                baneable = (dateDifference <= 24) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
                 if (baneable) {
                     break;
                 }
@@ -94,7 +94,7 @@ public class FileController_Combate extends FileController_Operator{
                         } else if (arrIdx.equals("Oro")) {
                             pers.setOroGanado(Integer.parseInt(arrData));
                         } else if (arrIdx.equals("Fecha")) {
-                            Date date1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(arrData);
+                            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(arrData);
                             pers.setFecha_Combate(date1);
                         } else if (arrIdx.equals("Esbirros")) {
                             String[] esbirros = arrData.split(" - ");
@@ -125,10 +125,17 @@ public class FileController_Combate extends FileController_Operator{
 
     public void destruirDesafio(Desafio desafio) { // Por algun motivo falla
         String location_Desafio = this.locatinDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt";
-        System.out.println("Localización de ficherlo :: "+location_Desafio);
+        System.out.println("Localización de fichero :: "+location_Desafio);
         File filDestyoyer = new File(location_Desafio);
+        try {
+            PrintWriter deleteWriter = new PrintWriter(location_Desafio);
+            deleteWriter.print("");
+            deleteWriter.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         if (filDestyoyer.delete()) {
-            System.out.println("Desafio rechazado correctamente");
+            System.out.println("Desafio borrado correctamente");
         } else {
             System.out.println("Ha habido algun problema borrando el desafio");
         }
