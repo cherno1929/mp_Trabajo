@@ -33,16 +33,21 @@ public class App_Combate {
     private void verDesafios() {
         int opt = -2;
         List<Desafio> desafios = this.fileContr.getSolicitudesDesafio();
-        if (desafios != null){
+        if (desafios != null && desafios.size() > 0){
             while (opt!=-1) {
-                System.out.println("\nSolicitudes de desafio\n");
-                mostrarDesafios(desafios);
-                System.out.println("\nElige una solicitud (0-" + (desafios.size() - 1) + ")\n-1.Salir");
-                opt = reader.nextInt();
-                if (opt >= 0 && opt < desafios.size()) {
-                    acepatar_rechazar(desafios.get(opt));
-                }else {
-                    System.out.println("\nOpcion no valida\n");
+                if (desafios.size() > 0){
+                    System.out.println("\nSolicitudes de desafio\n");
+                    mostrarDesafios(desafios);
+                    System.out.println("\nElige una solicitud (0-" + (desafios.size() - 1) + ")\n-1.Salir");
+                    opt = reader.nextInt();
+                    if (opt >= 0 && opt < desafios.size()) {
+                        acepatar_rechazar(desafios.get(opt));
+                    } else {
+                        System.out.println("\nOpcion no valida\n");
+                    }
+                } else {
+                    System.out.println("\nNo hay desafios\n");
+                    opt = -1;
                 }
             }
         } else {
@@ -54,7 +59,7 @@ public class App_Combate {
         if (desafio != null) {
             int opt = 0;
             System.out.println("\n1. Aceptar\n2. Rechazar\n3. Salir");
-            while (opt != 3) {
+            while (!(opt >= 1 && opt <= 3)) {
                 opt = reader.nextInt();
                 if (opt == 1) {
                     this.setJ2(desafio.getJ1());
@@ -64,6 +69,9 @@ public class App_Combate {
                 } else if (opt == 2) {
                     enviarOro(desafio, (int) (desafio.getOro() * 0.1));
                 }
+            }
+            if (opt != 3) {
+                this.fileContr.destruirDesafio(desafio);
             }
         }
     }
@@ -251,7 +259,7 @@ public class App_Combate {
                 }
             }
             if (i == 0) {
-                System.out.println("\nNo tienes solicitudes de desafio, vulve más tarde\n");
+
             }
         } else {
             System.out.println("No hay desafios");
@@ -339,7 +347,7 @@ public class App_Combate {
                 mostrarNombreUsuarios(usuarios);
                 System.out.println("Selecciona a quien te quieres enfrentar\n-1. Salir");
                 selectOpt = reader.nextInt();
-                if ((selectOpt == -1) || (selectOpt >= 0 && selectOpt < usuarios.size())) {
+                if ((selectOpt >= 0 && selectOpt < usuarios.size())) {
                     selectedUser = usuarios.get(selectOpt);
                 }
             }

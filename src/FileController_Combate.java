@@ -93,4 +93,17 @@ public class FileController_Combate extends FileController_Operator{
     }
 
 
+    /*
+    public void destruirDesafio(Desafio desafio) { // Por algun motivo falla
+        String location_Desafio = this.locatinDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt";
+        System.out.println("Localización de ficherlo :: "+location_Desafio);
+        File filDestyoyer = new File(location_Desafio);
+        if (filDestyoyer.delete()) {
+            System.out.println("Desafio rechazado correctamente");
+        } else {
+            System.out.println("Ha habido algun problema borrando el desafio");
+        }
+    }
+
+     */
 }
