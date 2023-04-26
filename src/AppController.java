@@ -147,7 +147,7 @@ public class AppController {
                 } else if (edad > 5000) {
                     edad = 5000;
                 }
-                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null,500,5,fc.buscarMods(new String[]{"Sol"}),20,0);
+                Vampiro pjvamp = new Vampiro(nombre_pj, fc.getDisciplinas(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null,500,5,fc.buscarMods(new String[]{"Sol"}),5,0);
                 pjvamp.setEdad(edad);
                 pjvamp.setId(getRandomId());
                 user.setPersonajeActivo(pjvamp);
@@ -169,7 +169,7 @@ public class AppController {
                 } else if (altura > 200) {
                     altura = 200;
                 }
-                Licantropo pjlic = new Licantropo(nombre_pj, fc.getDones(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
+                Licantropo pjlic = new Licantropo(nombre_pj, fc.getDones(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 5, 0);
                 pjlic.setAltura(altura);
                 pjlic.setPeso(peso);
                 pjlic.setId(getRandomId());
@@ -178,7 +178,7 @@ public class AppController {
                 fc.modificarUsuario(user);
                 break;
             case "Cazador":
-                Cazador pjcaz = new Cazador(nombre_pj, fc.getTalentos(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 20, 0);
+                Cazador pjcaz = new Cazador(nombre_pj, fc.getTalentos(), fc.buscarArmas(new String[]{"Mandoble"}), mand, fc.buscarArmaduras(new String[]{"Armadura_de_cuero"}), null, 500, 5, fc.buscarMods(new String[]{"Sol"}), 5, 0);
                 pjcaz.setId(getRandomId());
                 user.setPersonajeActivo(pjcaz);
                 fc.addPersonaje(pjcaz);

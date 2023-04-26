@@ -203,9 +203,9 @@ public class App_Combate {
         List<Habilidad_Especial> habilidades_disponibles = new ArrayList<Habilidad_Especial>(p.getHabilidades());
         showHE(habilidades_disponibles);
         System.out.println("Elija su habilidad:");
-        int eh = reader.nextInt();
+        int eh = (reader.nextInt() - 1);
         while (!(eh >= 0 && eh < habilidades_disponibles.size())){
-                eh = reader.nextInt() - 1;
+                eh = (reader.nextInt() - 1);
         }
         return habilidades_disponibles.get(eh);
     }

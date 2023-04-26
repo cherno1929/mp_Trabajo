@@ -1,8 +1,8 @@
 Nombre : Pepe
 Id : PAXSL
-Oro : 485
+Oro : 483
 Raza : class Vampiro
-Poder : 20
+Poder : 5
 Salud : 5
 Arma : Mandoble
 Armaduras : Armadura_de_cuero

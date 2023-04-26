@@ -1,8 +1,8 @@
 Nombre : Pepardo
 Id : GQCMZ
-Oro : 515
+Oro : 517
 Raza : class Vampiro
-Poder : 20
+Poder : 5
 Salud : 5
 Arma : Mandoble
 Armaduras : Armadura_de_cuero

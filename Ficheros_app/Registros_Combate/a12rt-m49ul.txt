@@ -1,2 +1,2 @@
-Turno 1: Personaje Pepe ataca con Garra Sangri. 7 dmg
+Turno 1: Personaje Pepe ataca con Garra Sangri. 9 dmg
 ganador - Hermenegildo(numreg - a12rt)
