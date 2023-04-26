@@ -1,3 +1,5 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +9,7 @@ public class Persistencia {
     public int n_Turnos;
     public Date fecha_Combate;
     public Usuario ganador;
+    public Usuario perdedor;
     public List<Esbirro> esbirros_Vivos;
     public int OroGanado;
 
@@ -46,8 +49,9 @@ public class Persistencia {
         this.n_Turnos = n_Turnos;
     }
 
-    public Date getFecha_Combate() {
-        return fecha_Combate;
+    public String getFecha_Combate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        return dateFormat.format(this.fecha_Combate);
     }
 
     public void setFecha_Combate(Date fecha_Combate) {
@@ -78,5 +82,16 @@ public class Persistencia {
         OroGanado = oroGanado;
     }
 
+    public Usuario getPerdedor() {
+        return perdedor;
+    }
 
+    public void setPerdedor(Usuario perdedor) {
+        this.perdedor = perdedor;
+    }
+
+    public String getStringFecha() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        return dateFormat.format(this.fecha_Combate);
+    }
 }

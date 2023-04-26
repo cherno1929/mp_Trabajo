@@ -10,10 +10,13 @@ public class FileController_Combate extends FileController_Operator{
     public boolean es_Baneable(Date actualDate,Usuario retado) {
         List<Persistencia> obliterado = this.getAllPersistencias();
         boolean baneable = false;
-        for (Persistencia pers : obliterado) {
-            baneable = (Math.abs(actualDate.getTime() - pers.getFecha_Combate().getTime()) <= 0) && (pers.getJ2().getNum_Registro().equals(retado.getNum_Registro()));
-            if (baneable) {
-                break;
+        if (obliterado != null && obliterado.size() > 0){
+            for (Persistencia pers : obliterado) {
+                float dateDifference = Math.abs(actualDate.getTime() - pers.fecha_Combate.getTime());
+                baneable = (dateDifference <= 0) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
+                if (baneable) {
+                    break;
+                }
             }
         }
         return baneable;
@@ -32,7 +35,8 @@ public class FileController_Combate extends FileController_Operator{
 
     public void addPersistencia(Persistencia perst) {
         if (perst != null) {
-            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-"+perst.getJ2().getNombre() + getStringDate(perst.getFecha_Combate()) + ".txt");
+            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getStringFecha() + ".txt");
+
             try {
                 if (pestFileLoacation.createNewFile()) {
                     BufferedWriter fileWritter = new BufferedWriter(new FileWriter(pestFileLoacation));
@@ -40,13 +44,15 @@ public class FileController_Combate extends FileController_Operator{
                     fileWritter.write("J2 : "+perst.getJ2().getNum_Registro()+"\n");
                     fileWritter.write("Turnos : "+perst.getN_Turnos()+"\n");
                     fileWritter.write("Ganador : "+perst.getGanador().getNum_Registro()+"\n");
+                    fileWritter.write("Perdedor : "+perst.getPerdedor().getNum_Registro()+"\n");
                     fileWritter.write("Oro : "+perst.getOroGanado()+"\n");
                     fileWritter.write("Fecha : "+perst.getFecha_Combate()+"\n");
-                    fileWritter.write("Esbirros"+perst.getStringEsbirros_Vivos()+"\n");
+                    fileWritter.write("Esbirros : "+perst.getStringEsbirros_Vivos()+"\n");
                     fileWritter.close();
                 }else {
                     System.out.println("Oups, algo fue mal");
                 }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -83,6 +89,8 @@ public class FileController_Combate extends FileController_Operator{
                             pers.setN_Turnos(Integer.parseInt(arrData));
                         } else if (arrIdx.equals("Ganador")) {
                             pers.setGanador(getUsuario(arrData));
+                        } else if (arrIdx.equals("Perdedor")) {
+                            pers.setPerdedor(getUsuario(arrData));
                         } else if (arrIdx.equals("Oro")) {
                             pers.setOroGanado(Integer.parseInt(arrData));
                         } else if (arrIdx.equals("Fecha")) {
@@ -105,8 +113,9 @@ public class FileController_Combate extends FileController_Operator{
 
     public void añadirRanking(Usuario user){
         try {
-            FileWriter addRank = new FileWriter(this.localRanking,true);
-            addRank.append(user.getNombre());
+            BufferedWriter addRank = new BufferedWriter(new FileWriter(this.localRanking,true));
+            addRank.append("\n"+user.getNombre());
+            addRank.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,3 +1,7 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.*;
 
 public class App_Combate {
@@ -118,13 +122,14 @@ public class App_Combate {
             }
             setTurno(this.getTurno()+1);
         }
-        Date nowDate = new Date(System.currentTimeMillis());
+        Date nowDate = new Date();
         Persistencia pers = new Persistencia();
         pers.setN_Turnos(this.turno);
         pers.setJ1(this.getJ1());
         pers.setJ2(this.getJ2());
         pers.setFecha_Combate(nowDate);
         pers.setGanador(this.getGanador());
+        pers.setPerdedor(this.getPerdedor());
         // pers.setEsbirros_Vivos(); --> Los esbirros
         repartirOro();
         this.fileContr.addPersistencia(pers);
@@ -248,6 +253,7 @@ public class App_Combate {
     }
     private void mostrarDesafios(List<Desafio> desafios) {
         if (desafios != null) {
+            List<Integer> listIndx = new ArrayList<Integer>();
             int i = 0;
             for (Desafio desaf : desafios) {
                 if (desaf.getJ2().getNum_Registro().equals(this.J1.getNum_Registro())  && desaf.getValidado()){
@@ -255,11 +261,11 @@ public class App_Combate {
                     mostrarDesafio(desaf);
                     i++;
                 }else {
-                    desafios.remove(desaf);
+                    listIndx.add(i);
                 }
             }
-            if (i == 0) {
-
+            for (int j : listIndx) {
+                desafios.remove(j);
             }
         } else {
             System.out.println("No hay desafios");
