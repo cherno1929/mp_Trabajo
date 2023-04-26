@@ -1,6 +1,6 @@
-Nombre : Pepe
-Id : PAXSL
-Oro : 478
+Nombre : Pupu
+Id : ZZRMP
+Oro : 501
 Raza : class Vampiro
 Poder : 5
 Salud : 5
@@ -9,4 +9,4 @@ Armaduras : Armadura_de_cuero
 Esbirros : 
 Habilidad : Garra Sangri - Chupar_Sangre - 
 Mods : 
-Edad : 2
+Edad : 1

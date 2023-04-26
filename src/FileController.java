@@ -288,6 +288,19 @@ public class FileController {
                 }
             }
             file_Writer.write("\n");
+            file_Writer.write("Mods : ");
+            if(personaj.getMods() != null){
+                for (Modificador modP : personaj.getMods()) {
+                    int i = 1;
+                    if (i < personaj.getMods().size()){
+                        file_Writer.write(modP.getNombre() + " - ");
+                        i++;
+                    }else {
+                        file_Writer.write(modP.getNombre() + " - ");
+                    }
+                }
+            }
+            file_Writer.write("\n");
             if(personaj.getClass() == Vampiro.class){
                 file_Writer.write("Edad : "+((Vampiro) personaj).getEdad());
             }else if (personaj.getClass() == Licantropo.class){

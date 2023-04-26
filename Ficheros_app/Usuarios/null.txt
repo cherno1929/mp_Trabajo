@@ -1,6 +1,0 @@
-Nombre : null
-NickName : null
-Password : null
-Numero de registro : null
-Rol : null
-Personaje : XDDDD
