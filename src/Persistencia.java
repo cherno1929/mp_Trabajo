@@ -91,7 +91,7 @@ public class Persistencia {
     }
 
     public String getStringFecha() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         return dateFormat.format(this.fecha_Combate);
     }
 }

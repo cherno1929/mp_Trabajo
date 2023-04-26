@@ -35,7 +35,7 @@ public class FileController_Combate extends FileController_Operator{
 
     public void addPersistencia(Persistencia perst) {
         if (perst != null) {
-            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getStringFecha() + ".txt");
+            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
 
             try {
                 if (pestFileLoacation.createNewFile()) {
@@ -46,7 +46,7 @@ public class FileController_Combate extends FileController_Operator{
                     fileWritter.write("Ganador : "+perst.getGanador().getNum_Registro()+"\n");
                     fileWritter.write("Perdedor : "+perst.getPerdedor().getNum_Registro()+"\n");
                     fileWritter.write("Oro : "+perst.getOroGanado()+"\n");
-                    fileWritter.write("Fecha : "+perst.getFecha_Combate()+"\n");
+                    fileWritter.write("Fecha : "+perst.getStringFecha()+"\n");
                     fileWritter.write("Esbirros : "+perst.getStringEsbirros_Vivos()+"\n");
                     fileWritter.close();
                 }else {
@@ -94,7 +94,7 @@ public class FileController_Combate extends FileController_Operator{
                         } else if (arrIdx.equals("Oro")) {
                             pers.setOroGanado(Integer.parseInt(arrData));
                         } else if (arrIdx.equals("Fecha")) {
-                            Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse(arrData);
+                            Date date1 = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(arrData);
                             pers.setFecha_Combate(date1);
                         } else if (arrIdx.equals("Esbirros")) {
                             String[] esbirros = arrData.split(" - ");
@@ -134,5 +134,5 @@ public class FileController_Combate extends FileController_Operator{
         }
     }
 
-     
+
 }
