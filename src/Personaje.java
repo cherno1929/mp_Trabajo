@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -91,6 +92,9 @@ public class Personaje {
     }
 
     public Set<Esbirro> getEsbirros() {
+        if (this.esbirros == null){
+            esbirros = new HashSet<Esbirro>();
+        }
         return esbirros;
     }
 
@@ -159,7 +163,7 @@ public class Personaje {
 
     public int calcPwr() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de ataque.
         int aux_pwr = 0;
-        if(!this.armas_Activas.isEmpty()) {
+        if(this.armas_Activas != null && this.armas_Activas.size() > 0) {
             for (Arma armaArck : this.armas_Activas) {
                 aux_pwr += armaArck.getPunt_Atk();
             }

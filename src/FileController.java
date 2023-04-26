@@ -291,7 +291,7 @@ public class FileController {
             if(personaj.getClass() == Vampiro.class){
                 file_Writer.write("Edad : "+((Vampiro) personaj).getEdad());
             }else if (personaj.getClass() == Licantropo.class){
-                file_Writer.write("Altura : "+((Licantropo) personaj).getAltura());
+                file_Writer.write("Altura : "+((Licantropo) personaj).getAltura()+"\n");
                 file_Writer.write("Peso : "+((Licantropo) personaj).getPeso());
             }
             file_Writer.close();

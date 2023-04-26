@@ -1,4 +1,5 @@
 import java.io.*;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -31,7 +32,7 @@ public class FileController_Combate extends FileController_Operator{
 
     public void addPersistencia(Persistencia perst) {
         if (perst != null) {
-            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-"+perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
+            File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-"+perst.getJ2().getNombre() + getStringDate(perst.getFecha_Combate()) + ".txt");
             try {
                 if (pestFileLoacation.createNewFile()) {
                     BufferedWriter fileWritter = new BufferedWriter(new FileWriter(pestFileLoacation));
@@ -42,6 +43,7 @@ public class FileController_Combate extends FileController_Operator{
                     fileWritter.write("Oro : "+perst.getOroGanado()+"\n");
                     fileWritter.write("Fecha : "+perst.getFecha_Combate()+"\n");
                     fileWritter.write("Esbirros"+perst.getStringEsbirros_Vivos()+"\n");
+                    fileWritter.close();
                 }else {
                     System.out.println("Oups, algo fue mal");
                 }
@@ -51,6 +53,15 @@ public class FileController_Combate extends FileController_Operator{
         }else {
             System.out.println("Ha habido algun problema con la persistencia");
         }
+    }
+
+    private String getStringDate(Date fechaCombate) {
+        String date = "";
+        if (fechaCombate != null) {
+            DateFormat formDate = new SimpleDateFormat("yyyy-mm-dd");
+            date = formDate.format(fechaCombate);
+        }
+        return date;
     }
 
     private Persistencia getPersistencia(File fil) {
@@ -92,6 +103,15 @@ public class FileController_Combate extends FileController_Operator{
         return pers;
     }
 
+    public void añadirRanking(Usuario user){
+        try {
+            FileWriter addRank = new FileWriter(this.localRanking,true);
+            addRank.append(user.getNombre());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 
     /*
     public void destruirDesafio(Desafio desafio) { // Por algun motivo falla

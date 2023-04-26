@@ -116,18 +116,19 @@ public class App_Combate {
             } else {
                 MostrarMenuTurno(J2, p1, p2);
             }
-            setTurno(turno++);
+            setTurno(this.getTurno()+1);
         }
         Date nowDate = new Date(System.currentTimeMillis());
         Persistencia pers = new Persistencia();
-        pers.setJ1(this.J2);
-        pers.setJ2(this.J1);
         pers.setN_Turnos(this.turno);
+        pers.setJ1(this.getJ1());
+        pers.setJ2(this.getJ2());
         pers.setFecha_Combate(nowDate);
         pers.setGanador(this.getGanador());
         // pers.setEsbirros_Vivos(); --> Los esbirros
-        this.fileContr.addPersistencia(pers);
         repartirOro();
+        this.fileContr.addPersistencia(pers);
+        this.fileContr.añadirRanking(this.ganador);
     }
 
     private void repartirOro() {
@@ -148,9 +149,8 @@ public class App_Combate {
     private void MostrarMenuTurno(Usuario user, Personaje p1, Personaje p2){
         System.out.println("Turno de " + user.getNombre() + "!");
         System.out.println("Elige tu acción:\n1.Atacar\n2.Rendirte\n");
-        Scanner chc_combate = new Scanner(System.in);
         Habilidad_Especial h;
-        int opcion = chc_combate.nextInt();
+        int opcion = reader.nextInt();
         if (opcion == 1) {
             if (user == J1) {
                 h = ElegirHabilidad(p1);
@@ -161,6 +161,7 @@ public class App_Combate {
             }
         } else if (opcion == 2){
             Rendirse(user);
+            return;
         } else {
             MostrarMenuTurno(user, p1, p2);
         }
@@ -181,10 +182,9 @@ public class App_Combate {
         List<Habilidad_Especial> habilidades_disponibles = new ArrayList<Habilidad_Especial>(p.getHabilidades());
         showHE(habilidades_disponibles);
         System.out.println("Elija su habilidad:");
-        Scanner elegir_habilidad = new Scanner(System.in);
-        int eh = -1;
-        while ((eh < 0) || (eh>=habilidades_disponibles.size())){
-            eh = elegir_habilidad.nextInt();
+        int eh = reader.nextInt();
+        while (!(eh >= 0 && eh < habilidades_disponibles.size())){
+                eh = reader.nextInt();
         }
         return habilidades_disponibles.get(eh);
     }
@@ -210,7 +210,7 @@ public class App_Combate {
                 }
             }
         }
-        int dados = patk.calcPwr() + h.atk + d_extra;
+        int dados = patk.calcPwr() + h.getAtk() + d_extra; // en esta linea hay problemas
         for (int i = 0; i < dados; i++){
             vd = valor_dado.nextInt(6) + 1;
             if (vd >= 5){
@@ -223,7 +223,7 @@ public class App_Combate {
 
     private void recibirDamage(Personaje atacado ,int atk) {
         List<Esbirro> esbirros = new ArrayList<Esbirro>(atacado.getEsbirros());
-        if (esbirros != null || !esbirros.isEmpty()){
+        if (esbirros != null && esbirros.size() > 0){
             int i = 0;
             Esbirro esb = esbirros.get(i);
             while (i < esbirros.size() && !atacado.hasFainted() && atk > 0) {
