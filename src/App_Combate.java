@@ -71,7 +71,7 @@ public class App_Combate {
                 }
             }
             if (opt != 3) {
-                this.fileContr.destruirDesafio(desafio);
+                //this.fileContr.destruirDesafio(desafio);
             }
         }
     }
