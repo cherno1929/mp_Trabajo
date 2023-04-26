@@ -50,7 +50,7 @@ public class Persistencia {
     }
 
     public String getFecha_Combate() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
         return dateFormat.format(this.fecha_Combate);
     }
 

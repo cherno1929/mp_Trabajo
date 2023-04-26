@@ -13,7 +13,7 @@ public class FileController_Combate extends FileController_Operator{
         if (obliterado != null && obliterado.size() > 0){
             for (Persistencia pers : obliterado) {
                 float dateDifference = Math.abs(actualDate.getTime() - pers.fecha_Combate.getTime());
-                baneable = (dateDifference <= 0) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
+                baneable = (dateDifference <= 1440) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
                 if (baneable) {
                     break;
                 }
@@ -122,7 +122,7 @@ public class FileController_Combate extends FileController_Operator{
 
     }
 
-    /*
+
     public void destruirDesafio(Desafio desafio) { // Por algun motivo falla
         String location_Desafio = this.locatinDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt";
         System.out.println("Localización de ficherlo :: "+location_Desafio);
@@ -134,5 +134,5 @@ public class FileController_Combate extends FileController_Operator{
         }
     }
 
-     */
+     
 }

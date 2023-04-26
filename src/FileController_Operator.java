@@ -84,7 +84,7 @@ public class FileController_Operator extends FileController{
         return desafios;
     }
 
-    public List<Desafio> getSolicitudesDesafio() {
+    public List<Desafio> getSolicitudesDesafio(Usuario user) {
         List<Desafio> desafios = new ArrayList<Desafio>();
         File fileDesafios = new File(this.locationDesafios);
         File[] files = fileDesafios.listFiles();
@@ -114,7 +114,7 @@ public class FileController_Operator extends FileController{
                             }
                         }
                     }
-                    if (desaf.getValidado() == true){
+                    if (desaf.getValidado() == true && user.getNum_Registro().equals(desaf.getJ2().getNum_Registro())){
                         desafios.add(desaf);
                     }
                 } catch (IOException e) {

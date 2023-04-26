@@ -36,7 +36,7 @@ public class App_Combate {
 
     private void verDesafios() {
         int opt = -2;
-        List<Desafio> desafios = this.fileContr.getSolicitudesDesafio();
+        List<Desafio> desafios = this.fileContr.getSolicitudesDesafio(this.J1);
         if (desafios != null && desafios.size() > 0){
             while (opt!=-1) {
                 if (desafios.size() > 0){
@@ -75,7 +75,7 @@ public class App_Combate {
                 }
             }
             if (opt != 3) {
-                //this.fileContr.destruirDesafio(desafio);
+                this.fileContr.destruirDesafio(desafio);
             }
         }
     }
