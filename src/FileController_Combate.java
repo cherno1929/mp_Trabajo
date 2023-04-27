@@ -12,7 +12,7 @@ public class FileController_Combate extends FileController_Operator{
         boolean baneable = false;
         if (obliterado != null && obliterado.size() > 0){
             for (Persistencia pers : obliterado) {
-                float dateDifference = Math.abs(actualDate.getTime() - pers.fecha_Combate.getTime());
+                float dateDifference = Math.abs(actualDate.getTime() - pers.fecha_Combate.getTime()) / 3600000; // Regresa las cuentas en milisegundos
                 baneable = (dateDifference <= 24) && (pers.getPerdedor().getNum_Registro().equals(retado.getNum_Registro()));
                 if (baneable) {
                     break;
