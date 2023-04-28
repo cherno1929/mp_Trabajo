@@ -1,6 +1,0 @@
-Nombre : op
-NickName : op
-Password : op
-Numero de registro : y34go
-Rol : operador
-Personaje : null

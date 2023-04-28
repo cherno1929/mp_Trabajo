@@ -1,6 +1,0 @@
-Nombre : f_en_el_Chat
-NickName : GeyQuienMeMate
-Password : tumami
-Numero de registro : z06xe
-Rol : usuario
-Personaje : 1929Y

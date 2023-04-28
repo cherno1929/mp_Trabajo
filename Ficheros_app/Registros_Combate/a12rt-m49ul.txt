@@ -1,3 +1,0 @@
-Turno 1: Personaje Pepe ataca con Garra Sangri. 3 dmg
-Turno 2: Personaje Pupu ataca con Garra Sangri. 4 dmg
-ganador - test(numreg - m49ul)

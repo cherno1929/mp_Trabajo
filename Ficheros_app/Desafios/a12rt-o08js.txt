@@ -1,6 +1,0 @@
-J1 : a12rt
-J2 : o08js
-Oro : 0
-Mod_J1 : 
-Mod_J2 : 
-Validado : false

@@ -1,6 +1,0 @@
-J1 : m49ul
-J2 : a12rt
-Oro : 1
-Mod_J1 : Sol - 
-Mod_J2 : Sol - 
-Validado : true
