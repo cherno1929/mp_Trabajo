@@ -1,0 +1,8 @@
+J1 : a12rt
+J2 : m49ul
+Turnos : 6
+Ganador : a12rt
+Perdedor : m49ul
+Oro : 0
+Fecha : 2023-05-26 11:05:41
+Esbirros : 

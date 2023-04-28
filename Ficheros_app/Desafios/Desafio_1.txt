@@ -1,0 +1,5 @@
+J1 : z06xe
+J2 : o08js
+Oro : 10
+Mod_J1 : Sol
+Mod_J2 : Sol

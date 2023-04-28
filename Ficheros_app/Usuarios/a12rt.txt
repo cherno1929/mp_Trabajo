@@ -1,0 +1,6 @@
+Nombre : Hermenegildo
+NickName : GeyQuienMeMate
+Password : tumami
+Numero de registro : a12rt
+Rol : usuario
+Personaje : PAXSL

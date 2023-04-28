@@ -1,0 +1,6 @@
+Nombre : gilopollas
+NickName : GeyQuienMeMate
+Password : tumami
+Numero de registro : o08js
+Rol : usuario
+Personaje : 1929Y

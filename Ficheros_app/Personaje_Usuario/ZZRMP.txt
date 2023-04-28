@@ -1,0 +1,12 @@
+Nombre : Pupu
+Id : ZZRMP
+Oro : 501
+Raza : class Vampiro
+Poder : 5
+Salud : 5
+Arma : Mandoble
+Armaduras : Armadura_de_cuero
+Esbirros : 
+Habilidad : Garra Sangri - Chupar_Sangre - 
+Mods : 
+Edad : 1
