@@ -173,7 +173,7 @@ public class Personaje {
 
     public int calcShd() { // Estadística que se muestra en la pestaña de personaje. No confundir con valor de defensa.
         int aux_def = 0;
-        if (!this.esbirros.isEmpty()){
+        if (this.esbirros != null && this.esbirros.size() >0){
             for(Esbirro esbHP : this.esbirros){
                 aux_def += esbHP.getSalud();
             }
@@ -183,9 +183,11 @@ public class Personaje {
 
     public List<Esbirro> calcEsb() {
         List<Esbirro> esbirros_vivos = new ArrayList<Esbirro>();
-        for (Esbirro esb : this.esbirros) {
-            if (esb.getSalud() > 0) {
-                esbirros_vivos.add(esb);
+        if (this.esbirros != null){
+            for (Esbirro esb : this.esbirros) {
+                if (esb.getSalud() > 0) {
+                    esbirros_vivos.add(esb);
+                }
             }
         }
         return esbirros_vivos;

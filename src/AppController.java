@@ -189,7 +189,7 @@ public class AppController {
         }
     }
 
-    private String getRandomId() {
+     String getRandomId() {
         boolean valid = false;
         String randomId = null;
         Random randChar = new Random();
