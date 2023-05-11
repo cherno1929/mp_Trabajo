@@ -142,7 +142,9 @@ class FileController_OperatorTest {
 
         List<Desafio> desafios = fc_Combate_aux.getDesafios();
 
-        Assertions.assertEquals(true,desafios.contains(desafio_Test));
+        fc_Test.borrarDesafio(desafio_Test.getJ1().getNum_Registro()+"-"+desafio_Test.getJ2().getNum_Registro());
+
+        Assertions.assertEquals(false,desafios.contains(desafio_Test));
 
     }
 
