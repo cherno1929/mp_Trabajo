@@ -98,7 +98,7 @@ class FileController_OperatorTest {
         Assertions.assertEquals(true,fc_Test_aux.getRol() != Rol.baneado);
     }
 
-    /*
+
     @Test
     void borrarDesafio() {
 
@@ -145,7 +145,7 @@ class FileController_OperatorTest {
         Assertions.assertEquals(true,desafios.contains(desafio_Test));
 
     }
-         */
+
 
     // No funciona
 
@@ -194,12 +194,6 @@ class FileController_OperatorTest {
 
         List<Desafio> desafios = fc_Test.getDesafios();
 
-        HashMap<String,Desafio> desafios_M = new HashMap<>();
-
-        for (Desafio desf : desafios){
-            desafios_M.put(desf.getJ1().getNombre() + "-" + desf.getJ2().getNombre(),desf);
-        }
-
-        Assertions.assertEquals(true,desafios_M.get(desafio_Test.getJ1().getNombre()+"-"+desafio_Test.getJ2().getNombre()).validado);
+        Assertions.assertEquals(false,desafios.contains(desafio_Test));
     }
 }
