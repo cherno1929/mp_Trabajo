@@ -378,9 +378,7 @@ public class FileController {
             }
             return pers_X;
         }else {
-            Personaje px = new Personaje();
-            px.setId(idPersonaje);
-            return px;
+            return null;
         }
     }
 

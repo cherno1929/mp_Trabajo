@@ -1,0 +1,5 @@
+Raza : Humano
+Nombre : Test01
+Salud : 2
+Lealtad : Alta
+
