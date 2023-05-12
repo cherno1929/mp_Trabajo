@@ -10,20 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileController_CombateTest {
 
     FileController_Combate fc_Test;
-
+    Usuario user_Test;
     @BeforeEach
     void setUp() {
         fc_Test = new FileController_Combate();
-    }
-
-    @Test
-    void es_Baneable_No() {
-        FileController_Combate fc_Combate_aux = new FileController_Combate();
-
-        Desafio desafio_Test = new Desafio();
-
-        Usuario user_Test = new Usuario();
-
+        user_Test = new Usuario();
         //Asignar id
         String usuarioId = "Non_Exist_User";
         user_Test.setNum_Registro(usuarioId);
@@ -36,6 +27,13 @@ class FileController_CombateTest {
         user_Test.setNick("uwu");
         //Asignar Password
         user_Test.setPassword("*****");
+    }
+
+    @Test
+    void es_Baneable_No() {
+        FileController_Combate fc_Combate_aux = new FileController_Combate();
+
+        Desafio desafio_Test = new Desafio();
 
         Personaje pers_Test = new Personaje();
         pers_Test.setId("asodwekfiew");
@@ -67,21 +65,6 @@ class FileController_CombateTest {
         FileController_Combate fc_Combate_aux = new FileController_Combate();
 
         Desafio desafio_Test = new Desafio();
-
-        Usuario user_Test = new Usuario();
-
-        //Asignar id
-        String usuarioId = "Non_Exist_User";
-        user_Test.setNum_Registro(usuarioId);
-        //AsignarPersonaje
-        //Asignar Nombre
-        user_Test.setNombre("Hermenegildo");
-        //Asignar Rol
-        user_Test.setRol(Rol.usuario);
-        //Asignar Nick
-        user_Test.setNick("uwu");
-        //Asignar Password
-        user_Test.setPassword("*****");
 
         Personaje pers_Test = new Personaje();
         pers_Test.setId("asodwekfiew");
@@ -121,20 +104,6 @@ class FileController_CombateTest {
 
     @Test
     void añadirRanking() {
-        Usuario user_Test = new Usuario();
-
-        //Asignar id
-        String usuarioId = "Non_Exist_User";
-        user_Test.setNum_Registro(usuarioId);
-        //AsignarPersonaje
-        //Asignar Nombre
-        user_Test.setNombre("Hermenegildo");
-        //Asignar Rol
-        user_Test.setRol(Rol.usuario);
-        //Asignar Nick
-        user_Test.setNick("uwu");
-        //Asignar Password
-        user_Test.setPassword("*****");
 
         fc_Test.añadirRanking(user_Test);
 

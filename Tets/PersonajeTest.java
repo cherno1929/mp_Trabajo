@@ -22,6 +22,7 @@ class PersonajeTest {
 
     @Test
     void calcPwr_NoWeapon() {
+
         Assertions.assertEquals(0,persj_Test.calcPwr());
     }
 
@@ -34,6 +35,7 @@ class PersonajeTest {
 
     @Test
     void calcShd_NoEsb_NoEsc() {
+
         Assertions.assertEquals(0,persj_Test.calcShd());
     }
 
@@ -54,7 +56,7 @@ class PersonajeTest {
         Set<Esbirro> esbirros_Test = new HashSet<Esbirro>();
         esbirros_Test.add(esbirro_Test);
         persj_Test.setEsbirros(esbirros_Test);
-        Assertions.assertEquals(3,persj_Test.calcShd());
+        Assertions.assertEquals(esbirro_Test.getSalud(),persj_Test.calcShd());
     }
 
     @Test
