@@ -63,4 +63,8 @@ public class Desafio {
     public void setValidado(boolean validado) {
         this.validado = validado;
     }
+
+    public String getId(){
+        return this.getJ1().getNum_Registro()+"-"+this.getJ2().getNum_Registro();
+    }
 }

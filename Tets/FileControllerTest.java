@@ -17,6 +17,7 @@ class FileControllerTest {
 
     @BeforeEach
     void setUp(){
+        System.gc();
         user_Test = new Usuario();
         fc_Test = new FileController();
     }
@@ -42,12 +43,30 @@ class FileControllerTest {
     }
 
     @Test
+    void addCharacter() {
+        Personaje p_tets = new Personaje();
+
+        p_tets.setId("TeteoDePrueba");
+        p_tets.setNombre("Buenas!!");
+
+        fc_Test.addPersonaje(p_tets);
+
+        Personaje pesr_Aux = fc_Test.getPersonaje(p_tets.getId());
+
+        Assertions.assertTrue(p_tets.getNombre().equals(pesr_Aux.getNombre()));
+
+        fc_Test.borrarPersoanje(p_tets);
+    }
+
+    @Test
     void deleteUsuario() {
         String usuarioId = "Non_Exist_User";
         user_Test.setNum_Registro(usuarioId);
         Personaje p_tets = new Personaje();
         p_tets.setId("TeteoDePrueba");
         user_Test.setPersonajeActivo(p_tets);
+
+
         fc_Test.addUsuario(user_Test);
 
         Assertions.assertEquals(true,fc_Test.existeUsuario(user_Test));
@@ -56,6 +75,7 @@ class FileControllerTest {
 
         Assertions.assertEquals(false,fc_Test.existeUsuario(user_Test));
     }
+
 
     @Test
     void modificarUsuario() {
@@ -77,18 +97,17 @@ class FileControllerTest {
         //Crear Usuario
         fc_Test.addUsuario(user_Test);
 
-        Usuario user_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
         //Hacer alguna modificación
-        user_Test_aux.setNombre("no uwu >:)");
+        user_Test.setNombre("no >:)");
         //Get File Location
-        String Filelocation = fc_Test.locationUsuario + "/" + user_Test_aux.getNum_Registro() + ".txt";
+        String Filelocation = fc_Test.locationUsuario + "/" + user_Test.getNum_Registro() + ".txt";
         //Change Data
-        fc_Test.modificarUsuario(user_Test_aux);
+        fc_Test.modificarUsuario(user_Test);
 
         //Charge new user
-        user_Test_aux = fc_Test.getUsuario(user_Test_aux.getNum_Registro());
+        Usuario user_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
 
-        Assertions.assertEquals(false,user_Test.equals(user_Test_aux));
+        Assertions.assertEquals(true,user_Test.nombre.equals(user_Test_aux.nombre));
 
         fc_Test.deleteUsuario(user_Test);
         fc_Test.borrarPersoanje(p_tets);
@@ -115,22 +134,27 @@ class FileControllerTest {
         user_Test.setNum_Registro(usuarioId);
         //AsignarPersonaje
         Personaje p_tets = new Personaje();
-        p_tets.setId("TesteoDePrueba");
+        p_tets.setId("TeteoDePrueba");
         user_Test.setPersonajeActivo(p_tets);
         //Asignar Nombre
         user_Test.setNombre("Hermenegildo");
         //Asignar Rol
         user_Test.setRol(Rol.usuario);
         //Asignar Nick
-        user_Test.setNick("uwu");
+        user_Test.setNick("abcd");
         //Asignar Password
         user_Test.setPassword("*****");
         //Crear Usuario
         fc_Test.addUsuario(user_Test);
 
         Usuario user_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
+        Assertions.assertEquals(true,user_Test.nick.equals(user_Test_aux.nick));
+        Assertions.assertEquals(true,user_Test.password.equals(user_Test_aux.password));
+        Assertions.assertEquals(true,user_Test.nombre.equals(user_Test_aux.nombre));
+        Assertions.assertEquals(true,user_Test.rol == user_Test_aux.rol);
+
         fc_Test.deleteUsuario(user_Test);
-        Assertions.assertEquals(true,user_Test.equals(user_Test_aux));
+        fc_Test.borrarPersoanje(p_tets);
     }
 
     @Test
@@ -146,7 +170,11 @@ class FileControllerTest {
 
         Personaje pers_Test_aux = fc_Test.getPersonaje(pers_Test.getId());
 
-        Assertions.assertEquals(true,pers_Test.equals(pers_Test_aux));
+        Assertions.assertEquals(true,pers_Test.getId().equals(pers_Test_aux.getId()));
+        Assertions.assertEquals(true,pers_Test.getNombre().equals(pers_Test_aux.getNombre()));
+        Assertions.assertEquals(true,pers_Test.getOro() == pers_Test_aux.getOro());
+        Assertions.assertEquals(true,pers_Test.getPunt_Salud() == pers_Test_aux.getPunt_Salud());
+        Assertions.assertEquals(true,pers_Test.getPoder() == pers_Test_aux.getPoder());
 
         fc_Test.borrarPersoanje(pers_Test);
     }
@@ -280,6 +308,24 @@ class FileControllerTest {
         List<Esbirro> buscados = new ArrayList<Esbirro>(fc_Test.buscarEsbirros(esbirro_NoExiste));
 
         Assertions.assertNotNull(buscados.get(0));
+    }
+
+    @Test
+    void deleteCharacter() {
+        Personaje p_tets = new Personaje();
+
+        p_tets.setId("TeteoDePrueba");
+        p_tets.setNombre("Buenas!!");
+
+        fc_Test.addPersonaje(p_tets);
+
+        Personaje pesr_Aux = fc_Test.getPersonaje(p_tets.getId());
+
+        System.gc();
+
+        fc_Test.borrarPersoanje(p_tets);
+
+        Assertions.assertFalse(fc_Test.existePersonaje(p_tets.getId()));
     }
 
 }

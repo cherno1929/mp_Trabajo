@@ -3,6 +3,7 @@ import java.util.Set;
 
 public class Vampiro extends Personaje{
 
+
     //Atributos
     private int edad;
     private List<Disciplina> disciplinas;

@@ -61,6 +61,10 @@ public class FileController_Combate extends FileController_Operator{
         }
     }
 
+    public void deletePersistence(Persistencia perst){
+        File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
+        pestFileLoacation.delete();
+    }
     private String getStringDate(Date fechaCombate) {
         String date = "";
         if (fechaCombate != null) {

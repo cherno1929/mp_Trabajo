@@ -16,6 +16,20 @@ public class FileController_Operator extends FileController{
 
     }
 
+    public Desafio getDesafio(String id){
+        List<Desafio> desafios = this.getDesafios();
+
+        Desafio obj = null;
+
+        for (Desafio desf : desafios) {
+            if (id.equals(desf.getId())){
+                obj = desf;
+            }
+        }
+
+        return obj;
+    }
+
     public void banear(String idUsuario){
         Usuario userToBan = this.getUsuario(idUsuario);
         userToBan.setRol(Rol.baneado);
@@ -23,8 +37,10 @@ public class FileController_Operator extends FileController{
     }
 
     public void banear(Usuario usuario){
-        usuario.setRol(Rol.baneado);
-        this.modificarUsuario(usuario);
+        if (existeUsuario(usuario)){
+            usuario.setRol(Rol.baneado);
+            this.modificarUsuario(usuario);
+        }
     }
 
     public void desBanear(Usuario usuario){
@@ -33,8 +49,10 @@ public class FileController_Operator extends FileController{
     }
 
     public void desBanear(Usuario usuario, Rol nuevoRol) {
-        usuario.setRol(nuevoRol);
-        this.modificarUsuario(usuario);
+        if (existeUsuario(usuario)){
+            usuario.setRol(nuevoRol);
+            this.modificarUsuario(usuario);
+        }
     }
 
     public void desBanear(String idUsuario){

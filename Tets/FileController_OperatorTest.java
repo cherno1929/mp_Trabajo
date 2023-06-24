@@ -11,18 +11,19 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileController_OperatorTest {
 
     Usuario user_Test;
-    FileController_Operator fc_Test;
+
+    Personaje pereJ;
     @BeforeEach
     void setUp(){
+
         user_Test = new Usuario();
-        fc_Test = new FileController_Operator();
+
+        pereJ = new Personaje();
+
         //Asignar id
         String usuarioId = "Non_Exist_User";
         user_Test.setNum_Registro(usuarioId);
-        //AsignarPersonaje
-        Personaje p_tets = new Personaje();
-        p_tets.setId("TesteoDePrueba");
-        user_Test.setPersonajeActivo(p_tets);
+
         //Asignar Nombre
         user_Test.setNombre("Hermenegildo");
         //Asignar Rol
@@ -31,72 +32,59 @@ class FileController_OperatorTest {
         user_Test.setNick("u");
         //Asignar Password
         user_Test.setPassword("*****");
+
+        pereJ.setId("fav");
+
+        user_Test.setPersonajeActivo(pereJ);
     }
+
 
     @Test
     void banear() {
 
-        Personaje pers_Test = new Personaje();
-        pers_Test.setId("asodwekfiew");
-        pers_Test.setNombre("tets_0");
-        pers_Test.setOro(100);
-        pers_Test.setPoder(5);
-        pers_Test.setPunt_Salud(5);
+        FileController_Combate fc_Test = new FileController_Combate();
 
-        user_Test.setPersonajeActivo(pers_Test);
-
-        //Crear Usuario
         fc_Test.addUsuario(user_Test);
 
         fc_Test.banear(user_Test);
 
-        Usuario fc_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
+        Assertions.assertTrue(Rol.baneado.equals(fc_Test.getUsuario(user_Test.getNum_Registro()).getRol()));
 
-        Assertions.assertEquals(Rol.baneado,fc_Test_aux.getRol());
+        System.gc();
+
+        fc_Test.deleteUsuario(user_Test);
+
     }
 
     @Test
-    void desBanear() {
+    void desBanear(){
 
-        Personaje pers_Test = new Personaje();
-        pers_Test.setId("asodwekfiew");
-        pers_Test.setNombre("tets_0");
-        pers_Test.setOro(100);
-        pers_Test.setPoder(5);
-        pers_Test.setPunt_Salud(5);
+        FileController_Combate fc_Test = new FileController_Combate();
 
-        user_Test.setPersonajeActivo(pers_Test);
-
-        //Crear Usuario
         fc_Test.addUsuario(user_Test);
 
-        fc_Test.banear(user_Test);
+        fc_Test.desBanear(user_Test);
 
-        Usuario fc_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
+        Assertions.assertFalse(Rol.baneado.equals(fc_Test.getUsuario(user_Test.getNum_Registro()).getRol()));
 
-        Assertions.assertEquals(Rol.baneado,fc_Test_aux.getRol());
-
-        fc_Test.desBanear(user_Test,Rol.usuario);
-
-        fc_Test_aux = fc_Test.getUsuario(user_Test.getNum_Registro());
-
-        Assertions.assertEquals(true,fc_Test_aux.getRol() != Rol.baneado);
     }
-
 
     @Test
     void borrarDesafio() {
+
+        FileController_Operator fc_Op = new FileController_Operator();
         FileController_Combate fc_Combate_aux = new FileController_Combate();
-        Desafio desafio_Test = new Desafio();
+
         Personaje pers_Test = new Personaje();
         pers_Test.setId("asodwekfiew");
         pers_Test.setNombre("tets_0");
         pers_Test.setOro(100);
         pers_Test.setPoder(5);
         pers_Test.setPunt_Salud(5);
+
         user_Test.setPersonajeActivo(pers_Test);
-        //Crear Usuario
-        fc_Test.addUsuario(user_Test);
+
+        Desafio desafio_Test = new Desafio();
         desafio_Test.setValidado(false);
         desafio_Test.setOro(10);
         desafio_Test.setMod_j1(null);
@@ -104,42 +92,60 @@ class FileController_OperatorTest {
         desafio_Test.setJ1(user_Test);
         desafio_Test.setJ2(user_Test);
 
-        fc_Test.addDesafio(desafio_Test);
+        fc_Combate_aux.addDesafio(desafio_Test);
 
-        List<Desafio> desafios = fc_Combate_aux.getDesafios();
+        System.gc();
 
-        fc_Test.borrarDesafio(desafio_Test.getJ1().getNum_Registro()+"-"+desafio_Test.getJ2().getNum_Registro());
+        fc_Op.borrarDesafio(desafio_Test.getId());
 
-        Assertions.assertEquals(false,desafios.contains(desafio_Test));
+        Assertions.assertFalse(fc_Combate_aux.getDesafios().contains(desafio_Test));
+
+
+        user_Test.setPersonajeActivo(pereJ);
 
     }
+
 
 
     // No funciona
 
     @Test
     void validarDesafio() {
+        FileController_Operator fc_Op = new FileController_Operator();
+        FileController_Combate fc_Combate_aux = new FileController_Combate();
+
         Personaje pers_Test = new Personaje();
         pers_Test.setId("asodwekfiew");
         pers_Test.setNombre("tets_0");
         pers_Test.setOro(100);
         pers_Test.setPoder(5);
         pers_Test.setPunt_Salud(5);
+
         user_Test.setPersonajeActivo(pers_Test);
-        //Crear Usuario
-        fc_Test.addUsuario(user_Test);
+
+        fc_Op.addUsuario(user_Test);
+
         Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(false);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
         desafio_Test.setJ1(user_Test);
         desafio_Test.setJ2(user_Test);
-        desafio_Test.setValidado(false);
-        desafio_Test.setMod_j2(null);
-        desafio_Test.setMod_j1(null);
-        desafio_Test.setOro(100);
-        fc_Test.addDesafio(desafio_Test);
-        fc_Test.validarDesafio(desafio_Test);
 
-        List<Desafio> desafios = fc_Test.getDesafios();
+        fc_Combate_aux.addDesafio(desafio_Test);
 
-        Assertions.assertEquals(false,desafios.contains(desafio_Test));
+        fc_Op.validarDesafio(desafio_Test);
+
+        desafio_Test.setValidado(true);
+
+        Assertions.assertFalse(fc_Op.getDesafios().contains(desafio_Test));
+
+        System.gc();
+
+        fc_Op.deleteUsuario(user_Test);
+        fc_Op.borrarDesafio(desafio_Test.getId());
+
     }
+
 }

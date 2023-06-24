@@ -1,5 +1,7 @@
 import java.io.*;
 import java.util.*;
+import java.io.File;
+import java.io.IOException;
 
 public class FileController {
 
@@ -55,21 +57,15 @@ public class FileController {
 
     public void deleteUsuario(Usuario user){
         String zone = this.locationUsuario + "/" + user.getNum_Registro() + ".txt";
-        if(existeUsuario(user)){
-            File file_ToDestroy = new File(zone);
-            if(file_ToDestroy.delete()){
-                System.out.println("El archivo "+user.getNombre() +" fue borrado correctamente");
-            }else {
-                System.out.println("error");
-            }
-        }else {
-            System.out.println("No existe este usuario");
+        File file_ToDestroy = new File(zone);
+        if (file_ToDestroy.exists()) {
+            file_ToDestroy.delete();
         }
     }
 
     protected void addAllInfoUser(Usuario user,String ubic) {
         try{
-            FileWriter userWriter = new FileWriter(ubic);
+            BufferedWriter userWriter = new BufferedWriter(new FileWriter(ubic));
             userWriter.write("Nombre : " +user.getNombre() + "\n");
             userWriter.write("NickName : "+user.getNick()+"\n");
             userWriter.write("Password : "+user.getPassword()+"\n");
@@ -90,6 +86,8 @@ public class FileController {
             if (newUser.createNewFile()){
                 System.out.println("El usuario "+ usuario.getNombre() +" ha sido creado");
                 addAllInfoUser(usuario,zonaUser);
+            } else {
+                modificarUsuario(usuario);
             }
         } catch (IOException ioe) {
             System.out.println("Error : " + ioe);
@@ -99,15 +97,9 @@ public class FileController {
 
     public void modificarUsuario(Usuario user){
         String zonaUser = this.locationUsuario + "/" + user.getNum_Registro() + ".txt";
-        try{
-        FileWriter fil = new FileWriter(zonaUser);
-            BufferedWriter bufUser = new BufferedWriter(fil);
-            bufUser.write("");
-            bufUser.close();
-            addAllInfoUser(user,zonaUser);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+        addAllInfoUser(user,zonaUser);
+
     }
 
     public Map<String,Usuario> getAllUsuarios(){
@@ -197,28 +189,21 @@ public class FileController {
 
     public void borrarPersoanje(Personaje persoanje){
         String zone = this.localPersoanjes + "/" + persoanje.getId() + ".txt";
-            File file_ToDestroy = new File(zone);
-            if(file_ToDestroy.delete()){
-                System.out.println("El archivo fue borrado correctamente");
-            }else {
-                System.out.println("Error");
-            }
+        File fileDestroy = new File(zone);
+        fileDestroy.delete();
     }
 
     public void addPersonaje(Personaje personaj){
-        if (!existePersonaje(personaj.getId())){
-            String zonaCrear = this.localPersoanjes + "/" + personaj.getId() + ".txt";
-            try {
-                File file_ToWrite = new File(zonaCrear);
-                if(file_ToWrite.createNewFile()){
-                    this.addAllInfoPersonaje(personaj,zonaCrear);
-                    System.out.println("El personaje "+personaj.getNombre()+" ha sido creado!");
-                }
-            }catch (IOException e){
-                throw new RuntimeException(e);
+        try {
+            String zone = this.localPersoanjes + "/" + personaj.getId() + ".txt";
+            File ext = new File(zone);
+            if (ext.exists()){
+                addAllInfoPersonaje(personaj,zone);
+            }else {
+                modificarPersonaje(personaj);
             }
-        }else{
-            System.out.println("Error : El personaje " + personaj.getId() +" ya existe");
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -315,14 +300,7 @@ public class FileController {
 
     public void modificarPersonaje(Personaje pers){
         String location = this.localPersoanjes + "/" + pers.getId() + ".txt";
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(location));
-            writer.write("");
-            writer.close();
-            this.addAllInfoPersonaje(pers,location);
-        }catch (IOException e){
-            throw new RuntimeException(e);
-        }
+        this.addAllInfoPersonaje(pers,location);
     }
 
     public Personaje getPersonaje(String idPersonaje) {
