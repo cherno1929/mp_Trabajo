@@ -60,6 +60,7 @@ class FileController_CombateTest {
         assertEquals(false,fc_Test.es_Baneable(date,desafio_Test.getJ2()));
 
         System.gc();
+
         fc_Test.borrarDesafio(desafio_Test.getId());
         fc_Test.deleteUsuario(user_Test);
     }

@@ -71,6 +71,8 @@ class FileControllerTest {
 
         Assertions.assertEquals(true,fc_Test.existeUsuario(user_Test));
 
+        System.gc();
+
         fc_Test.deleteUsuario(user_Test);
 
         Assertions.assertEquals(false,fc_Test.existeUsuario(user_Test));

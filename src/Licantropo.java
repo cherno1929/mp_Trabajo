@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -59,7 +60,9 @@ public class Licantropo extends Personaje{
     }
 
     public void setPunt_Rabia(int punt_Rabia) {
-        this.punt_Rabia = punt_Rabia;
+        if (0 <=punt_Rabia && punt_Rabia <= 3){
+            this.punt_Rabia = punt_Rabia;
+        }
     }
 
     public List<Don> getDones() {
@@ -68,5 +71,12 @@ public class Licantropo extends Personaje{
 
     public void setDones(List<Don> dones) {
         this.dones = dones;
+    }
+
+    public void setDone(Don don) {
+        if (this.dones == null) {
+            this.dones = new ArrayList<Don>();
+        }
+        this.dones.add(don);
     }
 }

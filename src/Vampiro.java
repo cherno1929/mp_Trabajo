@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,7 +29,9 @@ public class Vampiro extends Personaje{
     }
 
     public void setEdad(int edad) {
-        this.edad = edad;
+        if (1 <= edad && edad <= 5000){
+            this.edad = edad;
+        }
     }
 
     public List<Disciplina> getDisciplinas() {
@@ -37,5 +40,13 @@ public class Vampiro extends Personaje{
 
     public void setDisciplinas(List<Disciplina> disciplinas) {
         this.disciplinas = disciplinas;
+    }
+
+    public void setDisciplina(Disciplina disp1) {
+        if (this.disciplinas == null) {
+            this.disciplinas = new ArrayList<Disciplina>();
+        }
+        this.disciplinas.add(disp1);
+
     }
 }
