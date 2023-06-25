@@ -2,7 +2,7 @@ public class Disciplina extends Habilidad_Especial{
 
     //Atributos
     private int coste_Sangre;
-    private int sangre_Robada;
+    private int sangre_Robada = 4;
 
     //Constructores
 
@@ -22,7 +22,9 @@ public class Disciplina extends Habilidad_Especial{
     }
 
     public void setCoste_Sangre(int coste_Sangre) {
-        this.coste_Sangre = coste_Sangre;
+        if (coste_Sangre >= 1 && coste_Sangre <= 3) {
+            this.coste_Sangre = coste_Sangre;
+        }
     }
 
     public int getSangre_Robada() {
@@ -30,6 +32,6 @@ public class Disciplina extends Habilidad_Especial{
     }
 
     public void setSangre_Robada(int sangre_Robada) {
-        this.sangre_Robada = sangre_Robada;
+        this.sangre_Robada = 4;
     }
 }

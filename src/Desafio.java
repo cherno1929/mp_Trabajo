@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.Set;
 
 public class Desafio {
@@ -10,9 +11,7 @@ public class Desafio {
     public Set<Modificador> mod_j2;
     public boolean validado;
 
-    public Desafio() {
-
-    }
+    public Desafio() {}
 
     //Get-Set
 
@@ -21,7 +20,9 @@ public class Desafio {
     }
 
     public void setOro(int oro) {
-        this.oro = oro;
+        if (oro >= 0) {
+            this.oro = oro;
+        }
     }
 
     public Usuario getJ1() {
@@ -48,6 +49,19 @@ public class Desafio {
         this.mod_j1 = mod_j1;
     }
 
+    public void setMod_j1_one(Modificador mod_j1) {
+        if (this.mod_j1 == null){
+            this.mod_j1 = new HashSet<Modificador>();
+        }
+        this.mod_j1.add(mod_j1);
+    }
+
+    public void setMod_j2_one(Modificador mod_j2) {
+        if (this.mod_j2 == null){
+            this.mod_j2 = new HashSet<Modificador>();
+        }
+        this.mod_j2.add(mod_j2);
+    }
     public Set<Modificador> getMod_j2() {
         return mod_j2;
     }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +35,18 @@ public class Demonio extends Esbirro{
         return pactos;
     }
 
+    public Pacto getPactoSelected(int pos) {
+        return pactos.get(pos);
+    }
+
     public void setPacto(List<Pacto> pactos) {
         this.pactos = pactos;
+    }
+
+    public void setPacto(Pacto pactos) {
+        if (this.pactos == null){
+            this.pactos = new ArrayList<Pacto>();
+        }
+        this.pactos.add(pactos);
     }
 }

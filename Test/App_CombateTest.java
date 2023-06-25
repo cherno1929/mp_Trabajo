@@ -33,12 +33,7 @@ class App_CombateTest {
         user_Test.setPersonajeActivo(pereJ);
     }
 
-    @Test
-    void a(){
-        App_Combate app_Com = new App_Combate();
 
-
-    }
 
 
 

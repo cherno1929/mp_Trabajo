@@ -1,4 +1,4 @@
-public class Esbirro {
+public class Esbirro extends Personaje{
 
     //Atributos
     protected String nombre;
@@ -30,6 +30,8 @@ public class Esbirro {
     }
 
     public void setSalud(int salud) {
-        this.salud = salud;
+        if (salud >= 0 && salud <= 3){
+            this.salud = salud;
+        }
     }
 }

@@ -24,6 +24,8 @@ public class Ghoul extends Esbirro{
     }
 
     public void setNiv_Dependencia(int niv_Dependencia) {
-        this.niv_Dependencia = niv_Dependencia;
+        if (niv_Dependencia >= 0 && niv_Dependencia <= 5){
+            this.niv_Dependencia = niv_Dependencia;
+        }
     }
 }
