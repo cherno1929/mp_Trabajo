@@ -79,7 +79,9 @@ public class Persistencia {
     }
 
     public void setOroGanado(int oroGanado) {
-        OroGanado = oroGanado;
+        if (oroGanado >= 0){
+            OroGanado = oroGanado;
+        }
     }
 
     public Usuario getPerdedor() {

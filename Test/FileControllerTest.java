@@ -17,7 +17,6 @@ class FileControllerTest {
 
     @BeforeEach
     void setUp(){
-        System.gc();
         user_Test = new Usuario();
         fc_Test = new FileController();
     }

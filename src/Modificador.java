@@ -31,7 +31,9 @@ public class Modificador {
     }
 
     public void setGrado_Efecto(int grado_Efecto) {
-        this.grado_Efecto = grado_Efecto;
+        if (grado_Efecto >= 1 && grado_Efecto <= 5) {
+            this.grado_Efecto = grado_Efecto;
+        }
     }
 
     public Tipo_mod getTipo_mod() {
