@@ -22,6 +22,8 @@ public class Armadura extends Equipo{
     }
 
     public void setPunt_Def(int punt_Def) {
-        this.punt_Def = punt_Def;
+        if (punt_Def >= 0 && punt_Def < 4) {
+            this.punt_Def = punt_Def;
+        }
     }
 }

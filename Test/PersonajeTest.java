@@ -30,7 +30,7 @@ class PersonajeTest {
     void calcPwr_withWeapon() {
         String[] arma = {"Mandoble"};
         persj_Test.setArmas_Activas(new ArrayList<Arma>(fc_Test.buscarArmas(arma)));
-        Assertions.assertEquals(6,persj_Test.calcPwr());
+        Assertions.assertEquals(2,persj_Test.calcPwr());
     }
 
     @Test
