@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Equipo {
@@ -33,4 +35,18 @@ public class Equipo {
     public void setMod(Set<Modificador> mod) {
         this.mod = mod;
     }
+
+    public void quitMod(Modificador mod){
+        if (this.mod != null && this.mod.contains(mod)) {
+            this.mod.remove(mod);
+        }
+    }
+
+    public void setMod(Modificador mod) {
+        if (this.mod == null) {
+            this.mod = new HashSet<Modificador>();
+        }
+        this.mod.add(mod);
+    }
+
 }

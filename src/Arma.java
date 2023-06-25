@@ -25,7 +25,9 @@ public class Arma extends Equipo{
     }
 
     public void setPunt_Atk(int punt_Atk) {
+        if (punt_Atk >= 0 && punt_Atk < 4){
         this.punt_Atk = punt_Atk;
+        }
     }
 
     public int getNum_Manos() {
@@ -33,6 +35,8 @@ public class Arma extends Equipo{
     }
 
     public void setNum_Manos(int num_Manos) {
-        this.num_Manos = num_Manos;
+        if (num_Manos >= 0 && num_Manos < 3){
+            this.num_Manos = num_Manos;
+        }
     }
 }
