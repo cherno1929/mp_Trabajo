@@ -111,15 +111,10 @@ class FileController_CombateTest {
 
         Assertions.assertTrue(f_Comb.existePersistencia(pers));
 
+        f_Comb.deleteUsuario(user_Test);
         f_Comb.deletePersistence(pers);
 
         Assertions.assertFalse(f_Comb.existePersistencia(pers));
-
-        f_Comb.deleteUsuario(user_Test);
-    }
-
-    @Test
-    void destruirPest() {
 
     }
 
