@@ -22,7 +22,7 @@ public class FileController_Combate extends FileController_Operator{
         return baneable;
     }
 
-    private List<Persistencia> getAllPersistencias() {
+    public List<Persistencia> getAllPersistencias() {
         List<Persistencia> persistencias = new ArrayList<Persistencia>();
         File locationPerst = new File(this.locationPersistencia);
         File[] allLocations = locationPerst.listFiles();
@@ -72,6 +72,11 @@ public class FileController_Combate extends FileController_Operator{
             date = formDate.format(fechaCombate);
         }
         return date;
+    }
+
+    public  Persistencia getPersistencia(Persistencia perst) {
+        File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
+        return getPersistencia(pestFileLoacation);
     }
 
     private Persistencia getPersistencia(File fil) {
@@ -146,4 +151,8 @@ public class FileController_Combate extends FileController_Operator{
     }
 
 
+    public boolean existePersistencia(Persistencia perst) {
+        File pestFileLoacation = new File(this.locationPersistencia + "/" + perst.getJ1().getNombre() + "-" + perst.getJ2().getNombre() + perst.getFecha_Combate() + ".txt");
+        return pestFileLoacation.exists();
+    }
 }

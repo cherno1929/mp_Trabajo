@@ -65,17 +65,63 @@ class FileController_CombateTest {
         fc_Test.deleteUsuario(user_Test);
     }
 
-
     @Test
-    void añadirPersistencia() {
+    void getPerst() {
         Persistencia pers = new Persistencia();
 
         pers.setJ1(user_Test);
         pers.setJ2(user_Test);
         Date dat = new Date();
         pers.setFecha_Combate(dat);
+        pers.setOroGanado(0);
+        pers.setGanador(user_Test);
+        pers.setPerdedor(user_Test);
+        pers.setN_Turnos(2);
+
+        FileController_Combate f_Comb = new FileController_Combate();
+
+        f_Comb.addPersistencia(pers);
+        f_Comb.addUsuario(user_Test);
+
+        Assertions.assertTrue(null != f_Comb.getPersistencia(pers));
+
+        f_Comb.deletePersistence(pers);
+        f_Comb.deleteUsuario(user_Test);
     }
 
+
+    @Test
+    void añadirDestrirPersistencia() {
+        Persistencia pers = new Persistencia();
+
+        pers.setJ1(user_Test);
+        pers.setJ2(user_Test);
+        Date dat = new Date();
+        pers.setFecha_Combate(dat);
+        pers.setOroGanado(0);
+        pers.setGanador(user_Test);
+        pers.setPerdedor(user_Test);
+        pers.setN_Turnos(2);
+
+        FileController_Combate f_Comb = new FileController_Combate();
+
+        f_Comb.addPersistencia(pers);
+
+        f_Comb.addUsuario(user_Test);
+
+        Assertions.assertTrue(f_Comb.existePersistencia(pers));
+
+        f_Comb.deletePersistence(pers);
+
+        Assertions.assertFalse(f_Comb.existePersistencia(pers));
+
+        f_Comb.deleteUsuario(user_Test);
+    }
+
+    @Test
+    void destruirPest() {
+
+    }
 
     @Test
     void añadirRanking() {
