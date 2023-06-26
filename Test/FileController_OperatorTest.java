@@ -49,6 +49,7 @@ class FileController_OperatorTest {
         fc_Test.banear(user_Test);
 
         Assertions.assertTrue(Rol.baneado.equals(fc_Test.getUsuario(user_Test.getNum_Registro()).getRol()));
+        Assertions.assertTrue(fc_Test.getBaneados().size() > 0);
 
         System.gc();
 

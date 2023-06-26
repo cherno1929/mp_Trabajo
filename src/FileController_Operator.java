@@ -13,7 +13,6 @@ public class FileController_Operator extends FileController{
 
     //Metodods
     public void editarPersonajes(){
-
     }
 
     public Desafio getDesafio(String id){
