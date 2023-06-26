@@ -71,6 +71,9 @@ class FileController_CombateTest {
         Persistencia pers = new Persistencia();
 
         pers.setJ1(user_Test);
+        pers.setJ2(user_Test);
+        Date dat = new Date();
+        pers.setFecha_Combate(dat);
     }
 
 

@@ -81,4 +81,8 @@ public class Desafio {
     public String getId(){
         return this.getJ1().getNum_Registro()+"-"+this.getJ2().getNum_Registro();
     }
+
+    public boolean haveJ() {
+        return j1 != null && j2 != null;
+    }
 }
