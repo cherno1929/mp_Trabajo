@@ -66,6 +66,13 @@ class FileController_CombateTest {
     }
 
 
+    @Test
+    void añadirPersistencia() {
+        Persistencia pers = new Persistencia();
+
+        pers.setJ1(user_Test);
+    }
+
 
     @Test
     void añadirRanking() {

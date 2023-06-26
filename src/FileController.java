@@ -44,6 +44,12 @@ public class FileController {
         return fileNames.contains(nombre +".txt");
     }
 
+    public boolean existeUsuario(String nombre){
+        File file_ToRead = new File(this.locationUsuario);
+        Set<String> fileNames = this.searchFiles(file_ToRead);
+        return fileNames.contains(nombre +".txt");
+    }
+
     protected Set<String> searchFiles(File file) {
         Set<String> mySearch = new HashSet<String>();
         File[] list_Files = file.listFiles();

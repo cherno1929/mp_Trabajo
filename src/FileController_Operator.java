@@ -7,8 +7,8 @@ import java.util.Set;
 public class FileController_Operator extends FileController{
 
     //Atributes
-    public String locationDesafios = "Ficheros_app/Desafios";
-    private String locationDataPersonaje = "Ficheros_app/Personajes";
+    public final String locationDesafios = "Ficheros_app/Desafios";
+    private final String locationDataPersonaje = "Ficheros_app/Personajes";
     public List<Desafio> listaDesafios = this.getDesafios();
 
     //Metodods
@@ -26,7 +26,6 @@ public class FileController_Operator extends FileController{
                 obj = desf;
             }
         }
-
         return obj;
     }
 
@@ -79,9 +78,13 @@ public class FileController_Operator extends FileController{
                             if (arrIdx.equals("Oro")){
                                 desaf.setOro(Integer.parseInt(arrData));
                             } else if (arrIdx.equals("J1")) {
-                                desaf.setJ1(getUsuario(arrData));
+                                if (existeUsuario(arrData)) {
+                                    desaf.setJ1(getUsuario(arrData));
+                                }
                             } else if (arrIdx.equals("J2")) {
-                                desaf.setJ2(getUsuario(arrData));
+                                if (existeUsuario(arrData)) {
+                                    desaf.setJ2(getUsuario(arrData));
+                                }
                             } else if (arrIdx.equals("Mod_J1")) {
                                 desaf.setMod_j1(buscarMods(arrData.split(" - ")));
                             } else if (arrIdx.equals("Mod_J2")) {
@@ -91,7 +94,7 @@ public class FileController_Operator extends FileController{
                             }
                         }
                     }
-                    if (desaf.getValidado() == false){
+                    if (desaf.getValidado() == false && desaf.haveJ()){
                         desafios.add(desaf);
                     }
                 } catch (IOException e) {

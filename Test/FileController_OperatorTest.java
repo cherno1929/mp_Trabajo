@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,7 +38,6 @@ class FileController_OperatorTest {
 
         user_Test.setPersonajeActivo(pereJ);
     }
-
 
     @Test
     void banear() {
