@@ -80,6 +80,27 @@ class PersistenciaTest {
         Assertions.assertFalse(null == pers.getJ1());
     }
 
+    @Test
+    void getStringEsbirros_Vivos() {
+        Persistencia pers_Test1 = new Persistencia();
+
+        List<Esbirro> esb = new ArrayList<Esbirro>();
+
+        esb.add(constrEsbirro());
+        esb.add(constrEsbirro());
+        esb.add(constrEsbirro());
+        esb.add(constrEsbirro());
+
+        pers_Test1.setEsbirros_Vivos(esb);
+
+        Assertions.assertTrue(pers_Test1.getStringEsbirros_Vivos().equals("HolaBuenasHolaBuenasHolaBuenasHolaBuenas"));
+
+        Esbirro esbirroTest01 = new Esbirro();
+        esb.add(esbirroTest01);
+
+        Assertions.assertTrue(pers_Test1.getStringEsbirros_Vivos().equals("HolaBuenasHolaBuenasHolaBuenasHolaBuenas"));
+    }
+
     Esbirro constrEsbirro() {
         Esbirro esb = new Esbirro();
 

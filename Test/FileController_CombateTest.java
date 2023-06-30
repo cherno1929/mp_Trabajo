@@ -38,6 +38,7 @@ class FileController_CombateTest {
         user_Test.setPersonajeActivo(pers_Test);
     }
 
+
     @Test
     void es_Baneable() {
 

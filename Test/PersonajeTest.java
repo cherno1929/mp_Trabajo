@@ -21,34 +21,42 @@ class PersonajeTest {
     }
 
     @Test
-    void calcPwr_NoWeapon() {
+    void getEsbirros() {
+        Assertions.assertTrue(0 == persj_Test.getEsbirros().size());
 
-        Assertions.assertEquals(0,persj_Test.calcPwr());
+        Esbirro esb_Test01 = new Esbirro();
+        esb_Test01.setNombre("test01");
+
+        Set<Esbirro> esbirrosTest = new HashSet<>();
+        esbirrosTest.add(esb_Test01);
+
+        persj_Test.setEsbirros(esbirrosTest);
+
+        Assertions.assertTrue(0 < persj_Test.getEsbirros().size());
+        Assertions.assertTrue(persj_Test.getEsbirros().contains(esb_Test01));
     }
 
     @Test
-    void calcPwr_withWeapon() {
+    void añadirArmaActiva() {
+
+    }
+
+    @Test
+    void calcPwr() {
+        Assertions.assertEquals(0,persj_Test.calcPwr());
         String[] arma = {"Mandoble"};
         persj_Test.setArmas_Activas(new ArrayList<Arma>(fc_Test.buscarArmas(arma)));
         Assertions.assertEquals(2,persj_Test.calcPwr());
     }
 
-    @Test
-    void calcShd_NoEsb_NoEsc() {
 
+    @Test
+    void calcShd() {
         Assertions.assertEquals(0,persj_Test.calcShd());
-    }
-
-    @Test
-    void calcShd_NoEsb() {
         String[] armadura = {"Armadura_de_cuero"};
         List<Armadura> armad= new ArrayList<Armadura>(fc_Test.buscarArmaduras(armadura));
         persj_Test.setArmadura_Activa(armad.get(0)); // Solo hay un único elemento
         Assertions.assertEquals(0,persj_Test.calcShd());
-    }
-
-    @Test
-    void calcShd() {
         Humano esbirro_Test = new Humano();
         esbirro_Test.nombre = "human_Test";
         esbirro_Test.salud = 3;
@@ -60,24 +68,16 @@ class PersonajeTest {
     }
 
     @Test
-    void calcEsb_NoEsb() {
+    void calcEsb() {
         Assertions.assertEquals(true,persj_Test.calcEsb().isEmpty());
     }
 
     @Test
-    void hasFainted_HP_0() {
+    void hasFainted() {
         persj_Test.setPunt_Salud(0);
         Assertions.assertEquals(true,persj_Test.hasFainted());
-    }
-
-    @Test
-    void hasFainted_HP_Superor0() {
         persj_Test.setPunt_Salud(1);
         Assertions.assertEquals(false,persj_Test.hasFainted());
-    }
-
-    @Test
-    void hasFainted_HP_Menor0() {
         persj_Test.setPunt_Salud(-1);
         Assertions.assertEquals(true,persj_Test.hasFainted());
     }

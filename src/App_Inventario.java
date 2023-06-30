@@ -31,11 +31,6 @@ public class App_Inventario {
         showPersoanje(this.PersJug);
     }
 
-    public List<Personaje> getAllPersonajes(){
-        List<Personaje> allPersj = new ArrayList<Personaje>();
-        return null;
-    }
-
     private void showPersoanje(Personaje persJug) {
         if (persJug != null){
             System.out.println("Nombre : " + persJug.getNombre());
@@ -141,8 +136,6 @@ public class App_Inventario {
             showModificador(mod);
             i++;
         }
-
-
             System.out.println("\nElige un modificador para añadirlo");
             int op = reader.nextInt();
             if (op < allMods.size() && op >= 0){
