@@ -149,7 +149,7 @@ public class App_Combate {
         this.enviarOro(this.desafioCombate,this.desafioCombate.getOro());
     }
 
-    private boolean CombateFinalizado(Usuario p1, Usuario p2){
+    public boolean CombateFinalizado(Usuario p1, Usuario p2){
         if (p1.getPersonajeActivo().hasFainted()){
             this.setGanador(p2);
             this.setPerdedor(p1);
@@ -296,7 +296,7 @@ public class App_Combate {
         }
     }
 
-    private String mostrarModificador(Set<Modificador> mods) {
+    public String mostrarModificador(Set<Modificador> mods) {
         String dataLine = "";
         if (mods != null) {
             for (Modificador mod : mods) {
