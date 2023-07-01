@@ -248,7 +248,7 @@ public class Personaje {
     }
 
     public void quitarArmaActiva(int opt) {
-        if (this.armas_Activas != null && opt >= 0 && opt < (this.armas_Activas.size()-1)){
+        if (this.armas_Activas != null && opt >= 0 && opt <= (this.armas_Activas.size()-1)){
             this.armas_Activas.remove(opt);
         } else {
             System.out.println("No se encuentra el arma");
