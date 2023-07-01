@@ -65,6 +65,9 @@ class App_CombateTest {
         user_Test.getPersonajeActivo().setPunt_Salud(0);
         Assertions.assertTrue(appTest1.CombateFinalizado(user_Test,usert_Test2));
 
+        user_Test.getPersonajeActivo().setPunt_Salud(-10);
+        Assertions.assertTrue(appTest1.CombateFinalizado(user_Test,usert_Test2));
+
     }
 
     @Test
