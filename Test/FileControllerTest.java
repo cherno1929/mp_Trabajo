@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,14 +23,14 @@ class FileControllerTest {
     }
 
     @Test
-    void existeUsuario_NoExist() {
+    void existeUsuario1() {
         String usuarioId = "Non_Exist_User";
         user_Test.setNum_Registro(usuarioId);
         Assertions.assertEquals(false,fc_Test.existeUsuario(user_Test));
     }
 
     @Test
-    void existeUsuario_Exist() {
+    void existeUsuario2() {
         String usuarioId = "Non_Exist_User";
         user_Test.setNum_Registro(usuarioId);
         Personaje p_tets = new Personaje();
@@ -203,7 +204,7 @@ class FileControllerTest {
     }
 
     @Test
-    void getPersonaje_NoExiste() { //Obtiene correctamenete los personajes pero falla al compararlos
+    void getPersonaje1() { //Obtiene correctamenete los personajes pero falla al compararlos
         String id_Pers = "Non Existent character";
 
         Personaje pers_Test = fc_Test.getPersonaje(id_Pers);
@@ -212,7 +213,7 @@ class FileControllerTest {
     }
 
     @Test
-    void getPersonaje_Existe() { //Obtiene correctamenete los personajes pero falla al compararlos
+    void getPersonaje2() { //Obtiene correctamenete los personajes pero falla al compararlos
         Personaje pers_Test = new Personaje();
         pers_Test.setId("asodwekfiew");
         pers_Test.setNombre("tets_0");
@@ -329,4 +330,96 @@ class FileControllerTest {
         Assertions.assertFalse(fc_Test.existePersonaje(p_tets.getId()));
     }
 
+    @Test
+    void searchFiles() {
+
+        String usuarioId = "Non_Exist_User";
+        user_Test.setNum_Registro(usuarioId);
+        user_Test.setNombre("Hermenegildo");
+        user_Test.setRol(Rol.usuario);
+        user_Test.setNick("u");
+        user_Test.setPassword("*****");
+        Personaje pereJ = new Personaje();
+        pereJ.setId("fav");
+        pereJ.setNombre("Personaje_Test01");
+        pereJ.setPunt_Salud(5);
+        pereJ.setOro(0);
+        user_Test.setPersonajeActivo(pereJ);
+
+        fc_Test.addUsuario(user_Test);
+
+        Assertions.assertTrue(fc_Test.searchFiles(new File("Ficheros_app/Usuarios")).contains(user_Test.getNum_Registro() + ".txt"));
+
+        fc_Test.deleteUsuario(user_Test);
+    }
+
+    @Test
+    void getAllUsuarios() {
+        String usuarioId = "Non_Exist_User";
+        user_Test.setNum_Registro(usuarioId);
+        user_Test.setNombre("Hermenegildo");
+        user_Test.setRol(Rol.usuario);
+        user_Test.setNick("u");
+        user_Test.setPassword("*****");
+        Personaje pereJ = new Personaje();
+        pereJ.setId("fav");
+        pereJ.setNombre("Personaje_Test01");
+        pereJ.setPunt_Salud(5);
+        pereJ.setOro(0);
+        user_Test.setPersonajeActivo(pereJ);
+
+        fc_Test.addUsuario(user_Test);
+
+        Assertions.assertTrue(fc_Test.getAllUsuarios().size() >= 1);
+
+        fc_Test.deleteUsuario(user_Test);
+    }
+
+    @Test
+    void getHab() {
+        Habilidad_Especial habTest01 = fc_Test.getHab(new File("Ficheros_app/Habilidades/Disciplina/Chupar_Sangre.txt"),Vampiro.class);
+        Assertions.assertTrue(habTest01.getNombre().equals("Chupar_Sangre"));
+        Assertions.assertTrue(habTest01.getAtk() == 3);
+        Assertions.assertTrue(habTest01.getDef() == 0);
+        Assertions.assertTrue(habTest01 instanceof Disciplina);
+
+        habTest01 = fc_Test.getHab(new File("Ficheros_app/Habilidades/Don/Garra Umbria.txt"),Licantropo.class);
+
+        Assertions.assertTrue(habTest01.getNombre().equals("Garra Umbria"));
+        Assertions.assertTrue(habTest01.getAtk() == 3);
+        Assertions.assertTrue(habTest01.getDef() == 1);
+        Assertions.assertTrue(habTest01 instanceof Don);
+
+        habTest01 = fc_Test.getHab(new File("Ficheros_app/Habilidades/Talento/Puño acero.txt"),Cazador.class);
+
+        Assertions.assertTrue(habTest01.getNombre().equals("Puño acero"));
+        Assertions.assertTrue(habTest01.getAtk() == 5);
+        Assertions.assertTrue(habTest01.getDef() == 2);
+        Assertions.assertTrue(habTest01 instanceof Talento);
+
+    }
+
+    @Test
+    void getRazaPersonaje() {
+        Vampiro vampiro_Test = new Vampiro();
+        vampiro_Test.setId("VampiroTest");
+
+        fc_Test.addPersonaje(vampiro_Test);
+        Assertions.assertTrue(fc_Test.getRazaPersonaje("Ficheros_app/Personaje_Usuario/"+vampiro_Test.getId() + ".txt") instanceof Vampiro);
+        fc_Test.borrarPersoanje(vampiro_Test);
+
+        Licantropo licantropo_Test = new Licantropo();
+        licantropo_Test.setId("LicantropoTest");
+
+        fc_Test.addPersonaje(licantropo_Test);
+        Assertions.assertTrue(fc_Test.getRazaPersonaje("Ficheros_app/Personaje_Usuario/"+licantropo_Test.getId()+".txt") instanceof Licantropo);
+        fc_Test.borrarPersoanje(licantropo_Test);
+
+        Cazador cazador_Test = new Cazador();
+        cazador_Test.setId("cazadorTest");
+
+        fc_Test.addPersonaje(cazador_Test);
+        Assertions.assertTrue(fc_Test.getRazaPersonaje("Ficheros_app/Personaje_Usuario/"+cazador_Test.getId()+".txt") instanceof Cazador);
+        fc_Test.borrarPersoanje(cazador_Test);
+    }
 }

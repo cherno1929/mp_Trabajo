@@ -1,0 +1,4 @@
+Ataque : 3
+Defensa : 1
+Rabia : 1
+Umbral : 1

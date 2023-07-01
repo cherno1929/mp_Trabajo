@@ -385,7 +385,7 @@ public class FileController {
         return habs;
     }
 
-    private Habilidad_Especial getHab(File fileHab, Class<? extends Personaje> aClass) {
+    public Habilidad_Especial getHab(File fileHab, Class<? extends Personaje> aClass) {
         Habilidad_Especial hab;
         if (aClass == Vampiro.class) {
             hab = new Disciplina();
@@ -814,15 +814,6 @@ public class FileController {
         return esb;
     }
 
-    protected List<Personaje> getAllPersonaje() {
-        List<Personaje> persoanjes = new ArrayList<Personaje>();
-        File[] filesPersoanje = new File(this.localPersoanjes).listFiles();
-        for (File fil : filesPersoanje) {
-            String nameFil = fil.getName();
-            persoanjes.add(this.getPersonaje(nameFil));
-        }
-        return persoanjes;
-    }
 
     public List<Modificador> getMods() {
         List<Modificador> mods = new ArrayList<Modificador>();

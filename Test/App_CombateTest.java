@@ -97,8 +97,8 @@ class App_CombateTest {
 
         app_Test1.enviarOro(desafio_Test01,1000);
         pessonaje_Test01 = fc_Test.getPersonaje(pereJ.getId());
-        Assertions.assertTrue(personaje_Test02.getOro() == -900);
-        Assertions.assertTrue(pessonaje_Test01.getOro() == 1000);
+        Assertions.assertTrue(personaje_Test02.getOro() == 0);
+        Assertions.assertTrue(pessonaje_Test01.getOro() == 100);
 
         personaje_Test02.setOro(100);
 

@@ -1,0 +1,2 @@
+Ataque : 5
+Defensa : 2
