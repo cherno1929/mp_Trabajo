@@ -2,8 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,11 +14,33 @@ class FileControllerTest {
 
     Usuario user_Test;
     FileController fc_Test;
+    Personaje pereJ;
 
     @BeforeEach
     void setUp(){
         user_Test = new Usuario();
         fc_Test = new FileController();
+
+        user_Test = new Usuario();
+
+        pereJ = new Personaje();
+
+        //Asignar id
+        String usuarioId = "Non_Exist_User";
+        user_Test.setNum_Registro(usuarioId);
+
+        //Asignar Nombre
+        user_Test.setNombre("Hermenegildo");
+        //Asignar Rol
+        user_Test.setRol(Rol.usuario);
+        //Asignar Nick
+        user_Test.setNick("u");
+        //Asignar Password
+        user_Test.setPassword("*****");
+
+        pereJ.setId("fav");
+
+        user_Test.setPersonajeActivo(pereJ);
     }
 
     @Test
@@ -294,7 +315,7 @@ class FileControllerTest {
 
 
     @Test
-    void buscarEsbirros_NoExiste() {
+    void buscarEsbirros1() {
         String[] esbirro_NoExiste = {"no_Existe"};
 
         Assertions.assertThrows(RuntimeException.class,
@@ -304,7 +325,7 @@ class FileControllerTest {
     }
 
     @Test
-    void buscarEsbirros_Existe() {
+    void buscarEsbirros2() {
         String[] esbirro_NoExiste = {"Esbitto_Test"};
 
         List<Esbirro> buscados = new ArrayList<Esbirro>(fc_Test.buscarEsbirros(esbirro_NoExiste));
@@ -421,5 +442,86 @@ class FileControllerTest {
         fc_Test.addPersonaje(cazador_Test);
         Assertions.assertTrue(fc_Test.getRazaPersonaje("Ficheros_app/Personaje_Usuario/"+cazador_Test.getId()+".txt") instanceof Cazador);
         fc_Test.borrarPersoanje(cazador_Test);
+    }
+
+    ///////////////
+
+    @Test
+    void addDesafio() throws IOException {
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(false);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+        fc_Test.addDesafio(desafio_Test);
+        String data = "";
+        try {
+            BufferedReader readerTest = new BufferedReader(new FileReader("Ficheros_app/Desafios/"+desafio_Test.getId()));
+            String line;
+            while ((line=readerTest.readLine())!=null){
+                data += line + "\n";
+            }
+            Assertions.assertTrue(data.equals("J1 : Non_Exist_User\n" +
+                    "J2 : Non_Exist_User\n" +
+                    "Oro : 20\n" +
+                    "Mod_J1 : \n" +
+                    "Mod_J2 : \n" +
+                    "Validado : false\n"));
+        }catch (IOException e){
+            throw e;
+        }
+    }
+
+    @Test
+    void getDisciplinas() {
+        Set<Habilidad_Especial> disciplinas = fc_Test.getDisciplinas();
+
+        boolean valid = true;
+
+        for (Habilidad_Especial displina : disciplinas) {
+            valid = displina instanceof Disciplina;
+            if (!valid){
+                break;
+            }
+        }
+
+        Assertions.assertTrue(valid);
+        Assertions.assertTrue(disciplinas.size() >= 1);
+    }
+
+    @Test
+    void getDones() {
+        Set<Habilidad_Especial> dones = fc_Test.getDones();
+
+        boolean valid = true;
+
+        for (Habilidad_Especial don : dones) {
+            valid = don instanceof Don;
+            if (!valid){
+                break;
+            }
+        }
+
+        Assertions.assertTrue(valid);
+        Assertions.assertTrue(dones.size() >= 1);
+    }
+
+    @Test
+    void getTalentos() {
+        Set<Habilidad_Especial> talentos = fc_Test.getTalentos();
+
+        boolean valid = true;
+
+        for (Habilidad_Especial talento : talentos) {
+            valid = talento instanceof Talento;
+            if (!valid){
+                break;
+            }
+        }
+
+        Assertions.assertTrue(valid);
+        Assertions.assertTrue(talentos.size() >= 1);
     }
 }
