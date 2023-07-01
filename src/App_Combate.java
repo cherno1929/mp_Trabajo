@@ -83,18 +83,20 @@ public class App_Combate {
         }
     }
 
-    private void enviarOro(Desafio desafio, int cantOro) {
-        if (desafio.getJ2().getPersonajeActivo().getOro() == 0){
+    public void enviarOro(Desafio desafio, int cantOro) {
+        if (cantOro >= 0){
+            if (desafio.getJ2().getPersonajeActivo().getOro() == 0) {
 
-        } else if (desafio.getJ2().getPersonajeActivo().getOro() < 0) {
-            desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + desafio.getJ2().getPersonajeActivo().getOro());
-            desafio.getJ2().getPersonajeActivo().setOro(0);
-        }else {
-            desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + cantOro);
-            desafio.getJ2().getPersonajeActivo().setOro(desafio.getJ2().getPersonajeActivo().getOro() - cantOro);
+            } else if (desafio.getJ2().getPersonajeActivo().getOro() < 0) {
+                desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + desafio.getJ2().getPersonajeActivo().getOro());
+                desafio.getJ2().getPersonajeActivo().setOro(0);
+            } else {
+                desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + cantOro);
+                desafio.getJ2().getPersonajeActivo().setOro(desafio.getJ2().getPersonajeActivo().getOro() - cantOro);
+            }
+            this.fileContr.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
+            this.fileContr.modificarPersonaje(desafio.getJ2().getPersonajeActivo());
         }
-        this.fileContr.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
-        this.fileContr.modificarPersonaje(desafio.getJ2().getPersonajeActivo());
     }
 
     private void preCombate() {
@@ -145,7 +147,7 @@ public class App_Combate {
         this.fileContr.añadirRanking(this.ganador);
     }
 
-    private void repartirOro() {
+    public void repartirOro() {
         this.enviarOro(this.desafioCombate,this.desafioCombate.getOro());
     }
 
@@ -185,14 +187,16 @@ public class App_Combate {
         }
     } // Mostrar pestaña de accion para x usuario
 
-    private void Rendirse(Usuario user){
-        boolean j1_loser = user == J1;
-        if (j1_loser) {
-            setGanador(J2);
-            setPerdedor(J1);
-        } else {
-            setGanador(J1);
-            setPerdedor(J2);
+    public void Rendirse(Usuario user){
+        if (user != null){
+            boolean j1_loser = user == J1;
+            if (j1_loser) {
+                setGanador(J2);
+                setPerdedor(J1);
+            } else {
+                setGanador(J1);
+                setPerdedor(J2);
+            }
         }
     }
 
@@ -240,29 +244,35 @@ public class App_Combate {
         reg.append("Turno " + getTurno() + ": Personaje " + patk.getNombre() + " ataca con " + h.getNombre() + ". " + ataque_final + " dmg\n");
     }
 
-    private void recibirDamage(Personaje atacado ,int atk) {
-        List<Esbirro> esbirros = new ArrayList<Esbirro>(atacado.getEsbirros());
-        if (esbirros != null && esbirros.size() > 0){
-            int i = 0;
-            Esbirro esb = esbirros.get(i);
-            while (i < esbirros.size() && !atacado.hasFainted() && atk > 0) {
-                if (esb.getSalud() > 0) {
-                    if (atk <= esb.getSalud()) {
-                        esb.setSalud(esb.getSalud() - atk);
-                        break;
-                    } else {
-                        atk -= esb.getSalud();
-                        esb.setSalud(0);
+    public void recibirDamage(Personaje atacado ,int atk) {
+        if (atk > 0){
+            List<Esbirro> esbirros = new ArrayList<Esbirro>(atacado.getEsbirros());
+            if (esbirros != null && esbirros.size() > 0) {
+                int i = 0;
+                Esbirro esb = esbirros.get(i);
+                while (i < esbirros.size() && !atacado.hasFainted() && atk > 0) {
+                    if (esb.getSalud() > 0) {
+                        if (atk <= esb.getSalud()) {
+                            esb.setSalud(esb.getSalud() - atk);
+                            break;
+                        } else {
+                            atk -= esb.getSalud();
+                            esb.setSalud(0);
+                        }
                     }
+                    i++;
+                    esb = esbirros.get(i);
                 }
-                i++;
-                esb = esbirros.get(i);
+                if (atk > 0) {
+                    atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
+                }
+            } else {
+                if (atacado.getPunt_Salud() >= atk) {
+                    atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
+                } else {
+                    atacado.setPunt_Salud(0);
+                }
             }
-            if (atk > 0) {
-                atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
-            }
-        }else {
-            atacado.setPunt_Salud(atacado.getPunt_Salud() - atk);
         }
     }
     private void mostrarDesafios(List<Desafio> desafios) {

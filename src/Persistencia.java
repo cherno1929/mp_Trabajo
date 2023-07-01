@@ -18,7 +18,9 @@ public class Persistencia {
         String dataLine = "";
         if (this.esbirros_Vivos != null) {
             for (Esbirro esb : this.esbirros_Vivos) {
-                dataLine += esb.getNombre();
+                if (esb != null && esb.getNombre() != null){
+                    dataLine += esb.getNombre();
+                }
             }
         }
         return dataLine;

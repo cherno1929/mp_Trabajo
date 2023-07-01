@@ -1,4 +1,4 @@
-public class Esbirro extends Personaje{
+public class Esbirro {
 
     //Atributos
     protected String nombre;

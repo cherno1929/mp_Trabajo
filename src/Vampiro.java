@@ -47,6 +47,5 @@ public class Vampiro extends Personaje{
             this.disciplinas = new ArrayList<Disciplina>();
         }
         this.disciplinas.add(disp1);
-
     }
 }
