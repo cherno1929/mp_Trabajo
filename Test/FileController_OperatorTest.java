@@ -192,6 +192,7 @@ class FileController_OperatorTest {
         desafio_Test.setJ1(user_Test);
         desafio_Test.setJ2(user_Test);
 
+        file_Op_Test01.addUsuario(user_Test);
         file_Op_Test01.addDesafio(desafio_Test);
 
         boolean valid = false;
@@ -208,6 +209,7 @@ class FileController_OperatorTest {
         Assertions.assertTrue(valid);
 
         file_Op_Test01.borrarDesafio(desafio_Test.getId());
+        file_Op_Test01.deleteUsuario(user_Test);
     }
 
     @Test
@@ -231,6 +233,12 @@ class FileController_OperatorTest {
         Assertions.assertTrue(file_Op_Test01.getDesafio(desafio_Test.getId()).getOro() == 20);
 
         file_Op_Test01.borrarDesafio(desafio_Test.getId());
+
+        File deleter = new File("Ficheros_app/Desafios" +"/"+desafio_Test.getId());
+
+        System.gc();
+
+        deleter.delete();
     }
 
     @Test

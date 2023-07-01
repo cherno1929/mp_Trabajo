@@ -132,22 +132,11 @@ public class FileController_Combate extends FileController_Operator{
     }
 
 
-    public void destruirDesafio(Desafio desafio) { // Por algun motivo falla
-        String location_Desafio = this.locatinDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt";
-        System.out.println("Localización de fichero :: "+location_Desafio);
-        File filDestyoyer = new File(location_Desafio);
-        try {
-            PrintWriter deleteWriter = new PrintWriter(location_Desafio);
-            deleteWriter.print("");
-            deleteWriter.close();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        if (filDestyoyer.delete()) {
-            System.out.println("Desafio borrado correctamente");
-        } else {
-            System.out.println("Ha habido algun problema borrando el desafio");
-        }
+    public void destruirDesafio(Desafio desafio) {
+        System.gc();
+        File desafioTODestroy = new File(this.locatinDesafios+"/"+desafio.getJ1().getNum_Registro()+"-"+desafio.getJ2().getNum_Registro()+".txt");
+        desafioTODestroy.delete();
+
     }
 
 

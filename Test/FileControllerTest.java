@@ -45,7 +45,7 @@ class FileControllerTest {
 
     @Test
     void existeUsuario1() {
-        String usuarioId = "Non_Exist_User";
+        String usuarioId = "TestUserDontExist";
         user_Test.setNum_Registro(usuarioId);
         Assertions.assertEquals(false,fc_Test.existeUsuario(user_Test));
     }
@@ -458,14 +458,14 @@ class FileControllerTest {
         fc_Test.addDesafio(desafio_Test);
         String data = "";
         try {
-            BufferedReader readerTest = new BufferedReader(new FileReader("Ficheros_app/Desafios/"+desafio_Test.getId()));
+            BufferedReader readerTest = new BufferedReader(new FileReader("Ficheros_app/Desafios/"+desafio_Test.getId()+".txt"));
             String line;
             while ((line=readerTest.readLine())!=null){
                 data += line + "\n";
             }
             Assertions.assertTrue(data.equals("J1 : Non_Exist_User\n" +
                     "J2 : Non_Exist_User\n" +
-                    "Oro : 20\n" +
+                    "Oro : 10\n" +
                     "Mod_J1 : \n" +
                     "Mod_J2 : \n" +
                     "Validado : false\n"));

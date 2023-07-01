@@ -91,8 +91,13 @@ public class App_Combate {
                 desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + desafio.getJ2().getPersonajeActivo().getOro());
                 desafio.getJ2().getPersonajeActivo().setOro(0);
             } else {
-                desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + cantOro);
-                desafio.getJ2().getPersonajeActivo().setOro(desafio.getJ2().getPersonajeActivo().getOro() - cantOro);
+                if (desafio.getJ2().getPersonajeActivo().getOro() >= cantOro){
+                    desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + cantOro);
+                    desafio.getJ2().getPersonajeActivo().setOro(desafio.getJ2().getPersonajeActivo().getOro() - cantOro);
+                }else {
+                    desafio.getJ1().getPersonajeActivo().setOro(desafio.getJ1().getPersonajeActivo().getOro() + desafio.getJ2().getPersonajeActivo().getOro());
+                    desafio.getJ2().getPersonajeActivo().setOro(0);
+                }
             }
             this.fileContr.modificarPersonaje(desafio.getJ1().getPersonajeActivo());
             this.fileContr.modificarPersonaje(desafio.getJ2().getPersonajeActivo());

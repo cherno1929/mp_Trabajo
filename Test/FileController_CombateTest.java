@@ -55,10 +55,10 @@ class FileController_CombateTest {
         desafio_Test.setJ1(user_Test);
         desafio_Test.setJ2(user_Test);
 
-        fc_Test.addDesafio(desafio_Test);
-
         Date date = new Date();
-        assertEquals(false,fc_Test.es_Baneable(date,desafio_Test.getJ2()));
+        Assertions.assertFalse(fc_Test.es_Baneable(date,desafio_Test.getJ2()));
+
+        fc_Test.addDesafio(desafio_Test);
 
         System.gc();
 
@@ -86,8 +86,10 @@ class FileController_CombateTest {
 
         Assertions.assertTrue(null != f_Comb.getPersistencia(pers));
 
-        f_Comb.deletePersistence(pers);
+        System.gc();
+
         f_Comb.deleteUsuario(user_Test);
+        f_Comb.deletePersistence(pers);
     }
 
 
@@ -127,6 +129,8 @@ class FileController_CombateTest {
         desafio_Test01.setJ2(user_Test);
         desafio_Test01.setJ1(user_Test);
         desafio_Test01.setOro(10);
+
+        file_Test01.addDesafio(desafio_Test01);
 
         Assertions.assertTrue(file_Test01.getDesafio(desafio_Test01.getId()) != null);
 
