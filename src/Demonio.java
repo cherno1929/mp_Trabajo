@@ -40,13 +40,17 @@ public class Demonio extends Esbirro{
     }
 
     public void setPacto(List<Pacto> pactos) {
-        this.pactos = pactos;
+        if (pactos != null){
+            this.pactos = pactos;
+        }
     }
 
     public void setPacto(Pacto pactos) {
         if (this.pactos == null){
             this.pactos = new ArrayList<Pacto>();
         }
-        this.pactos.add(pactos);
+        if (pactos != null){
+            this.pactos.add(pactos);
+        }
     }
 }
