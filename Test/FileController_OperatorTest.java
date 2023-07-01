@@ -3,9 +3,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -148,5 +146,135 @@ class FileController_OperatorTest {
         fc_Op.borrarDesafio(desafio_Test.getId());
 
     }
+
+    @Test
+    void getDesafios() {
+        FileController_Operator file_Op_Test01 = new FileController_Operator();
+
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(false);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+
+        file_Op_Test01.addDesafio(desafio_Test);
+
+        boolean valid = false;
+
+        for (Desafio desf : file_Op_Test01.getDesafios()) {
+            valid = desafio_Test.getId().equals(desf.getId());
+            if (valid) {
+                break;
+            }
+        }
+
+        Assertions.assertTrue(valid);
+
+        file_Op_Test01.borrarDesafio(desafio_Test.getId());
+    }
+
+    @Test
+    void getSolicitudesDesafio() {
+        FileController_Operator file_Op_Test01 = new FileController_Operator();
+
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(true);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+
+        file_Op_Test01.addDesafio(desafio_Test);
+
+        boolean valid = false;
+
+        Assertions.assertTrue(file_Op_Test01.getSolicitudesDesafio(user_Test).size() > 0);
+
+        for (Desafio desf : file_Op_Test01.getSolicitudesDesafio(user_Test)) {
+            valid = desafio_Test.getId().equals(desf.getId()) && desf.getValidado();
+            if (valid) {
+                break;
+            }
+        }
+
+        Assertions.assertTrue(valid);
+
+        file_Op_Test01.borrarDesafio(desafio_Test.getId());
+    }
+
+    @Test
+    void modificarDesafio() {
+        FileController_Operator file_Op_Test01 = new FileController_Operator();
+
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(false);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+
+        file_Op_Test01.addDesafio(desafio_Test);
+
+        desafio_Test.setOro(20);
+
+        file_Op_Test01.modificarDesafio("Ficheros_app/Desafios" +"/"+desafio_Test.getId(),desafio_Test);
+
+        Assertions.assertTrue(file_Op_Test01.getDesafio(desafio_Test.getId()).getOro() == 20);
+
+        file_Op_Test01.borrarDesafio(desafio_Test.getId());
+    }
+
+    @Test
+    void nameModsDesafio() {
+        FileController_Operator file_Op_Test01 = new FileController_Operator();
+
+        Assertions.assertTrue(file_Op_Test01.nameModsDesafio(new HashSet<>()).equals(""));
+
+        Assertions.assertTrue(file_Op_Test01.nameModsDesafio(constructDesafios()).equals("Test_x - Test_x - Test_x - "));
+    }
+
+    Set<Modificador> constructDesafios() {
+        Set<Modificador> mods = new HashSet<>();
+
+        for (int i = 0; i < 3; i++) {
+            Modificador mod = new Modificador();
+            mod.setTipo_mod(Tipo_mod.Fortaleza);
+            mod.setNombre("Test_x");
+            mod.setGrado_Efecto(1);
+            mods.add(mod);
+        }
+
+        return mods;
+    }
+
+    @Test
+    void writeDesafio() {}
+
+    @Test
+    void getBaneados() {
+        FileController_Operator file_Op_Test01 = new FileController_Operator();
+
+        file_Op_Test01.addUsuario(user_Test);
+
+        file_Op_Test01.banear(user_Test);
+
+        boolean valid = false;
+
+        for (Usuario bannedUser : file_Op_Test01.getBaneados()) {
+            valid = bannedUser.getNum_Registro().equals(user_Test.getNum_Registro());
+            if (valid) {
+                break;
+            }
+        }
+
+        Assertions.assertTrue(file_Op_Test01.getBaneados().size() > 0 && valid);
+
+        file_Op_Test01.deleteUsuario(user_Test);
+    }
+
 
 }

@@ -67,7 +67,7 @@ class FileController_CombateTest {
     }
 
     @Test
-    void getPerst() {
+    void getPersistencia() {
         Persistencia pers = new Persistencia();
 
         pers.setJ1(user_Test);
@@ -92,7 +92,7 @@ class FileController_CombateTest {
 
 
     @Test
-    void añadirDestrirPersistencia() {
+    void addDestroyPersistenc() {
         Persistencia pers = new Persistencia();
 
         pers.setJ1(user_Test);
@@ -117,6 +117,49 @@ class FileController_CombateTest {
 
         Assertions.assertFalse(f_Comb.existePersistencia(pers));
 
+    }
+
+    @Test
+    void destruirDesafio() {
+        FileController_Combate file_Test01 = new FileController_Combate();
+
+        Desafio desafio_Test01 = new Desafio();
+        desafio_Test01.setJ2(user_Test);
+        desafio_Test01.setJ1(user_Test);
+        desafio_Test01.setOro(10);
+
+        Assertions.assertTrue(file_Test01.getDesafio(desafio_Test01.getId()) != null);
+
+        file_Test01.destruirDesafio(desafio_Test01);
+
+        Assertions.assertTrue(file_Test01.getDesafio(desafio_Test01.getId()) == null);
+
+    }
+
+    @Test
+    void existePersistencia() {
+        FileController_Combate file_Test01 = new FileController_Combate();
+
+        Persistencia pers = new Persistencia();
+
+        pers.setJ1(user_Test);
+        pers.setJ2(user_Test);
+        Date dat = new Date();
+        pers.setFecha_Combate(dat);
+        pers.setOroGanado(0);
+        pers.setGanador(user_Test);
+        pers.setPerdedor(user_Test);
+        pers.setN_Turnos(2);
+
+        Assertions.assertFalse(file_Test01.existePersistencia(pers));
+
+        file_Test01.addPersistencia(pers);
+
+        Assertions.assertTrue(file_Test01.existePersistencia(pers));
+
+        file_Test01.deletePersistence(pers);
+
+        Assertions.assertFalse(file_Test01.existePersistencia(pers));
     }
 
     @Test

@@ -23,6 +23,7 @@ public class FileController_Operator extends FileController{
         for (Desafio desf : desafios) {
             if (id.equals(desf.getId())){
                 obj = desf;
+                break;
             }
         }
         return obj;
@@ -157,7 +158,7 @@ public class FileController_Operator extends FileController{
         writeDesafio(nomFile,desafio);
     }
 
-    private String nameModsDesafio(Set<Modificador> mods){
+    public String nameModsDesafio(Set<Modificador> mods){
         String names = "";
         if (mods != null){
             for (Modificador mod : mods) {

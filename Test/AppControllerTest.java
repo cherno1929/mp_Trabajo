@@ -22,7 +22,7 @@ class AppControllerTest {
     }
 
     @Test
-    public void checkIdNotRepeted(){
+    public void getRandomId1(){
         String id_Test = controller_test.getRandomId();
         String id_Location = controller_test.fc.locationUsuario + "/" + id_Test + ".txt";
         File fileTest = new File(id_Location);
@@ -30,7 +30,7 @@ class AppControllerTest {
     }
 
     @Test
-    public void checkIdRepeted(){
+    public void getRandomId2(){
         test_User.setNick("UserTest_01");
         test_User.setNombre("Test_01");
         test_User.setNum_Registro(controller_test.getRandomId());
