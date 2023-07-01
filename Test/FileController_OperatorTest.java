@@ -3,6 +3,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.imageio.IIOException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -252,7 +257,42 @@ class FileController_OperatorTest {
     }
 
     @Test
-    void writeDesafio() {}
+    void writeDesafio() {
+        FileController_Operator file_OP_Test01 = new FileController_Operator();
+
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setValidado(false);
+        desafio_Test.setOro(10);
+        desafio_Test.setMod_j1(null);
+        desafio_Test.setMod_j2(null);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+
+        file_OP_Test01.addDesafio(desafio_Test);
+
+        File file_Test = new File("Ficheros_app/Desafios/"+desafio_Test.getId()+".txt");
+
+        String contenTest = "";
+
+        if (file_Test.exists()) {
+            try {
+                BufferedReader readerTest = new BufferedReader(new FileReader(file_Test));
+                String line;
+                while ((line = readerTest.readLine()) != null) {
+                    contenTest += line + "\n";
+                }
+                Assertions.assertTrue(contenTest.equals("J1 : Non_Exist_User\n" +
+                        "J2 : Non_Exist_User\n" +
+                        "Oro : 10\n" +
+                        "Mod_J1 : \n" +
+                        "Mod_J2 : \n" +
+                        "Validado : false\n"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+        file_OP_Test01.borrarDesafio(desafio_Test.getId());
+    }
 
     @Test
     void getBaneados() {
