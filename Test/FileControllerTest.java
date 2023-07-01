@@ -503,7 +503,6 @@ class FileControllerTest {
                 break;
             }
         }
-
         Assertions.assertTrue(valid);
         Assertions.assertTrue(dones.size() >= 1);
     }
@@ -511,7 +510,6 @@ class FileControllerTest {
     @Test
     void getTalentos() {
         Set<Habilidad_Especial> talentos = fc_Test.getTalentos();
-
         boolean valid = true;
 
         for (Habilidad_Especial talento : talentos) {
@@ -520,7 +518,6 @@ class FileControllerTest {
                 break;
             }
         }
-
         Assertions.assertTrue(valid);
         Assertions.assertTrue(talentos.size() >= 1);
     }
