@@ -85,7 +85,7 @@ public class App_Operador {
 
     public void MenuBaneo(List<Desafio> listaDesafios){
         int opt = 1;
-        while (opt != 0){
+        while (opt != -1){
             if (listaDesafios != null) {
                 int i = 0;
                 for (Desafio desafio : listaDesafios) {
@@ -98,7 +98,10 @@ public class App_Operador {
                 System.out.println("\nA quien desea banear?\nDe un numero del 0 al " + (listaDesafios.size() - 1) + "\nPulse a -1 para Salir");
                 Scanner scanerReadln = new Scanner(System.in);
                 opt = scanerReadln.nextInt();
-                Desafio user = this.lista_Desafios.get(opt);
+                Desafio user = null;
+                if (opt >= 0){
+                    user = this.lista_Desafios.get(opt);
+                }
                 if (user != null){
                     this.herramienta_Operador.banear(user.getJ1());
                 }
