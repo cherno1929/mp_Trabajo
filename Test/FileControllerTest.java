@@ -521,4 +521,103 @@ class FileControllerTest {
         Assertions.assertTrue(valid);
         Assertions.assertTrue(talentos.size() >= 1);
     }
+
+    //////////////
+
+    Set<Modificador> construirMods() {
+        Set<Modificador> mods = new HashSet<>();
+        for (int i = 1; i <= 3; i++){
+            Modificador mod = new Modificador();
+            mod.setNombre("Test");
+            mods.add(mod);
+        }
+        return mods;
+    }
+
+    @Test
+    void getModsName() {
+        Set<Modificador> mods = construirMods();
+        FileController fc_Test = new FileController();
+        Assertions.assertTrue(fc_Test.getModsName(null).equals(""));
+
+        Assertions.assertTrue(fc_Test.getModsName(mods).equals("Test - Test - Test - "));
+    }
+
+    @Test
+    void addAlInfoDesafio() {
+        Desafio desafio_Test = new Desafio();
+        desafio_Test.setOro(100);
+        desafio_Test.setJ1(user_Test);
+        desafio_Test.setJ2(user_Test);
+        desafio_Test.setValidado(false);
+        fc_Test.addDesafio(desafio_Test);
+        desafio_Test.setValidado(true);
+        fc_Test.addAlInfoDesafio(new File("Ficheros_app/Desafios/"+desafio_Test.getId() + ".txt"),desafio_Test);
+        try {
+            BufferedReader reader_Test = new BufferedReader(new FileReader("Ficheros_app/Desafios/"+desafio_Test.getId() + ".txt"));
+            String line;
+            String data = "";
+            while ((line = reader_Test.readLine()) != null) {
+                data += line;
+            }
+            Assertions.assertTrue(data.equals("J1 : Non_Exist_UserJ2 : Non_Exist_UserOro : " +
+                    "100Mod_J1 : Mod_J2 : Validado : true"));
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    void addAllInfoPersonaje() {
+        fc_Test.addPersonaje(pereJ);
+        pereJ.setOro(77);
+        fc_Test.addAllInfoPersonaje(pereJ,"Ficheros_app/Personaje_Usuario/" + pereJ.getId() + ".txt");
+        try {
+            BufferedReader reader_Test = new BufferedReader(new FileReader("Ficheros_app/Personaje_Usuario/" + pereJ.getId() + ".txt"));
+            String line;
+            String data = "";
+            while ((line = reader_Test.readLine()) != null) {
+                data += line;
+            }
+            Assertions.assertTrue(data.equals("Nombre : nullId : favOro : 77Raza : class PersonajePoder :" +
+                    " 0Salud : 0Arma : Armaduras : Esbirros : Habilidad : Mods : "));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        fc_Test.borrarPersoanje(pereJ);
+    }
+
+    @Test
+    void addAllInfoUser() {
+        fc_Test.addUsuario(user_Test);
+        user_Test.setNombre("test_01");
+        fc_Test.addAllInfoUser(user_Test,"Ficheros_app/Usuarios/" + user_Test.getNum_Registro() + ".txt");
+        try {
+            BufferedReader reader_Test = new BufferedReader(new FileReader("Ficheros_app/Usuarios/" + user_Test.getNum_Registro() + ".txt"));
+            String line;
+            String data = "";
+            while ((line = reader_Test.readLine()) != null) {
+                data += line;
+            }
+            Assertions.assertTrue(data.equals("Nombre : test_01NickName : uPassword : " +
+                    "*****Numero de registro : Non_Exist_UserRol : usuarioPersonaje : fav"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        fc_Test.deleteUsuario(user_Test);
+    }
+
+    @Test
+    void getMod() {
+        FileController fc_Test = new FileController();
+        Assertions.assertThrows(RuntimeException.class,
+                () -> {
+                    Modificador modTest = fc_Test.getMod(new File("Ficheros_app/Modificadores/NonExistMod.txt"));
+                });
+        Modificador modificador_Test = fc_Test.getMod(new File("Ficheros_app/Modificadores/Sol.txt"));
+        Assertions.assertTrue(modificador_Test != null);
+        Assertions.assertTrue(modificador_Test.getNombre().equals("Sol"));
+        Assertions.assertTrue(modificador_Test.getTipo_mod() == Tipo_mod.Fortaleza);
+        Assertions.assertTrue(modificador_Test.getGrado_Efecto() == 3);
+    }
 }

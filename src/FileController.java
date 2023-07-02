@@ -829,7 +829,7 @@ public class FileController {
         return mods;
     }
 
-    private Modificador getMod(File fil) {
+    public Modificador getMod(File fil) {
         Modificador mod = new Modificador();
         try {
             mod.setNombre(fil.getName().substring(0,fil.getName().length()-4));
@@ -879,7 +879,7 @@ public class FileController {
         }
     }
 
-    private void addAlInfoDesafio(File fileDesafio, Desafio desafio) {
+    public void addAlInfoDesafio(File fileDesafio, Desafio desafio) {
         try {
             BufferedWriter writeFile = new BufferedWriter(new FileWriter(fileDesafio));
             writeFile.write("J1 : "+desafio.getJ1().getNum_Registro()+"\n");
@@ -894,7 +894,7 @@ public class FileController {
         }
     }
 
-    private String getModsName(Set<Modificador> mods) {
+    public String getModsName(Set<Modificador> mods) {
         String data = "";
         if (mods != null) {
             for (Modificador mod : mods) {
