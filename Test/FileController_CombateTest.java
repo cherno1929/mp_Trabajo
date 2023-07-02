@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -175,5 +176,40 @@ class FileController_CombateTest {
         Assertions.assertTrue(fc_Test.verGanadores().contains(user_Test.getNombre()));
     }
 
+    @Test
+    void  getAllPersistencias() {
+        FileController_Combate fileControllerCombate_Test = new FileController_Combate();
+        Persistencia pers = new Persistencia();
+        pers.setJ1(user_Test);
+        pers.setJ2(user_Test);
+        Date dat = new Date();
+        pers.setFecha_Combate(dat);
+        pers.setOroGanado(0);
+        pers.setGanador(user_Test);
+        pers.setPerdedor(user_Test);
+        pers.setN_Turnos(2);
+        fileControllerCombate_Test.addUsuario(user_Test);
+        fileControllerCombate_Test.addPersistencia(pers);
+        List<Persistencia> persistencia = fileControllerCombate_Test.getAllPersistencias();
+        boolean valid = false;
+        Assertions.assertTrue(persistencia.size() >= 1);
+        for (Persistencia pers_Test : persistencia) {
+            valid = comparePers(pers,pers_Test);
+            if (valid){break;}
+        }
+        fileControllerCombate_Test.deletePersistence(pers);
+        fileControllerCombate_Test.deleteUsuario(user_Test);
+        Assertions.assertTrue(valid);
+    }
+
+    boolean comparePers(Persistencia pers1,Persistencia pers2){
+
+        boolean validOro = pers1.getOroGanado() == pers2.getOroGanado();
+        boolean validTurnos = pers1.getN_Turnos() == pers2.getN_Turnos();
+        boolean validFechaComb = pers1.getFecha_Combate().equals(pers2.getFecha_Combate());
+        boolean validGanador = pers1.getGanador().getNum_Registro().equals(pers2.getGanador().getNum_Registro());
+        boolean validPerdedor = pers1.getPerdedor().getNum_Registro().equals(pers2.getPerdedor().getNum_Registro());
+        return validOro && validGanador && validPerdedor && validTurnos && validFechaComb;
+    }
 
 }
