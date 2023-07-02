@@ -197,6 +197,7 @@ class FileController_CombateTest {
             valid = comparePers(pers,pers_Test);
             if (valid){break;}
         }
+        System.gc();
         fileControllerCombate_Test.deletePersistence(pers);
         fileControllerCombate_Test.deleteUsuario(user_Test);
         Assertions.assertTrue(valid);
