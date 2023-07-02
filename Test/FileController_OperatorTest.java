@@ -176,7 +176,7 @@ class FileController_OperatorTest {
         }
 
         Assertions.assertTrue(valid);
-
+        System.gc();
         file_Op_Test01.borrarDesafio(desafio_Test.getId());
     }
 
@@ -214,6 +214,8 @@ class FileController_OperatorTest {
 
     @Test
     void modificarDesafio() {
+        System.gc();
+
         FileController_Operator file_Op_Test01 = new FileController_Operator();
 
         Desafio desafio_Test = new Desafio();
@@ -228,8 +230,9 @@ class FileController_OperatorTest {
 
         desafio_Test.setOro(20);
 
-        file_Op_Test01.modificarDesafio("Ficheros_app/Desafios" +"/"+desafio_Test.getId(),desafio_Test);
+        file_Op_Test01.modificarDesafio("Ficheros_app/Desafios" +"/"+desafio_Test.getId() + ".txt",desafio_Test);
 
+        Assertions.assertTrue(file_Op_Test01.getDesafio(desafio_Test.getId()) != null);
         Assertions.assertTrue(file_Op_Test01.getDesafio(desafio_Test.getId()).getOro() == 20);
 
         file_Op_Test01.borrarDesafio(desafio_Test.getId());
